@@ -6,6 +6,7 @@ import { type z } from "zod";
 import { api } from "~/trpc/react";
 
 import { listingInput } from "~/types";
+import { UploadButton } from "~/utils/uploadthing";
 
 export function CreateListing() {
   type TlistingInput = z.infer<typeof listingInput>;
@@ -64,6 +65,18 @@ export function CreateListing() {
           <p className="text-red-500">{`${errors.address.message}`}</p>
         )}
       </div>
+      <UploadButton
+        endpoint="listingImageUploader"
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          alert("Upload Completed");
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
       <button
         type="submit"
         className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
