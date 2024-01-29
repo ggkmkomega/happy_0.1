@@ -1,7 +1,11 @@
 import Link from "next/link";
 import React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { getServerAuthSession } from "~/server/auth";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await getServerAuthSession();
+  console.log("image link", session?.user.image);
   return (
     <header className=" relative  mx-auto flex h-fit min-h-[4rem] w-full max-w-screen-xl flex-wrap items-start justify-between bg-rose-600 px-4 text-white transition-[height] sm:px-8">
       <Link
@@ -46,9 +50,10 @@ const Navbar = () => {
           aria-label="Navigation toggle"
           type="button"
         >
-          <div className="h-px w-[1.6rem] rounded-full border-t-[1.5px] border-white transition duration-300"></div>
-          <div className="h-px w-[21px] rounded-full border-t-[1.5px] border-white transition duration-300"></div>
-          <div className="h-px w-[15px] rounded-full border-t-[1.5px] border-white transition duration-300"></div>
+          <Avatar>
+            <AvatarImage src={session?.user.image ? session?.user.image : ""} />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
         </button>
       </div>
     </header>
