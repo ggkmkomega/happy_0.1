@@ -1,0 +1,91 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
+import { type ButtonProps, buttonVariants } from "~/components/ui/button";
+//import { toast } from "~/components/ui/use-toast";
+import { Icons } from "~/components/icons";
+import { cn } from "~/lib/utils";
+import { api } from "~/trpc/react";
+import { useState } from "react";
+
+export function Listingcreatebutton({
+  className,
+  variant,
+  ...props
+}: ButtonProps) {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  async function onClick() {
+    setIsLoading(true);
+
+    const { mutate, data } = api.listing.create.useMutation();
+    /*
+    const response = await fetch("/api/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: "Untitled Post",
+      }),
+    });
+*/
+    mutate({
+      name: "Untitled Listing",
+      address: "No Where",
+      description: "Describe your Property",
+    });
+    setIsLoading(false);
+
+    /* TODO : Logic for subscribtion
+    
+if (!response?.ok) {
+      if (response.status === 402) {
+        return toast({
+          title: "Limit of 3 posts reached.",
+          description: "Please upgrade to the PRO plan.",
+          variant: "destructive",
+        });
+      }
+
+      return toast({
+        title: "Something went wrong.",
+        description: "Your post was not created. Please try again.",
+        variant: "destructive",
+      });
+    }
+*/
+
+    const listing = data;
+
+    // This forces a cache invalidation.
+    if (listing) {
+      router.refresh();
+      router.push(`/editor/${listing.id}`);
+    }
+  }
+
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        buttonVariants({ variant }),
+        {
+          "cursor-not-allowed opacity-60": isLoading,
+        },
+        className,
+      )}
+      disabled={isLoading}
+      {...props}
+    >
+      {isLoading ? (
+        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+      ) : (
+        <Icons.add className="mr-2 h-4 w-4" />
+      )}
+      New Listing
+    </button>
+  );
+}
