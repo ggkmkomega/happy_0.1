@@ -12,7 +12,22 @@ export const listingrouter = createTRPCRouter({
     const listing = await ctx.db.listing.findMany({});
     return listing;
   }),
-
+  allUserListings: protectedProcedure.query(async ({ ctx }) => {
+    const userListings = await ctx.db.listing.findMany({
+      where: {
+        createdById: ctx.session.user.id,
+      },
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+    return userListings;
+  }),
   create: protectedProcedure
     .input(listingInput)
     .mutation(async ({ ctx, input: { name, description, address } }) => {
