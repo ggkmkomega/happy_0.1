@@ -16,11 +16,11 @@ export function Listingcreatebutton({
 }: ButtonProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { mutate, data } = api.listing.create.useMutation();
 
   async function onClick() {
     setIsLoading(true);
 
-    const { mutate, data } = api.listing.create.useMutation();
     /*
     const response = await fetch("/api/posts", {
       method: "POST",

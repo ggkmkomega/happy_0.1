@@ -5,7 +5,6 @@ import { getServerAuthSession } from "~/server/auth";
 
 const Navbar = async () => {
   const session = await getServerAuthSession();
-  console.log("image link", session?.user.image);
   return (
     <header className=" relative  mx-auto flex h-fit min-h-[4rem] w-full max-w-screen-xl flex-wrap items-start justify-between bg-rose-600 px-4 text-white transition-[height] sm:px-8">
       <Link

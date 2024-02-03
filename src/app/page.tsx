@@ -2,7 +2,7 @@ import { unstable_noStore as noStore } from "next/cache";
 import Link from "next/link";
 
 import { getServerAuthSession } from "~/server/auth";
-import { CreateListing } from "./components/create-listing";
+import CreateListing from "./components/create-listing";
 import Listings from "./components/Listings";
 
 export default async function Home() {
@@ -26,19 +26,8 @@ export default async function Home() {
           </div>
         </div>
         <Listings />
-        <CrudShowcase />
+        <CreateListing />
       </div>
     </main>
-  );
-}
-
-async function CrudShowcase() {
-  const session = await getServerAuthSession();
-  if (!session?.user) return null;
-
-  return (
-    <div className="w-full max-w-xs">
-      <CreateListing />
-    </div>
   );
 }

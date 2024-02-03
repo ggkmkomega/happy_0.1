@@ -9,8 +9,19 @@ import { listingInput } from "~/types";
 
 export const listingrouter = createTRPCRouter({
   all: publicProcedure.query(async ({ ctx }) => {
-    const listing = await ctx.db.listing.findMany({});
+    const listing = await ctx.db.listing.findMany();
     return listing;
+  }),
+  listingByUser: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const listing = await ctx.db.listing.findFirst({
+        where: {
+          id: input,
+          createdById: ctx.session.user.id,
+        },
+      });
+      return listing;
   }),
   allUserListings: protectedProcedure.query(async ({ ctx }) => {
     const userListings = await ctx.db.listing.findMany({

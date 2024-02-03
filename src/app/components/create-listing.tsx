@@ -8,7 +8,7 @@ import { api } from "~/trpc/react";
 import { listingInput } from "~/types";
 import { UploadButton } from "~/utils/uploadthing";
 
-export function CreateListing() {
+export default function CreateListing() {
   type TlistingInput = z.infer<typeof listingInput>;
 
   const {
@@ -18,10 +18,10 @@ export function CreateListing() {
     reset,
   } = useForm<TlistingInput>({ resolver: zodResolver(listingInput) });
 
-  const { mutate } = api.listing.create.useMutation();
+  const createListing = api.listing.create.useMutation();
 
   const onSubmit = async (data: TlistingInput) => {
-    mutate(data);
+    createListing.mutate(data);
     reset();
   };
 
@@ -65,7 +65,7 @@ export function CreateListing() {
           <p className="text-red-500">{`${errors.address.message}`}</p>
         )}
       </div>
-      <UploadButton
+      {/*<UploadButton
         endpoint="listingImageUploader"
         onClientUploadComplete={(res) => {
           // Do something with the response
@@ -76,7 +76,7 @@ export function CreateListing() {
           // Do something with the error.
           alert(`ERROR! ${error.message}`);
         }}
-      />
+      />*/}
       <button
         type="submit"
         className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
