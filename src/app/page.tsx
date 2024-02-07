@@ -2,7 +2,6 @@ import { unstable_noStore as noStore } from "next/cache";
 import Link from "next/link";
 
 import { getServerAuthSession } from "~/server/auth";
-import CreateListing from "./components/create-listing";
 import Listings from "./components/Listings";
 
 export default async function Home() {
@@ -26,7 +25,6 @@ export default async function Home() {
           </div>
         </div>
         <Listings />
-        <CreateListing />
       </div>
     </main>
   );

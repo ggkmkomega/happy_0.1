@@ -67,26 +67,24 @@ model User {
 }
 
 model Listing {
-    id          String @id @default(cuid())
+    id          String  @id @default(cuid())
     name        String
     address     String
     description String
+    Image       Image[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    createdBy   User    @relation(fields: [createdById], references: [id])
+    createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
-    Image       Image[]
 }
 
 model Image {
     //? This id is the uploadThing fileKey
-    id        String   @id
-    postId    String
-    url       String   @unique
-    createdAt DateTime @default(now())
-    listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    id        String  @id
+    url       String  @unique
+    listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
     listingId String
 }
 

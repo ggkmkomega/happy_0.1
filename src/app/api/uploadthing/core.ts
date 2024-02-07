@@ -17,10 +17,8 @@ export const ourFileRouter = {
     .middleware(async () => {
       // This code runs on your server before upload
       const user = await auth();
-
       // If you throw, the user will not be able to upload
       if (!user) throw new Error("Unauthorized");
-
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
       return { userId: user.id };
     })
@@ -29,7 +27,7 @@ export const ourFileRouter = {
       console.log("Upload complete for userId:", metadata.userId);
       console.log("file url", file.url);
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-      return { uploadedBy: metadata.userId };
+      return { uploadedBy: metadata.userId, url: file.url };
     }),
   profilePicUploader: f({
     image: {
