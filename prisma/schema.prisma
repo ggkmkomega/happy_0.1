@@ -71,7 +71,7 @@ model Listing {
     name        String
     address     String
     description String
-    Image       Image[]
+    images      Image[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

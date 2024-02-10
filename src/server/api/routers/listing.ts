@@ -20,9 +20,12 @@ export const listingrouter = createTRPCRouter({
           id: input,
           createdById: ctx.session.user.id,
         },
+        include: {
+          images: true,
+        },
       });
       return listing;
-  }),
+    }),
   allUserListings: protectedProcedure.query(async ({ ctx }) => {
     const userListings = await ctx.db.listing.findMany({
       where: {

@@ -6,8 +6,16 @@ type RouterOutputs = inferRouterOutputs<AppRouter>;
 type allListingOutput = RouterOutputs["listing"]["all"];
 export type listing = allListingOutput[number];
 
+type listingEdit = RouterOutputs["listing"]["listingByUser"];
+export type ListingEditRequired = Extract<listingEdit, { id: string }>;
+
 export const listingInput = z.object({
   name: z.string().min(1, "Listing Must contain a name"),
   address: z.string().min(1, "adress is required"),
   description: z.string().min(20, "description must be at least 20 char"),
+});
+
+export const imageInput = z.object({
+  id: z.string(),
+  url: z.string(),
 });

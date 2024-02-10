@@ -1,25 +1,21 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type Listing } from "@prisma/client";
-import { useState } from "react";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
 import { api } from "~/trpc/react";
 
-import { listingInput } from "~/types";
-import { UploadButton, UploadDropzone } from "~/utils/uploadthing";
+import { listingInput, type ListingEditRequired } from "~/types";
+import { UploadDropzone } from "~/utils/uploadthing";
 
 interface ListingFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  listing: Listing;
+  existingListing: ListingEditRequired;
 }
 
-export default function CreateListing({
-  listing: existingListing,
-}: ListingFormProps) {
+export default function EditListing({ existingListing }: ListingFormProps) {
   type TlistingInput = z.infer<typeof listingInput>;
 
-  const [images, setImages] = useState([""]);
   const {
     register,
     handleSubmit,
@@ -28,18 +24,10 @@ export default function CreateListing({
   } = useForm<TlistingInput>({ resolver: zodResolver(listingInput) });
 
   const updateListing = api.listing.update.useMutation();
+  const createImage = api.images.create.useMutation();
 
   const onSubmit = async (data: TlistingInput) => {
-    //updateListing.mutate(data);
-    //reset();
-
-    const updatedData: TlistingInput & { images: string[] } = {
-      ...data,
-      images,
-    };
-
-    updateListing.mutate({ data: updatedData, id: existingListing.id });
-
+    updateListing.mutate({ id: existingListing.id, data });
     reset();
   };
 
@@ -101,16 +89,35 @@ export default function CreateListing({
         <UploadDropzone
           endpoint="listingImageUploader"
           onClientUploadComplete={(res) => {
-            res.map((image) => {
-              setImages((prevImages) => [...prevImages, image.url]);
-            });
-            console.log("image: ", images);
+            if (res) {
+              res.map((image) => {
+                createImage.mutate({
+                  data: { id: image?.key, url: image?.url },
+                  listingId: existingListing.id,
+                });
+              });
+            }
           }}
           onUploadError={(error: Error) => {
             // Do something with the error.
             alert(`ERROR! ${error.message}`);
           }}
         />
+      </div>
+      <div>
+        {existingListing.images.length
+          ? existingListing.images.map((image) => {
+              return (
+                <Image
+                  width={500}
+                  height={500}
+                  key={image.id}
+                  src={image.url}
+                  alt="listing image"
+                />
+              );
+            })
+          : "Create the first Listing"}
       </div>
     </>
   );
