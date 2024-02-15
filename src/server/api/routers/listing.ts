@@ -9,7 +9,11 @@ import { listingInput } from "~/types";
 
 export const listingrouter = createTRPCRouter({
   all: publicProcedure.query(async ({ ctx }) => {
-    const listing = await ctx.db.listing.findMany();
+    const listing = await ctx.db.listing.findMany({
+      include: {
+        images: true,
+      },
+    });
     return listing;
   }),
   listingByUser: protectedProcedure

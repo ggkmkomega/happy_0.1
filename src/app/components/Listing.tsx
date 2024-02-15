@@ -1,18 +1,22 @@
 "use client";
 import Image from "next/image";
-import { type listing } from "~/types";
+import { type ListingEditRequired } from "~/types";
 type listingProps = {
-  listing: listing;
+  listing: ListingEditRequired;
 };
 
 export default function Listing({ listing }: listingProps) {
-  const { name, description, address } = listing;
+  const { name, description, address, images } = listing;
 
   return (
     <div className="w-fll relative grid aspect-square h-full min-w-[335px] grid-rows-[1fr,auto] gap-3 overflow-hidden rounded-lg text-white sm:aspect-auto sm:grid-rows-[294px,auto]">
       <div className="relative isolate h-full w-full overflow-hidden">
         <Image
-          src={"/placeholder.png"}
+          src={
+            images[0]?.url
+              ? images[0]?.url
+              : "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
+          }
           alt="listing image"
           width={1920}
           height={1080}
@@ -20,7 +24,7 @@ export default function Listing({ listing }: listingProps) {
       </div>
       <div className="flex h-full flex-col">
         <p className="text-white/60 ">{name}</p>
-        <p className="mb-0.5 flex items-end gap-2 font-medium">{address}</p>
+        <p className="flex items-end gap-2 font-medium">{address}</p>
         <p>{description}</p>
       </div>
     </div>

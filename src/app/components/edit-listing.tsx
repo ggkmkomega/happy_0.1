@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
+import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { api } from "~/trpc/react";
 
 import { listingInput, type ListingEditRequired } from "~/types";
@@ -42,7 +43,6 @@ export default function EditListing({ existingListing }: ListingFormProps) {
           <label>name</label>
           <input
             {...register("name")}
-            type="text"
             defaultValue={`${existingListing.name}`}
             className="w-full rounded-full px-4 py-2 text-black"
           />
@@ -55,7 +55,6 @@ export default function EditListing({ existingListing }: ListingFormProps) {
           <label>description</label>
           <input
             {...register("description")}
-            type="text"
             defaultValue={`${existingListing.description}`}
             className="w-full rounded-full px-4 py-2 text-black"
           />
@@ -68,7 +67,6 @@ export default function EditListing({ existingListing }: ListingFormProps) {
           <label>adress</label>
           <input
             {...register("address")}
-            type="text"
             defaultValue={`${existingListing.address}`}
             className="w-full rounded-full px-4 py-2 text-black"
           />
@@ -104,17 +102,22 @@ export default function EditListing({ existingListing }: ListingFormProps) {
           }}
         />
       </div>
-      <div>
+      <div className="grid grid-cols-4 gap-2">
         {existingListing.images.length
           ? existingListing.images.map((image) => {
               return (
-                <Image
-                  width={500}
-                  height={500}
+                <AspectRatio
                   key={image.id}
-                  src={image.url}
-                  alt="listing image"
-                />
+                  ratio={16 / 9}
+                  className=" bg-muted"
+                >
+                  <Image
+                    fill
+                    className="rounded-md object-cover"
+                    src={image.url}
+                    alt="listing image"
+                  />
+                </AspectRatio>
               );
             })
           : "Create the first Listing"}

@@ -3,7 +3,8 @@ import { type Listing } from "@prisma/client";
 
 import { api } from "~/trpc/server";
 import { authOptions, getServerAuthSession } from "~/server/auth";
-import EditListing from "~/app/components/edit-listing";
+
+import EditListings from "~/app/components/useListingForm";
 
 async function getListingForUser(listingId: Listing["id"]) {
   const data = await api.listing.listingByUser.query(listingId);
@@ -30,7 +31,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
 
   return (
     <>
-      <EditListing existingListing={listing} />
+      <EditListings existingListing={listing} />
     </>
   );
 }

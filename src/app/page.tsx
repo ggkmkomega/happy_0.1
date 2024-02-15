@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { getServerAuthSession } from "~/server/auth";
 import Listings from "./components/Listings";
+import Suggest from "./components/Suggust";
 
 export default async function Home() {
   noStore();
@@ -25,6 +26,7 @@ export default async function Home() {
           </div>
         </div>
         <Listings />
+        <Suggest />
       </div>
     </main>
   );
