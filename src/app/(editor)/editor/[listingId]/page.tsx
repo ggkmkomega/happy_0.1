@@ -4,7 +4,9 @@ import { type Listing } from "@prisma/client";
 import { api } from "~/trpc/server";
 import { authOptions, getServerAuthSession } from "~/server/auth";
 
-async function getPostForUser(listingId: Listing["id"]) {
+import EditListings from "~/app/components/useListingForm";
+
+async function getListingForUser(listingId: Listing["id"]) {
   const data = await api.listing.listingByUser.query(listingId);
   return data;
 }
@@ -21,11 +23,15 @@ export default async function EditorPage({ params }: EditorPageProps) {
     redirect(authOptions?.pages?.signIn ?? "/login");
   }
 
-  const post = await getPostForUser(params.listingId);
+  const listing = await getListingForUser(params.listingId);
 
-  if (!post) {
+  if (!listing) {
     notFound();
   }
 
-  return <div>listing page</div>;
+  return (
+    <>
+      <EditListings existingListing={listing} />
+    </>
+  );
 }

@@ -9,7 +9,11 @@ import { listingInput } from "~/types";
 
 export const listingrouter = createTRPCRouter({
   all: publicProcedure.query(async ({ ctx }) => {
-    const listing = await ctx.db.listing.findMany();
+    const listing = await ctx.db.listing.findMany({
+      include: {
+        images: true,
+      },
+    });
     return listing;
   }),
   listingByUser: protectedProcedure
@@ -20,9 +24,12 @@ export const listingrouter = createTRPCRouter({
           id: input,
           createdById: ctx.session.user.id,
         },
+        include: {
+          images: true,
+        },
       });
       return listing;
-  }),
+    }),
   allUserListings: protectedProcedure.query(async ({ ctx }) => {
     const userListings = await ctx.db.listing.findMany({
       where: {
