@@ -2,9 +2,8 @@ import { notFound, redirect } from "next/navigation";
 import { type Listing } from "@prisma/client";
 
 import { api } from "~/trpc/server";
-import { authOptions, getServerAuthSession } from "~/server/auth";
+import { getServerAuthSession } from "~/server/auth";
 
-import EditListings from "~/app/components/useListingForm";
 import ViewListing from "~/app/components/ViewListing";
 
 async function getListingForUser(listingId: Listing["id"]) {
