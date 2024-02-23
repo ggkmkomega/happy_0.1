@@ -33,7 +33,7 @@ const Picard = ({ src, title, desc }: cardProps) => {
           </button>
         </div>
       </div>
-      <div className="flex flex-col text-gray-800">
+      <div className="text-white-800 flex flex-col">
         <h3 className="font-semibold">{title}</h3>
         <p className="text-xs">{desc}</p>
       </div>

@@ -66,18 +66,29 @@ model User {
     Listings      Listing[]
 }
 
+model adress {
+    id String @id @default(cuid())
+
+    Listing Listing[]
+}
+
 model Listing {
     id          String  @id @default(cuid())
     name        String
-    address     String
     description String
+    street      String
+    city        String
+    province    String
+    zipcode     String
     images      Image[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
+    createdBy   User    @relation(fields: [createdById], references: [id])
     createdById String
+    adress      adress? @relation(fields: [adressId], references: [id])
+    adressId    String?
 }
 
 model Image {

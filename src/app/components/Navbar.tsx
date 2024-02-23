@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { UserAccountNav } from "~/components/user-account-nav";
 import { getServerAuthSession } from "~/server/auth";
 
 const Navbar = async () => {
@@ -40,20 +40,15 @@ const Navbar = async () => {
         </div>
       </div>
       <div className="flex h-16 w-28 flex-none items-center justify-end sm:w-40">
-        <a
-          className="hover:bg-2-dark-grey relative ml-auto mr-4 grid h-10 w-10 place-items-center rounded-lg empty:hidden"
-          href="/profile"
-        ></a>
-        <button
-          className=' hover:after:bg-2-dark-grey group relative z-50 flex h-8 w-8 flex-col items-end justify-evenly pr-[3px] after:absolute after:left-1/2 after:top-1/2 after:z-[-1] after:h-10 after:w-10 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-lg after:content-[""]'
-          aria-label="Navigation toggle"
-          type="button"
-        >
-          <Avatar>
-            <AvatarImage src={session?.user.image ? session?.user.image : ""} />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-        </button>
+        {session && (
+          <UserAccountNav
+            user={{
+              name: session.user.name,
+              image: session.user.image,
+              email: session.user.email,
+            }}
+          />
+        )}
       </div>
     </header>
   );
