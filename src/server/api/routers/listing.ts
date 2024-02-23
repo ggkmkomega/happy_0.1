@@ -48,20 +48,35 @@ export const listingrouter = createTRPCRouter({
   }),
   create: protectedProcedure
     .input(listingInput)
-    .mutation(async ({ ctx, input: { name, description, address } }) => {
-      return ctx.db.listing.create({
-        data: {
+    .mutation(
+      async ({
+        ctx,
+        input: {
           name,
           description,
-          address,
-          createdBy: {
-            connect: {
-              id: ctx.session.user.id,
+          adrCity,
+          adrProvince,
+          adrStreet,
+          adrZipcode,
+        },
+      }) => {
+        return ctx.db.listing.create({
+          data: {
+            name,
+            description,
+            city: adrCity,
+            province: adrProvince,
+            street: adrStreet,
+            zipcode: adrZipcode,
+            createdBy: {
+              connect: {
+                id: ctx.session.user.id,
+              },
             },
           },
-        },
-      });
-    }),
+        });
+      },
+    ),
 
   delete: protectedProcedure
     .input(z.string())
@@ -85,7 +100,14 @@ export const listingrouter = createTRPCRouter({
         ctx,
         input: {
           id,
-          data: { name, description, address },
+          data: {
+            name,
+            description,
+            adrCity,
+            adrProvince,
+            adrStreet,
+            adrZipcode,
+          },
         },
       }) => {
         return ctx.db.listing.update({
@@ -95,7 +117,10 @@ export const listingrouter = createTRPCRouter({
           data: {
             name,
             description,
-            address,
+            city: adrCity,
+            province: adrProvince,
+            street: adrStreet,
+            zipcode: adrZipcode,
           },
         });
       },

@@ -6,7 +6,7 @@ type listingProps = {
 };
 
 export default function Listing({ listing }: listingProps) {
-  const { name, description, address, images } = listing;
+  const { name, description, city, province, images } = listing;
 
   return (
     <div className="w-fll relative grid aspect-square h-full min-w-[335px] grid-rows-[1fr,auto] gap-3 overflow-hidden rounded-lg text-white sm:aspect-auto sm:grid-rows-[294px,auto]">
@@ -24,7 +24,9 @@ export default function Listing({ listing }: listingProps) {
       </div>
       <div className="flex h-full flex-col">
         <p className="text-white/60 ">{name}</p>
-        <p className="flex items-end gap-2 font-medium">{address}</p>
+        <p className="flex items-end gap-2 font-medium">
+          {province},{city}
+        </p>
         <p>{description}</p>
       </div>
     </div>

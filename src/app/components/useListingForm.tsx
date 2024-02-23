@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
@@ -21,7 +22,6 @@ export default function EditListings({ existingListing }: ListingFormProps) {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<TlistingInput>({ resolver: zodResolver(listingInput) });
 
   const updateListing = api.listing.update.useMutation();
@@ -29,8 +29,10 @@ export default function EditListings({ existingListing }: ListingFormProps) {
 
   const onSubmit = async (data: TlistingInput) => {
     updateListing.mutate({ id: existingListing.id, data });
-    reset();
+    router.push("/dashboard");
   };
+
+  const router = useRouter();
   return (
     <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
       <div className="space-y-12">
@@ -52,12 +54,12 @@ export default function EditListings({ existingListing }: ListingFormProps) {
                 Title
               </label>
               <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300  sm:max-w-md">
                   <input
                     {...register("name")}
                     defaultValue={`${existingListing.name}`}
                     id="title"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400  sm:text-sm sm:leading-6"
                   />
                 </div>
                 {errors.name && (
@@ -81,7 +83,7 @@ export default function EditListings({ existingListing }: ListingFormProps) {
                   defaultValue={`${existingListing.description}`}
                   id="description"
                   rows={3}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400    sm:text-sm sm:leading-6"
                 />
               </div>
               {errors.description ? (
@@ -107,7 +109,7 @@ export default function EditListings({ existingListing }: ListingFormProps) {
                   <div className="mt-4 flex text-sm leading-6 text-gray-600">
                     <label
                       htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                      className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600  hover:text-indigo-500"
                     >
                       <span>Upload a file</span>
                       <input
@@ -146,11 +148,18 @@ export default function EditListings({ existingListing }: ListingFormProps) {
               </label>
               <div className="mt-2">
                 <input
-                  {...register("address")}
-                  defaultValue={`${existingListing.address}`}
+                  {...register("adrStreet")}
+                  defaultValue={`${existingListing.street}`}
                   id="street-address"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400    sm:text-sm sm:leading-6"
                 />
+                {errors.adrStreet ? (
+                  <p className="mt-3 text-sm leading-6 text-red-500">
+                    {`${errors.adrStreet.message}`}
+                  </p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
 
@@ -163,12 +172,19 @@ export default function EditListings({ existingListing }: ListingFormProps) {
               </label>
               <div className="mt-2">
                 <input
-                  type="text"
-                  name="city"
+                  {...register("adrCity")}
+                  defaultValue={`${existingListing.city}`}
                   id="city"
                   autoComplete="address-level2"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400    sm:text-sm sm:leading-6"
                 />
+                {errors.adrCity ? (
+                  <p className="mt-3 text-sm leading-6 text-red-500">
+                    {`${errors.adrCity.message}`}
+                  </p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
 
@@ -181,12 +197,19 @@ export default function EditListings({ existingListing }: ListingFormProps) {
               </label>
               <div className="mt-2">
                 <input
-                  type="text"
-                  name="region"
+                  {...register("adrProvince")}
+                  defaultValue={`${existingListing.province}`}
                   id="region"
                   autoComplete="address-level1"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400    sm:text-sm sm:leading-6"
                 />
+                {errors.adrProvince ? (
+                  <p className="mt-3 text-sm leading-6 text-red-500">
+                    {`${errors.adrProvince.message}`}
+                  </p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
 
@@ -199,18 +222,25 @@ export default function EditListings({ existingListing }: ListingFormProps) {
               </label>
               <div className="mt-2">
                 <input
-                  type="text"
-                  name="postal-code"
+                  {...register("adrZipcode")}
+                  defaultValue={`${existingListing.zipcode}`}
                   id="postal-code"
                   autoComplete="postal-code"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400    sm:text-sm sm:leading-6"
                 />
+                {errors.adrZipcode ? (
+                  <p className="mt-3 text-sm leading-6 text-red-500">
+                    {`${errors.adrZipcode.message}`}
+                  </p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="border-b border-gray-900/10 pb-12">
+        {/*<div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
             Notifications
           </h2>
@@ -231,7 +261,7 @@ export default function EditListings({ existingListing }: ListingFormProps) {
                       id="comments"
                       name="comments"
                       type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 "
                     />
                   </div>
                   <div className="text-sm leading-6">
@@ -261,7 +291,7 @@ export default function EditListings({ existingListing }: ListingFormProps) {
                     id="push-everything"
                     name="push-notifications"
                     type="radio"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    className="h-4 w-4 border-gray-300 text-indigo-600 "
                   />
                   <label
                     htmlFor="push-everything"
@@ -275,7 +305,7 @@ export default function EditListings({ existingListing }: ListingFormProps) {
                     id="push-email"
                     name="push-notifications"
                     type="radio"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    className="h-4 w-4 border-gray-300 text-indigo-600 "
                   />
                   <label
                     htmlFor="push-email"
@@ -289,7 +319,7 @@ export default function EditListings({ existingListing }: ListingFormProps) {
                     id="push-nothing"
                     name="push-notifications"
                     type="radio"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    className="h-4 w-4 border-gray-300 text-indigo-600 "
                   />
                   <label
                     htmlFor="push-nothing"
@@ -301,7 +331,7 @@ export default function EditListings({ existingListing }: ListingFormProps) {
               </div>
             </fieldset>
           </div>
-        </div>
+        </div>*/}
       </div>
       <div className="w-16">
         <UploadDropzone
@@ -345,6 +375,9 @@ export default function EditListings({ existingListing }: ListingFormProps) {
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <button
+          onClick={() => {
+            router.push("/dashboard");
+          }}
           type="button"
           className="text-sm font-semibold leading-6 text-gray-900"
         >
@@ -352,7 +385,7 @@ export default function EditListings({ existingListing }: ListingFormProps) {
         </button>
         <button
           type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 "
           disabled={isSubmitting}
         >
           {isSubmitting ? "Submitting..." : "Submit"}

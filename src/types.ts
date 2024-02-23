@@ -11,7 +11,10 @@ export type ListingEditRequired = Extract<listingEdit, { id: string }>;
 
 export const listingInput = z.object({
   name: z.string().min(1, "Listing Must contain a name"),
-  address: z.string().min(1, "adress is required"),
+  adrStreet: z.string().min(1, "street adress is required"),
+  adrCity: z.string().min(1, "city is required"),
+  adrProvince: z.string().min(1, "province is required"),
+  adrZipcode: z.string().min(1, "zipcode is required"),
   description: z.string().min(20, "description must be at least 20 char"),
 });
 

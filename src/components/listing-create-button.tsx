@@ -7,7 +7,6 @@ import { type ButtonProps, buttonVariants } from "~/components/ui/button";
 import { Icons } from "~/components/icons";
 import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
-import { useState } from "react";
 
 export function Listingcreatebutton({
   className,
@@ -15,12 +14,9 @@ export function Listingcreatebutton({
   ...props
 }: ButtonProps) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { mutate, data } = api.listing.create.useMutation();
+  const { mutate, data, isLoading } = api.listing.create.useMutation();
 
   async function onClick() {
-    setIsLoading(true);
-
     /*
     const response = await fetch("/api/posts", {
       method: "POST",
@@ -34,17 +30,19 @@ export function Listingcreatebutton({
 */
     mutate({
       name: "Untitled Listing",
-      address: "No Where",
+      adrCity: "No  Ville",
+      adrProvince: "No Where",
+      adrStreet: "No street",
+      adrZipcode: "99999",
       description: "Describe your Property",
     });
-    setIsLoading(false);
 
     /* TODO : Logic for subscribtion
     
 if (!response?.ok) {
       if (response.status === 402) {
         return toast({
-          title: "Limit of 3 posts reached.",
+          title: "Limit of 3 listings reached.",
           description: "Please upgrade to the PRO plan.",
           variant: "destructive",
         });

@@ -5,6 +5,7 @@ import { api } from "~/trpc/server";
 import { authOptions, getServerAuthSession } from "~/server/auth";
 
 import EditListings from "~/app/components/useListingForm";
+import ViewListing from "~/app/components/ViewListing";
 
 async function getListingForUser(listingId: Listing["id"]) {
   const data = await api.listing.listingByUser.query(listingId);
@@ -19,19 +20,14 @@ export default async function EditorPage({ params }: EditorPageProps) {
   const session = await getServerAuthSession();
   const user = session?.user;
 
-  if (!user) {
-    redirect(authOptions?.pages?.signIn ?? "/login");
-  }
-
   const listing = await getListingForUser(params.listingId);
 
   if (!listing) {
     notFound();
   }
-
   return (
     <div className="p-4">
-      <EditListings existingListing={listing} />
+      <ViewListing />
     </div>
   );
 }
