@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { userNameSchema } from "~/components/user-name-form";
+import { userNameSchema } from "~/components/UserNameForm";
 
 import {
   createTRPCRouter,
@@ -7,15 +7,28 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-export const userrouter = createTRPCRouter({
+export const userRouter = createTRPCRouter({
   update: protectedProcedure
-    .input(userNameSchema)
+    .input(z.object({
+      name: z.string().min(3).max(32).nullable(),
+    }))
     .mutation(async ({ ctx, input: { name } }) => {
       return ctx.db.user.update({
         where: {
           id: ctx.session.user.id,
         },
         data: { name },
+      });
+    }),
+
+  display: publicProcedure
+    .query(async ({ ctx }) => {
+      if (!ctx.session) return
+
+      return ctx.db.user.findFirst({
+        where: {
+          id: ctx.session.user.id,
+        }
       });
     }),
 });

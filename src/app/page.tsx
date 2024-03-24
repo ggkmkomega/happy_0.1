@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { getServerAuthSession } from "~/server/auth";
 import Listings from "./components/Listings";
-import Suggest from "./components/Suggust";
+import Suggest from "./components/Suggest";
 
 export default async function Home() {
   noStore();

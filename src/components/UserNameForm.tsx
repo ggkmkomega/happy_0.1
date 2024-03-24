@@ -1,12 +1,11 @@
 "use client";
-
-import * as React from "react";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { useState } from "react";
+import { Icons } from "~/components/icons";
 import { buttonVariants } from "~/components/ui/button";
 import {
   Card,
@@ -18,8 +17,7 @@ import {
 } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { toast } from "~/components/ui/use-toast";
-import { Icons } from "~/components/icons";
+import { useToast } from "~/components/ui/use-toast";
 import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
@@ -29,10 +27,13 @@ interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
 export const userNameSchema = z.object({
   name: z.string().min(3).max(32).nullable(),
 });
+
 type FormData = z.infer<typeof userNameSchema>;
 
-export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
-  const router = useRouter();
+export default function UserNameForm({ user, className, ...props }: UserNameFormProps) {
+
+  const { toast } = useToast()
+
   const {
     handleSubmit,
     register,
@@ -43,40 +44,36 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
       name: user?.name ?? "",
     },
   });
-  const [isSaving, setIsSaving] = React.useState<boolean>(false);
-  const { mutate, isSuccess } = api.user.update.useMutation();
 
-  async function onSubmit(data: FormData) {
-    setIsSaving(true);
-    mutate(data);
-    /*
-    const response = await fetch(`/api/users/${user.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: data.name,
-      }),
-    });
-    
-*/
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const { mutate } = api.user.update.useMutation({
+    onError: (error) => {
+      console.error(`${error}`)
 
-    setIsSaving(false);
-
-    if (!isSuccess) {
+      setIsSaving(false);
+      
       return toast({
         title: "Something went wrong.",
         description: "Your name was not updated. Please try again.",
         variant: "destructive",
       });
-    }
+    },
+    onSuccess: () => {
+      setIsSaving(false);
+      return toast({
+        description: "Your name has been updated.",
+      });
+    },
+  }
+  );
 
-    toast({
-      description: "Your name has been updated.",
-    });
 
-    router.refresh();
+
+
+  async function onSubmit(data: FormData) {
+
+    setIsSaving(true);
+    mutate({ name: data.name || "" });
   }
 
   return (

@@ -41,6 +41,7 @@ export default function DashboardPage() {
 */
 
   const { data: listings } = api.listing.allUserListings.useQuery();
+  
   return (
     <DashboardShell>
       <DashboardHeader heading="Listings" text="Create and manage Listings.">

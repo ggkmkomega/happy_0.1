@@ -24,9 +24,10 @@ export default async function EditorPage({ params }: EditorPageProps) {
   if (!listing) {
     notFound();
   }
+  
   return (
     <div className="p-4">
-      <ViewListing />
+      <ViewListing listing={listing as Listing} />
     </div>
   );
 }

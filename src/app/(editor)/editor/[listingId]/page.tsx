@@ -11,11 +11,15 @@ async function getListingForUser(listingId: Listing["id"]) {
   return data;
 }
 
+
 interface EditorPageProps {
   params: { listingId: string };
 }
 
+
 export default async function EditorPage({ params }: EditorPageProps) {
+
+  // check if the user is signed in
   const session = await getServerAuthSession();
   const user = session?.user;
 

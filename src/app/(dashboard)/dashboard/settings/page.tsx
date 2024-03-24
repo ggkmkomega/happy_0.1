@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { DashboardHeader } from "~/components/header";
 import { DashboardShell } from "~/components/shell";
-import { UserNameForm } from "~/components/user-name-form";
+import UserNameForm from "~/components/UserNameForm";
 import { authOptions, getServerAuthSession } from "~/server/auth";
 
 export const metadata = {

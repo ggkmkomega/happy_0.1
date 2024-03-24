@@ -7,7 +7,7 @@ type listingProps = {
 
 export default function Listing({ listing }: listingProps) {
   const { name, description, city, province, images } = listing;
-
+  
   return (
     <div className="w-fll relative grid aspect-square h-full min-w-[335px] grid-rows-[1fr,auto] gap-3 overflow-hidden rounded-lg text-white sm:aspect-auto sm:grid-rows-[294px,auto]">
       <div className="relative isolate h-full w-full overflow-hidden">

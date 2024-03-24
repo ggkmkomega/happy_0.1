@@ -16,6 +16,7 @@ export const listingrouter = createTRPCRouter({
     });
     return listing;
   }),
+
   listingByUser: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
@@ -30,6 +31,7 @@ export const listingrouter = createTRPCRouter({
       });
       return listing;
     }),
+    
   allUserListings: protectedProcedure.query(async ({ ctx }) => {
     const userListings = await ctx.db.listing.findMany({
       where: {
@@ -46,6 +48,7 @@ export const listingrouter = createTRPCRouter({
     });
     return userListings;
   }),
+
   create: protectedProcedure
     .input(listingInput)
     .mutation(
