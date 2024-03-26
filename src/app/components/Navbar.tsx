@@ -1,56 +1,194 @@
-import Link from "next/link";
-import React from "react";
-import { UserAccountNav } from "~/components/user-account-nav";
-import { getServerAuthSession } from "~/server/auth";
+"use client";
 
-const Navbar = async () => {
-  const session = await getServerAuthSession();
-  return (
-    <header className=" relative  mx-auto flex h-fit min-h-[4rem] w-full max-w-screen-xl flex-wrap items-start justify-between bg-rose-600 px-4 text-white transition-[height] sm:px-8">
-      <Link
-        aria-label="logo"
-        className="flex h-16 w-40 flex-none items-center"
-        href="/"
-      />
-      <div
-        id="header-slot"
-        className="relative order-1 flex w-full flex-none items-center sm:order-none sm:w-auto sm:flex-1 sm:justify-center"
-      >
-        <div className="relative mt-[11px] flex w-fit select-none flex-row items-center justify-center">
-          <div
-            role="button"
-            className='text-4-light-grey border-2-dark-grey after:content[""] bg-1-black group group isolate z-50 flex h-[42px] flex-row items-center whitespace-nowrap border-y py-3 pl-4 pr-6 after:absolute after:inset-0 after:-z-10 first:rounded-l-lg first:border-l last-of-type:rounded-r-lg last-of-type:border-r'
-          >
-            <div className="text-5-v-light-grey mr-1 text-sm group-hover:text-white">
-              Whenever
-            </div>
-          </div>
-          <div
-            role="button"
-            className='text-4-light-grey border-2-dark-grey after:content[""] bg-1-black before:bg-3-primary-grey before:content[""] group group relative isolate z-50 flex h-[42px] flex-row items-center whitespace-nowrap border-y py-3 pl-6 pr-[54px] before:absolute before:left-[-0.5px] before:h-5 before:w-px after:absolute after:inset-0 after:-z-10 first:rounded-l-lg first:border-l last-of-type:rounded-r-lg last-of-type:border-r'
-          >
-            <div className="text-5-v-light-grey mr-1 w-[50px] text-sm group-hover:text-white">
-              Whoever
-            </div>
-          </div>
-          <button
-            aria-label="Search"
-            className="text-4-light-grey group absolute right-[6px] z-50 grid h-8 w-8 place-items-center rounded-full"
-          ></button>
+
+// react stuff
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+
+// components
+import { Button } from "~/components/ui/button";
+import { UserAccountNav } from "~/components/user-account-nav";
+
+// assets
+import { Activity, AlignJustify, Armchair, Bell, BookOpenCheck, CircleHelp, CircleUser, Compass, Cookie, DraftingCompass, LucideIcon, X } from "lucide-react";
+import unitedStatesIcon from "~/app/assets/united-states.png";
+
+
+const MobileMenuConf = {
+  list: [
+    {
+      icon: BookOpenCheck,
+      text: "Change currency"
+    },
+    {
+      icon: Activity,
+      text: "Change currency"
+    },
+    {
+      icon: Armchair,
+      text: "Locations"
+    },
+    {
+      icon: Cookie,
+      text: "Manage Cookies"
+    },
+    {
+      icon: Compass,
+      text: "Navigate"
+    },
+    {
+      icon: DraftingCompass,
+      text: "Explore"
+    },
+  ]
+}
+
+const Navbar = ({ session }: { session: any }) => {
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
+  const MenuItem = ({ Icon, text }: { text: string, Icon: LucideIcon | string }) => {
+    return (
+      <div className="active:bg-gray-200 h-full flex items-center gap-4 px-8">
+        <div>
+          {<Icon className="h-6 w-6" />}
+        </div>
+        <div className="pb-1">
+          {text}
         </div>
       </div>
-      <div className="flex h-16 w-28 flex-none items-center justify-end sm:w-40">
-        {session && (
-          <UserAccountNav
-            user={{
-              name: session.user.name,
-              image: session.user.image,
-              email: session.user.email,
-            }}
-          />
-        )}
+    )
+  }
+
+  const NavMenu = () => {
+    return (
+      <div className="fadeInUp fixed top-0 bg-gray-100 z-30 h-[100vh] w-full py-6">
+        <div onClick={toggleMenu} className="flex justify-end items-center px-5">
+          <X />
+        </div>
+        <h1 className="text-3xl font-bold pt-5 pb-9 px-8">More</h1>
+        <div className="grid h-[68%]">
+          {
+            MobileMenuConf.list.map(item => {
+              return (
+                <div key={item.text} onClick={toggleMenu}>
+                  <MenuItem Icon={item.icon} text={item.text} />
+                </div>
+              )
+            })
+          }
+        </div>
       </div>
-    </header>
+    )
+  }
+
+  return (
+    <>
+      {/* only shows on mobile */}
+      {isMenuOpen && <NavMenu />}
+      <nav className="flex items-center justify-between w-full bg-pink-600 text-white px-3 md:px-7">
+        <Link
+          aria-label="logo"
+          className="text-lg md:text-2xl font-bold flex h-16 md:w-40 flex-none items-center"
+          href="/">
+          Happy Stays
+        </Link>
+        {/* list items */}
+        <ul className="flex flex-row-reverse items-center justify-end md:gap-3">
+          <li onClick={toggleMenu} className="ps-3 md:hidden">
+            <AlignJustify className="h-8 w-8" />
+          </li>
+
+          {session &&
+            <>
+              <li className="px-3 flex items-center">
+                <UserAccountNav
+                  user={{
+                    name: session.user.name,
+                    image: session.user.image,
+                    email: session.user.email,
+                  }}
+                />
+              </li>
+            </>
+          }
+
+          {!session &&
+            <li>
+              <Link href={"/api/auth/signin"}>
+                <CircleUser className="md:hidden h-8 w-8" />
+              </Link>
+            </li>
+          }
+
+          {!session &&
+            <>
+              <li className="hidden md:block">
+                <Button variant="secondary" className="text-pink-600">
+                  <Link
+                    href={"/api/auth/signin"}
+                  >
+                    Sign In
+                  </Link>
+                </Button>
+              </li>
+              <li className="hidden md:block">
+                <Button variant="secondary" className="text-pink-600">
+                  <Link
+                    href={"/api/auth/signin"}
+                  >
+                    Register
+                  </Link>
+                </Button>
+              </li>
+            </>
+          }
+
+          <li className="hidden md:block">
+            <Button variant="ghost" className="px-6 py-6">
+              <Link
+                href={"/signIn"}
+              >
+                List your property
+              </Link>
+            </Button>
+          </li>
+
+          {session &&
+            <>
+              <li>
+                <Button variant="ghost" size="icon" className="p-1 h-12 w-12">
+                  <Bell className="h-6 w-auto" />
+                </Button>
+              </li>
+            </>
+          }
+
+          <li className="items-center hidden md:flex">
+            <Button variant="ghost" size="icon" className="p-1 h-12 w-12">
+              <CircleHelp className="h-7 w-auto" />
+            </Button>
+          </li>
+
+          <li className="hidden md:flex items-center">
+            <Button variant="ghost" size="icon" className="p-1 h-12 w-12">
+              <Image alt="image" src={unitedStatesIcon} className="h-8 w-auto" />
+            </Button>
+          </li>
+
+          <li className="hidden md:flex items-center">
+            <Button variant="ghost" size="icon" className="px-8 py-6 text-lg">
+              DZD
+            </Button>
+          </li>
+        </ul>
+      </nav>
+    </>
   );
 };
 
