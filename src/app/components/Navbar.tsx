@@ -13,6 +13,7 @@ import { UserAccountNav } from "~/components/user-account-nav";
 // assets
 import { Activity, AlignJustify, Armchair, Bell, BookOpenCheck, CircleHelp, CircleUser, Compass, Cookie, DraftingCompass, LucideIcon, X } from "lucide-react";
 import unitedStatesIcon from "~/app/assets/united-states.png";
+import { Session } from "next-auth";
 
 
 const MobileMenuConf = {
@@ -44,7 +45,7 @@ const MobileMenuConf = {
   ]
 }
 
-const Navbar = ({ session }: { session: any }) => {
+const Navbar = ({ session }: { session: Session }) => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -76,7 +77,7 @@ const Navbar = ({ session }: { session: any }) => {
           {
             MobileMenuConf.list.map(item => {
               return (
-                <div key={item.text} onClick={toggleMenu}>
+                <div onClick={toggleMenu}>
                   <MenuItem Icon={item.icon} text={item.text} />
                 </div>
               )
