@@ -51,13 +51,14 @@ export default function UserNameForm({ user, className, ...props }: UserNameForm
       console.error(`${error}`)
 
       setIsSaving(false);
-      
+
       return toast({
         title: "Something went wrong.",
         description: "Your name was not updated. Please try again.",
         variant: "destructive",
       });
     },
+    
     onSuccess: () => {
       setIsSaving(false);
       return toast({
