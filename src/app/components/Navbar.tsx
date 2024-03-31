@@ -1,6 +1,5 @@
 "use client";
 
-
 // react stuff
 import Image from "next/image";
 import Link from "next/link";
@@ -11,92 +10,107 @@ import { Button } from "~/components/ui/button";
 import { UserAccountNav } from "~/components/user-account-nav";
 
 // assets
-import { Activity, AlignJustify, Armchair, Bell, BookOpenCheck, CircleHelp, CircleUser, Compass, Cookie, DraftingCompass, LucideIcon, X } from "lucide-react";
+import {
+  Activity,
+  AlignJustify,
+  Armchair,
+  Bell,
+  BookOpenCheck,
+  CircleHelp,
+  CircleUser,
+  Compass,
+  Cookie,
+  DraftingCompass,
+  type LucideIcon,
+  X,
+} from "lucide-react";
 import unitedStatesIcon from "~/app/assets/united-states.png";
-import { Session } from "next-auth";
-
+import { type Session } from "next-auth";
 
 const MobileMenuConf = {
   list: [
     {
       icon: BookOpenCheck,
-      text: "Change currency"
+      text: "Change currency",
     },
     {
       icon: Activity,
-      text: "Change currency"
+      text: "Change currency",
     },
     {
       icon: Armchair,
-      text: "Locations"
+      text: "Locations",
     },
     {
       icon: Cookie,
-      text: "Manage Cookies"
+      text: "Manage Cookies",
     },
     {
       icon: Compass,
-      text: "Navigate"
+      text: "Navigate",
     },
     {
       icon: DraftingCompass,
-      text: "Explore"
+      text: "Explore",
     },
-  ]
-}
+  ],
+};
 
-const Navbar = ({ session }: { session: Session }) => {
-
+const Navbar = ({ session }: { session: Session | null }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-  const MenuItem = ({ Icon, text }: { text: string, Icon: LucideIcon | string }) => {
+  const MenuItem = ({
+    Icon,
+    text,
+  }: {
+    text: string;
+    Icon: LucideIcon | string;
+  }) => {
     return (
-      <div className="active:bg-gray-200 h-full flex items-center gap-4 px-8">
-        <div>
-          {<Icon className="h-6 w-6" />}
-        </div>
-        <div className="pb-1">
-          {text}
-        </div>
+      <div className="flex h-full items-center gap-4 px-8 active:bg-gray-200">
+        <div>{<Icon className="h-6 w-6" />}</div>
+        <div className="pb-1">{text}</div>
       </div>
-    )
-  }
+    );
+  };
 
   const NavMenu = () => {
     return (
-      <div className="fadeInUp fixed top-0 bg-gray-100 z-30 h-[100vh] w-full py-6">
-        <div onClick={toggleMenu} className="flex justify-end items-center px-5">
+      <div className="fadeInUp fixed top-0 z-30 h-[100vh] w-full bg-gray-100 py-6">
+        <div
+          onClick={toggleMenu}
+          className="flex items-center justify-end px-5"
+        >
           <X />
         </div>
-        <h1 className="text-3xl font-bold pt-5 pb-9 px-8">More</h1>
+        <h1 className="px-8 pb-9 pt-5 text-3xl font-bold">More</h1>
         <div className="grid h-[68%]">
-          {
-            MobileMenuConf.list.map(item => {
-              return (
-                <div onClick={toggleMenu}>
-                  <MenuItem Icon={item.icon} text={item.text} />
-                </div>
-              )
-            })
-          }
+          {MobileMenuConf.list.map((item) => {
+            return (
+              <div key={item.text} onClick={toggleMenu}>
+                <MenuItem Icon={item.icon} text={item.text} />
+              </div>
+            );
+          })}
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <>
       {/* only shows on mobile */}
       {isMenuOpen && <NavMenu />}
-      <nav className="flex items-center justify-between w-full bg-pink-600 text-white px-3 md:px-7">
+      <nav className="flex w-full items-center justify-between bg-pink-600 px-3 text-white md:px-7">
         <Link
           aria-label="logo"
-          className="text-lg md:text-2xl font-bold flex h-16 md:w-40 flex-none items-center"
-          href="/">
+          className="flex h-16 flex-none items-center text-lg font-bold md:w-40 md:text-2xl"
+          href="/"
+        >
           Happy Stays
         </Link>
         {/* list items */}
@@ -105,9 +119,9 @@ const Navbar = ({ session }: { session: Session }) => {
             <AlignJustify className="h-8 w-8" />
           </li>
 
-          {session &&
+          {session && (
             <>
-              <li className="px-3 flex items-center">
+              <li className="flex items-center px-3">
                 <UserAccountNav
                   user={{
                     name: session.user.name,
@@ -117,72 +131,64 @@ const Navbar = ({ session }: { session: Session }) => {
                 />
               </li>
             </>
-          }
+          )}
 
-          {!session &&
+          {!session && (
             <li>
               <Link href={"/api/auth/signin"}>
-                <CircleUser className="md:hidden h-8 w-8" />
+                <CircleUser className="h-8 w-8 md:hidden" />
               </Link>
             </li>
-          }
+          )}
 
-          {!session &&
+          {!session && (
             <>
               <li className="hidden md:block">
                 <Button variant="secondary" className="text-pink-600">
-                  <Link
-                    href={"/api/auth/signin"}
-                  >
-                    Sign In
-                  </Link>
+                  <Link href={"/api/auth/signin"}>Sign In</Link>
                 </Button>
               </li>
               <li className="hidden md:block">
                 <Button variant="secondary" className="text-pink-600">
-                  <Link
-                    href={"/api/auth/signin"}
-                  >
-                    Register
-                  </Link>
+                  <Link href={"/api/auth/signin"}>Register</Link>
                 </Button>
               </li>
             </>
-          }
+          )}
 
           <li className="hidden md:block">
             <Button variant="ghost" className="px-6 py-6">
-              <Link
-                href={"/signIn"}
-              >
-                List your property
-              </Link>
+              <Link href={"/signIn"}>List your property</Link>
             </Button>
           </li>
 
-          {session &&
+          {session && (
             <>
               <li>
-                <Button variant="ghost" size="icon" className="p-1 h-12 w-12">
+                <Button variant="ghost" size="icon" className="h-12 w-12 p-1">
                   <Bell className="h-6 w-auto" />
                 </Button>
               </li>
             </>
-          }
+          )}
 
-          <li className="items-center hidden md:flex">
-            <Button variant="ghost" size="icon" className="p-1 h-12 w-12">
+          <li className="hidden items-center md:flex">
+            <Button variant="ghost" size="icon" className="h-12 w-12 p-1">
               <CircleHelp className="h-7 w-auto" />
             </Button>
           </li>
 
-          <li className="hidden md:flex items-center">
-            <Button variant="ghost" size="icon" className="p-1 h-12 w-12">
-              <Image alt="image" src={unitedStatesIcon} className="h-8 w-auto" />
+          <li className="hidden items-center md:flex">
+            <Button variant="ghost" size="icon" className="h-12 w-12 p-1">
+              <Image
+                alt="image"
+                src={unitedStatesIcon}
+                className="h-8 w-auto"
+              />
             </Button>
           </li>
 
-          <li className="hidden md:flex items-center">
+          <li className="hidden items-center md:flex">
             <Button variant="ghost" size="icon" className="px-8 py-6 text-lg">
               DZD
             </Button>
