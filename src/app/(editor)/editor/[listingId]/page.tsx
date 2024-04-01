@@ -5,20 +5,18 @@ import { api } from "~/trpc/server";
 import { authOptions, getServerAuthSession } from "~/server/auth";
 
 import EditListings from "~/app/components/useListingForm";
+import EditListing from "~/app/components/NewEditListing";
 
 async function getListingForUser(listingId: Listing["id"]) {
   const data = await api.listing.listingByUser.query(listingId);
   return data;
 }
 
-
 interface EditorPageProps {
   params: { listingId: string };
 }
 
-
 export default async function EditorPage({ params }: EditorPageProps) {
-
   // check if the user is signed in
   const session = await getServerAuthSession();
   const user = session?.user;
@@ -35,7 +33,8 @@ export default async function EditorPage({ params }: EditorPageProps) {
 
   return (
     <div className="p-4">
-      <EditListings existingListing={listing} />
+      {/*      <EditListings existingListing={listing} />*/}
+      <EditListing />
     </div>
   );
 }
