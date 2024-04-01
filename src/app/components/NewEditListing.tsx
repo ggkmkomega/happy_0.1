@@ -1,7 +1,7 @@
 "use client";
+//UI
 import Image from "next/image";
 import { CalendarIcon, ChevronLeft, Upload } from "lucide-react";
-
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { type DateRange } from "react-day-picker";
 import { addDays, format } from "date-fns";
 import { cn } from "~/lib/utils";
@@ -30,12 +30,40 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { Calendar } from "~/components/ui/calendar";
+//Map
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+//
+import { type ListingEditRequired } from "~/types";
 
-export function EditListing() {
+interface ListingFormProps extends React.HTMLAttributes<HTMLFormElement> {
+  existingListing: ListingEditRequired;
+}
+
+export function EditListing({ existingListing }: ListingFormProps) {
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   });
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "YOUR_API_KEY",
+  });
+  const [map, setMap] = useState();
+  const center = {
+    lat: -3.745,
+    lng: -38.523,
+  };
+  const onLoad = useCallback(function callback(map) {
+    const bounds = new window.google.maps.LatLngBounds(center);
+    map.fitBounds(bounds);
+
+    setMap(map);
+  }, []);
+
+  const onUnmount = useCallback(function callback() {
+    setMap(null);
+  }, []);
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
@@ -295,7 +323,23 @@ export function EditListing() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p>Map</p>
+                    {isLoaded ? (
+                      <GoogleMap
+                        mapContainerStyle={{
+                          width: "400px",
+                          height: "400px",
+                        }}
+                        center={center}
+                        zoom={10}
+                        onLoad={onLoad}
+                        onUnmount={onUnmount}
+                      >
+                        {/* Child components, such as markers, info windows, etc. */}
+                        <></>
+                      </GoogleMap>
+                    ) : (
+                      <p>Map</p>
+                    )}
                   </CardContent>
                 </Card>
               </div>
