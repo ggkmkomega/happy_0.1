@@ -259,7 +259,32 @@ export function EditListing() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p>Adress</p>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="grid gap-3">
+                        <Label htmlFor="name">City</Label>
+                        <Input
+                          id="City"
+                          type="text"
+                          defaultValue="Souk ahras"
+                        />
+                      </div>
+                      <div className="grid gap-3">
+                        <Label htmlFor="name">State</Label>
+                        <Input
+                          id="City"
+                          type="text"
+                          defaultValue="Souk ahras"
+                        />
+                      </div>
+                      <div className="grid gap-3">
+                        <Label htmlFor="name">Provinance</Label>
+                        <Input
+                          id="City"
+                          type="text"
+                          defaultValue="Souk ahras"
+                        />
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
                 <Card>
