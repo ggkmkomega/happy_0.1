@@ -34,7 +34,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
   return (
     <div className="p-4">
       {/*      <EditListings existingListing={listing} />*/}
-      <EditListing />
+      <EditListing existingListing={listing} />
     </div>
   );
 }
