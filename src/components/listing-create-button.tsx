@@ -29,11 +29,11 @@ export function Listingcreatebutton({
 */
     mutate({
       name: "Untitled Listing",
-      adrCity: "No  Ville",
-      adrProvince: "No Where",
-      adrStreet: "No street",
-      adrZipcode: "99999",
+      city: "No  Ville",
+      province: "No Where",
+      street: "No street",
       description: "Describe your Property",
+      status: "inactive",
     });
 
     /* TODO : Logic for subscribtion

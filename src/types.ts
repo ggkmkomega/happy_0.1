@@ -11,11 +11,11 @@ export type ListingEditRequired = Extract<listingEdit, { id: string }>;
 
 export const listingInput = z.object({
   name: z.string().min(1, "Listing Must contain a name"),
-  adrStreet: z.string().min(1, "street adress is required"),
-  adrCity: z.string().min(1, "city is required"),
-  adrProvince: z.string().min(1, "province is required"),
-  adrZipcode: z.string().min(1, "zipcode is required"),
   description: z.string().min(20, "description must be at least 20 char"),
+  status: z.string().min(1, "status is required"),
+  street: z.string().min(1, "street adress is required"),
+  city: z.string().min(1, "city is required"),
+  province: z.string().min(1, "province is required"),
 });
 
 export const imageInput = z.object({

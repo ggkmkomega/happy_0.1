@@ -1,5 +1,4 @@
 import { notFound, redirect } from "next/navigation";
-import { type Listing } from "@prisma/client";
 
 import { api } from "~/trpc/server";
 import { authOptions, getServerAuthSession } from "~/server/auth";
@@ -7,7 +6,7 @@ import { authOptions, getServerAuthSession } from "~/server/auth";
 import EditListings from "~/app/components/useListingForm";
 import EditListing from "~/app/components/NewEditListing";
 
-async function getListingForUser(listingId: Listing["id"]) {
+async function getListingForUser(listingId: string) {
   const data = await api.listing.listingByUser.query(listingId);
   return data;
 }

@@ -148,14 +148,14 @@ export default function EditListings({ existingListing }: ListingFormProps) {
               </label>
               <div className="mt-2">
                 <input
-                  {...register("adrStreet")}
+                  {...register("street")}
                   defaultValue={`${existingListing.street}`}
                   id="street-address"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400    sm:text-sm sm:leading-6"
                 />
-                {errors.adrStreet ? (
+                {errors.street ? (
                   <p className="mt-3 text-sm leading-6 text-red-500">
-                    {`${errors.adrStreet.message}`}
+                    {`${errors.street.message}`}
                   </p>
                 ) : (
                   <></>
@@ -172,15 +172,15 @@ export default function EditListings({ existingListing }: ListingFormProps) {
               </label>
               <div className="mt-2">
                 <input
-                  {...register("adrCity")}
+                  {...register("City")}
                   defaultValue={`${existingListing.city}`}
                   id="city"
                   autoComplete="address-level2"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400    sm:text-sm sm:leading-6"
                 />
-                {errors.adrCity ? (
+                {errors.City ? (
                   <p className="mt-3 text-sm leading-6 text-red-500">
-                    {`${errors.adrCity.message}`}
+                    {`${errors.City.message}`}
                   </p>
                 ) : (
                   <></>
@@ -197,15 +197,15 @@ export default function EditListings({ existingListing }: ListingFormProps) {
               </label>
               <div className="mt-2">
                 <input
-                  {...register("adrProvince")}
+                  {...register("province")}
                   defaultValue={`${existingListing.province}`}
                   id="region"
                   autoComplete="address-level1"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400    sm:text-sm sm:leading-6"
                 />
-                {errors.adrProvince ? (
+                {errors.province ? (
                   <p className="mt-3 text-sm leading-6 text-red-500">
-                    {`${errors.adrProvince.message}`}
+                    {`${errors.province.message}`}
                   </p>
                 ) : (
                   <></>

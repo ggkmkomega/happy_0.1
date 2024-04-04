@@ -66,20 +66,14 @@ model User {
     Listings      Listing[]
 }
 
-model adress {
-    id String @id @default(cuid())
-
-    Listing Listing[]
-}
-
 model Listing {
     id          String  @id @default(cuid())
+    status  String     @default("Inactive")
     name        String
     description String
     street      String
     city        String
     province    String
-    zipcode     String
     images      Image[]
 
     createdAt DateTime @default(now())
@@ -87,8 +81,7 @@ model Listing {
 
     createdBy   User    @relation(fields: [createdById], references: [id])
     createdById String
-    adress      adress? @relation(fields: [adressId], references: [id])
-    adressId    String?
+
 }
 
 model Image {
