@@ -27,7 +27,7 @@ import {
   useState,
 } from "react";
 import { type DateRange } from "react-day-picker";
-import { addDays, format } from "date-fns";
+import { addDays, format, set } from "date-fns";
 import { cn } from "~/lib/utils";
 import {
   Popover,
@@ -35,6 +35,8 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { Calendar } from "~/components/ui/calendar";
+//images
+import { ItemInterface, ReactSortable } from "react-sortablejs";
 //Map
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 //
@@ -54,7 +56,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   });
-  const [selectedImage, setSelectedImage] = useState<string[]>();
+  const [selectedImage, setSelectedImage] = useState<string[]>([]);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("images", selectedImage);
     const files = Array.from(e.target.files ?? []);
@@ -173,7 +175,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                     </CardHeader>
                     <CardContent>
                       <div className="grid gap-2">
-                        <div className="grid grid-cols-3 gap-2">
+                        <div>
                           {selectedImage === undefined ? (
                             <UploadImage
                               handleImageChange={handleImageChange}
@@ -208,7 +210,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                       <div className="grid gap-6">
                         <div className="grid gap-3">
                           <Label htmlFor="status">Status</Label>
-                          <Select {...register("status")}>
+                          <Select>
                             <SelectTrigger
                               id="status"
                               aria-label="Select status"
@@ -216,8 +218,8 @@ export function EditListing({ existingListing }: ListingFormProps) {
                               <SelectValue placeholder="Select status" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="true">Active</SelectItem>
-                              <SelectItem value="false">InActive</SelectItem>
+                              <SelectItem value="Active">Active</SelectItem>
+                              <SelectItem value="InActive">InActive</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -439,29 +441,39 @@ const ImagesDisplay = ({
   setSelectedImage,
 }: {
   selectedImage: string[];
-  setSelectedImage: Dispatch<SetStateAction<string[] | undefined>>;
+  setSelectedImage: Dispatch<SetStateAction<string[]>>;
 }) => {
+  //possible performance issue => <Recalculate images every rerender>
+  const images = selectedImage.map((image) => ({ id: image, link: image }));
   return (
     <>
-      {selectedImage?.map((image) => (
-        <div key={image}>
-          <XIcon
-            className="absolute m-2 rounded-sm bg-white p-1 text-red-700 shadow-md hover:cursor-pointer hover:bg-red-400 hover:text-white"
-            onClick={() => {
-              setSelectedImage((prevImages) =>
-                prevImages?.filter((img) => img !== image),
-              );
-            }}
-          />
-          <Image
-            alt="Product image"
-            className="aspect-square w-full rounded-md object-cover"
-            height="84"
-            src={image}
-            width="84"
-          />
-        </div>
-      ))}
+      <ReactSortable
+        className="grid grid-cols-3 gap-2"
+        list={images}
+        setList={(images) => {
+          setSelectedImage(images.map((image) => image.link));
+        }}
+      >
+        {selectedImage?.map((image) => (
+          <div key={image}>
+            <XIcon
+              className="absolute m-2 rounded-sm bg-white p-1 text-red-700 shadow-md hover:cursor-pointer hover:bg-red-400 hover:text-white"
+              onClick={() => {
+                setSelectedImage((prevImages) =>
+                  prevImages?.filter((img) => img !== image),
+                );
+              }}
+            />
+            <Image
+              alt="Product image"
+              className="aspect-square w-full rounded-md object-cover"
+              height="84"
+              src={image}
+              width="84"
+            />
+          </div>
+        ))}
+      </ReactSortable>
     </>
   );
 };
