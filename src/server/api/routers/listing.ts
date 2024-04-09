@@ -52,13 +52,17 @@ export const listingrouter = createTRPCRouter({
   create: protectedProcedure
     .input(listingInput)
     .mutation(
-      async ({ ctx, input: { name, description, city, province, street } }) => {
+      async ({
+        ctx,
+        input: { name, description, city, street, province, type },
+      }) => {
         return ctx.db.listing.create({
           data: {
             name,
             description,
+            street,
             province: province,
-            street: street,
+            type: type,
             city: city,
             createdBy: {
               connect: {
@@ -92,7 +96,7 @@ export const listingrouter = createTRPCRouter({
         ctx,
         input: {
           id,
-          data: { name, description, city, province, street, status },
+          data: { name, description, city, province, street, type },
         },
       }) => {
         return ctx.db.listing.update({
@@ -105,7 +109,7 @@ export const listingrouter = createTRPCRouter({
             city: city,
             province: province,
             street: street,
-            status: status,
+            type: type,
           },
         });
       },
