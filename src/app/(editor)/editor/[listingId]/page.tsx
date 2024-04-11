@@ -3,7 +3,6 @@ import { notFound, redirect } from "next/navigation";
 import { api } from "~/trpc/server";
 import { authOptions, getServerAuthSession } from "~/server/auth";
 
-import EditListings from "~/app/components/useListingForm";
 import EditListing from "~/app/components/NewEditListing";
 
 async function getListingForUser(listingId: string) {
@@ -32,7 +31,6 @@ export default async function EditorPage({ params }: EditorPageProps) {
 
   return (
     <div className="p-4">
-      {/*      <EditListings existingListing={listing} />*/}
       <EditListing existingListing={listing} />
     </div>
   );

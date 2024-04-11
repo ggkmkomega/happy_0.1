@@ -11,7 +11,6 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -127,7 +126,13 @@ export function EditListing({ existingListing }: ListingFormProps) {
                   </h1>
                   <Badge variant="destructive">Not Visible</Badge>
                   <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                    <Button variant="outline" size="sm">
+                    <Button
+                      onClick={() => {
+                        router.push("/dashboard");
+                      }}
+                      variant="outline"
+                      size="sm"
+                    >
                       Discard
                     </Button>
                     <Button size="sm">Save Changes</Button>
@@ -151,7 +156,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                               name="name"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel htmlFor="name">Username</FormLabel>
+                                  <FormLabel htmlFor="name">Name</FormLabel>
                                   <FormControl>
                                     <Input
                                       id="name"
@@ -238,21 +243,42 @@ export function EditListing({ existingListing }: ListingFormProps) {
                       <CardContent>
                         <div className="grid gap-6">
                           <div className="grid gap-3">
-                            <Label htmlFor="status">Status</Label>
-                            <Select>
-                              <SelectTrigger
-                                id="status"
-                                aria-label="Select status"
-                              >
-                                <SelectValue placeholder="Select status" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="Active">Active</SelectItem>
-                                <SelectItem value="InActive">
-                                  InActive
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
+                            <FormField
+                              control={form.control}
+                              name="status"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel htmlFor="status">
+                                    Status:
+                                  </FormLabel>
+                                  <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                  >
+                                    <FormControl>
+                                      <SelectTrigger
+                                        id="status"
+                                        aria-label="Select status"
+                                      >
+                                        <SelectValue placeholder="Select Status" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="Active">
+                                        Active
+                                      </SelectItem>
+                                      <SelectItem value="InActive">
+                                        InActive
+                                      </SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  <FormDescription>
+                                    Select the type of Listing you are adding.
+                                  </FormDescription>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
                           </div>
                         </div>
                       </CardContent>
@@ -453,7 +479,6 @@ export function EditListing({ existingListing }: ListingFormProps) {
                 <div className="flex items-center justify-center gap-2 md:hidden">
                   <Button
                     onClick={() => {
-                      console.log("Discard");
                       router.push("/dashboard");
                     }}
                     variant="outline"

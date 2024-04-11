@@ -3,7 +3,7 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 import Navbar from "./components/Navbar";
 import { Toaster } from "~/components/ui/toaster"
-
+import NextTopLoader from 'nextjs-toploader';
 import { TRPCReactProvider } from "~/trpc/react";
 import { getServerAuthSession } from "~/server/auth";
 
@@ -31,7 +31,7 @@ export default async function RootLayout({
       <body className={`font-sans ${inter.variable}`}>
         <TRPCReactProvider>
           <Navbar session={session} />
-
+          <NextTopLoader />
           {children}
           <Toaster />
         </TRPCReactProvider>
