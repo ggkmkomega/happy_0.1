@@ -29,11 +29,12 @@ export function Listingcreatebutton({
 */
     mutate({
       name: "Untitled Listing",
+      description: "Describe your Property",
       city: "No  Ville",
       province: "No Where",
       street: "No street",
-      description: "Describe your Property",
-      status: "inactive",
+      type: "House",
+      status: "InActive",
     });
 
     /* TODO : Logic for subscribtion
