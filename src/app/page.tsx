@@ -11,7 +11,7 @@ export default async function Home() {
   noStore();
 
   return (
-    <main className="min-h-[150vh] bg-gray-100 p-2">
+    <main className="min-h-[150vh] bg-gray-100">
       <Header />
       <LocationsDisplay />
       <Deals />
