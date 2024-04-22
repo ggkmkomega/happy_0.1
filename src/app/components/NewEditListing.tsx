@@ -66,27 +66,22 @@ export function EditListing({ existingListing }: ListingFormProps) {
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   });
-
   const [selectedImage, setSelectedImage] = useState<string[]>([]);
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("images", selectedImage);
     const files = Array.from(e.target.files ?? []);
     const imageUrls = files.map((file) => URL.createObjectURL(file));
     setSelectedImage((prevImages) => [...(prevImages ?? []), ...imageUrls]);
   };
-
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyBl6iwyHZvDVMDunaF6Toa9uA3T6oOIgQg",
   });
-
   const [map, setMap] = useState();
   const center = {
     lat: -3.745,
     lng: -38.523,
   };
-
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds(center);
     map.fitBounds(bounds);
@@ -116,11 +111,10 @@ export function EditListing({ existingListing }: ListingFormProps) {
   const router = useRouter();
 
   return (
-    // bg-muted/40
-    <div className="flex min-h-screen w-full flex-col ">
-      <div className="flex flex-col sm:gap-4 sm:py-4">
+    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-          <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
+          <div className=" mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="mb-4 flex items-center gap-4">
