@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
+import Navbar from "~/app/components/Navbar";
 
 import { MainNav } from "~/components/main-nav";
 import { DashboardNav } from "~/components/nav";
-//import { SiteFooter } from "~/components/site-footer";
 import { UserAccountNav } from "~/components/user-account-nav";
 import { dashboardConfig } from "~/config/dashboard";
 import { getServerAuthSession } from "~/server/auth";
@@ -23,6 +23,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex min-h-screen flex-col space-y-6">
+      <Navbar session={session} />
       <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr] py-12">
         <aside className="hidden w-[200px] flex-col md:flex">
           <DashboardNav items={dashboardConfig.sidebarNav} />

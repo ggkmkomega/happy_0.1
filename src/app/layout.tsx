@@ -30,13 +30,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
         <TRPCReactProvider>
-<<<<<<< HEAD
-          {/* <Navbar session={session} /> */}
-
-=======
-          <Navbar session={session} />
           <NextTopLoader />
->>>>>>> 628e99ffaf9f7427c936d3dd4f2edc64448e1d0c
           {children}
           <Toaster />
         </TRPCReactProvider>

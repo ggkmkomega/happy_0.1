@@ -4,7 +4,7 @@ import { darkenedBgImage } from "~/lib/utils";
 
 const InfoBoxes = () => {
     return (
-        <div className="flex flex-col md:flex-row w-full gap-2 p-2">
+        <div className="flex flex-col md:flex-row w-full gap-2 p-3">
             <div className="grid gap-2">
                 <div
                     style={{ "backgroundImage": darkenedBgImage("https://images.unsplash.com/photo-1455587734955-081b22074882?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") }}

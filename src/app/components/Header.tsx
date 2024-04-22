@@ -7,7 +7,7 @@ const session = await getServerAuthSession() || null;
 const Header = () => {
 
     return (
-        <header className="p-2 md:p-3">
+        <header className="p-2 md:p-2">
             <div className="items-start rounded-lg bg-gray-300 min-h-[95vh] bg-center bg-cover bg-no-repeat"
                 style={{ "backgroundImage": "linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0) ), url('https://images.unsplash.com/photo-1519922639192-e73293ca430e?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}>
                 <div className="w-full overflow-hidden rounded-t-lg">

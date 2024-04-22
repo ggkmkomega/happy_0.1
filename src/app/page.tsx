@@ -1,17 +1,15 @@
 import { unstable_noStore as noStore } from "next/cache";
-import Header from "./components/Header";
-import LocationsDisplay from "./components/LocationsDisplay";
 import Deals from "./components/Deals";
-import { useState } from "react";
 import FoodDisplay from "./components/FoodDisplay";
+import Header from "./components/Header";
 import InfoBoxes from "./components/InfoBoxes";
-import Footer from "./components/Footer";
+import LocationsDisplay from "./components/LocationsDisplay";
 
 export default async function Home() {
   noStore();
 
   return (
-    <main className="min-h-[150vh] bg-gray-100">
+    <main className="min-h-[150vh]">
       <Header />
       <LocationsDisplay />
       <Deals />
