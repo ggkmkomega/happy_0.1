@@ -76,12 +76,13 @@ export function EditListing({ existingListing }: ListingFormProps) {
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyBl6iwyHZvDVMDunaF6Toa9uA3T6oOIgQg",
   });
+
   const [map, setMap] = useState();
   const center = {
     lat: -3.745,
     lng: -38.523,
   };
-  const onLoad = useCallback(function callback(map) {
+  const onLoad = useCallback(function callback(map : any) {
     const bounds = new window.google.maps.LatLngBounds(center);
     map.fitBounds(bounds);
 
@@ -89,7 +90,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
   }, []);
 
   const onUnmount = useCallback(function callback() {
-    setMap(null);
+    // setMap(null);
   }, []);
 
   type TlistingInput = z.infer<typeof listingInput>;
