@@ -61,13 +61,6 @@ export function EditListing({ existingListing }: ListingFormProps) {
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   });
-  const [selectedImage, setSelectedImage] = useState<string[]>([]);
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("images", selectedImage);
-    const files = Array.from(e.target.files ?? []);
-    const imageUrls = files.map((file) => URL.createObjectURL(file));
-    setSelectedImage((prevImages) => [...(prevImages ?? []), ...imageUrls]);
-  };
   // const { isLoaded } = useJsApiLoader({
   //   id: "google-map-script",
   //   googleMapsApiKey: "AIzaSyBl6iwyHZvDVMDunaF6Toa9uA3T6oOIgQg",
@@ -206,22 +199,8 @@ export function EditListing({ existingListing }: ListingFormProps) {
                       <CardContent>
                         <div className="grid gap-2">
                           <div>
-                            {selectedImage === undefined ? (
-                              <UploadImage listingsId={existingListing.id} />
-                            ) : selectedImage.length === 4 ? (
-                              <ImagesDisplay
-                                selectedImage={selectedImage}
-                                setSelectedImage={setSelectedImage}
-                              />
-                            ) : (
-                              <>
-                                <ImagesDisplay
-                                  selectedImage={selectedImage}
-                                  setSelectedImage={setSelectedImage}
-                                />
-                                <UploadImage listingsId={existingListing.id} />
-                              </>
-                            )}
+                            <UploadImage listingsId={existingListing.id} />
+                            <ImagesDisplay />
                           </div>
                         </div>
                       </CardContent>
@@ -494,7 +473,12 @@ export function EditListing({ existingListing }: ListingFormProps) {
 export default EditListing;
 
 const UploadImage = ({ listingsId }: { listingsId: string }) => {
-  const createImage = api.images.create.useMutation();
+  const trpc = api.useUtils();
+  const createImage = api.images.create.useMutation({
+    onSettled: async () => {
+      await trpc.images.invalidate();
+    },
+  });
 
   return (
     <>
@@ -519,15 +503,14 @@ const UploadImage = ({ listingsId }: { listingsId: string }) => {
   );
 };
 
-const ImagesDisplay = ({
-  selectedImage,
-  setSelectedImage,
-}: {
-  selectedImage: string[];
-  setSelectedImage: Dispatch<SetStateAction<string[]>>;
-}) => {
+const ImagesDisplay = () => {
   const { data: images } = api.images.getPostImages.useQuery();
-  const deleteImage = api.images.deleteimage.useMutation();
+  const trpc = api.useUtils();
+  const deleteImage = api.images.deleteimage.useMutation({
+    onSettled: async () => {
+      await trpc.images.invalidate();
+    },
+  });
 
   return (
     <>
