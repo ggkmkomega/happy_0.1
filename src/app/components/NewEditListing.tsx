@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
-import { type Dispatch, type SetStateAction, useState } from "react";
+import { useState } from "react";
 import { type DateRange } from "react-day-picker";
 import { addDays, format } from "date-fns";
 import { cn } from "~/lib/utils";
@@ -30,7 +30,6 @@ import {
 } from "~/components/ui/popover";
 import { Calendar } from "~/components/ui/calendar";
 //images
-import { ReactSortable } from "react-sortablejs";
 //Map
 //import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 //

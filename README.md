@@ -1,11 +1,9 @@
-# Happy stays0.1
+# To Do
 
-## Next Steps
+## admin Page
 
-setup these
+## Single Listing Page
 
-- [Auth]
-- [Create]
-- [View]
-- [Edit]
-- [RoleBased]
+### Stuff To fix
+
+-delete images in uploadthing on db delete
