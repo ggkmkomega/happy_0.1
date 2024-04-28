@@ -19,12 +19,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
-import {
-  type Dispatch,
-  type SetStateAction,
-  useCallback,
-  useState,
-} from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { type DateRange } from "react-day-picker";
 import { addDays, format } from "date-fns";
 import { cn } from "~/lib/utils";
@@ -37,7 +32,7 @@ import { Calendar } from "~/components/ui/calendar";
 //images
 import { ReactSortable } from "react-sortablejs";
 //Map
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+//import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 //
 import { listingInput, type ListingEditRequired } from "~/types";
 import { useForm } from "react-hook-form";
@@ -55,6 +50,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Badge } from "~/components/ui/badge";
+import { UploadButton } from "~/utils/uploadthing";
 
 interface ListingFormProps extends React.HTMLAttributes<HTMLFormElement> {
   existingListing: ListingEditRequired;
@@ -72,25 +68,25 @@ export function EditListing({ existingListing }: ListingFormProps) {
     const imageUrls = files.map((file) => URL.createObjectURL(file));
     setSelectedImage((prevImages) => [...(prevImages ?? []), ...imageUrls]);
   };
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBl6iwyHZvDVMDunaF6Toa9uA3T6oOIgQg",
-  });
-  const [map, setMap] = useState();
-  const center = {
-    lat: -3.745,
-    lng: -38.523,
-  };
-  const onLoad = useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
+  // const { isLoaded } = useJsApiLoader({
+  //   id: "google-map-script",
+  //   googleMapsApiKey: "AIzaSyBl6iwyHZvDVMDunaF6Toa9uA3T6oOIgQg",
+  // });
+  // const [map, setMap] = useState();
+  // const center = {
+  //   lat: -3.745,
+  //   lng: -38.523,
+  // };
+  // const onLoad = useCallback(function callback(map) {
+  //   const bounds = new window.google.maps.LatLngBounds(center);
+  //   map.fitBounds(bounds);
 
-    setMap(map);
-  }, []);
+  //   setMap(map);
+  // }, []);
 
-  const onUnmount = useCallback(function callback() {
-    setMap(null);
-  }, []);
+  // const onUnmount = useCallback(function callback() {
+  //   setMap(null);
+  // }, []);
 
   type TlistingInput = z.infer<typeof listingInput>;
 
@@ -211,9 +207,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                         <div className="grid gap-2">
                           <div>
                             {selectedImage === undefined ? (
-                              <UploadImage
-                                handleImageChange={handleImageChange}
-                              />
+                              <UploadImage listingsId={existingListing.id} />
                             ) : selectedImage.length === 4 ? (
                               <ImagesDisplay
                                 selectedImage={selectedImage}
@@ -225,9 +219,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                                   selectedImage={selectedImage}
                                   setSelectedImage={setSelectedImage}
                                 />
-                                <UploadImage
-                                  handleImageChange={handleImageChange}
-                                />
+                                <UploadImage listingsId={existingListing.id} />
                               </>
                             )}
                           </div>
@@ -457,7 +449,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        {isLoaded ? (
+                        {/* {isLoaded ? (
                           <GoogleMap
                             mapContainerStyle={{
                               width: "400px",
@@ -470,7 +462,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                           ></GoogleMap>
                         ) : (
                           <p>Map</p>
-                        )}
+                        )} */}
                       </CardContent>
                     </Card>
                   </div>
@@ -501,11 +493,9 @@ export function EditListing({ existingListing }: ListingFormProps) {
 
 export default EditListing;
 
-const UploadImage = ({
-  handleImageChange,
-}: {
-  handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}) => {
+const UploadImage = ({ listingsId }: { listingsId: string }) => {
+  const createImage = api.images.create.useMutation();
+
   return (
     <>
       <label htmlFor="uploadImage">
@@ -514,13 +504,15 @@ const UploadImage = ({
           <span className="sr-only">Upload</span>
         </div>
       </label>
-      <input
-        multiple
-        className="hidden"
-        id="uploadImage"
-        type="file"
-        onChange={(e) => {
-          handleImageChange(e);
+      <UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          res.map((image) => {
+            createImage.mutate({
+              data: { id: image.key, url: image.serverData.fileUrl },
+              listingId: listingsId,
+            });
+          });
         }}
       />
     </>
@@ -534,37 +526,28 @@ const ImagesDisplay = ({
   selectedImage: string[];
   setSelectedImage: Dispatch<SetStateAction<string[]>>;
 }) => {
-  //possible performance issue => <Recalculate images every rerender>
-  const images = selectedImage.map((image) => ({ id: image, link: image }));
+  const { data: images } = api.images.getPostImages.useQuery();
+  const deleteImage = api.images.deleteimage.useMutation();
+
   return (
     <>
-      <ReactSortable
-        className="grid grid-cols-3 gap-2"
-        list={images}
-        setList={(images) => {
-          setSelectedImage(images.map((image) => image.link));
-        }}
-      >
-        {selectedImage?.map((image) => (
-          <div key={image}>
-            <XIcon
-              className="absolute m-2 rounded-sm bg-white p-1 text-red-700 shadow-md hover:cursor-pointer hover:bg-red-400 hover:text-white"
-              onClick={() => {
-                setSelectedImage((prevImages) =>
-                  prevImages?.filter((img) => img !== image),
-                );
-              }}
-            />
-            <Image
-              alt="Product image"
-              className="aspect-square w-full rounded-md object-cover"
-              height="84"
-              src={image}
-              width="84"
-            />
-          </div>
-        ))}
-      </ReactSortable>
+      {images?.map((image) => (
+        <div key={image.id}>
+          <XIcon
+            className="absolute m-2 rounded-sm bg-white p-1 text-red-700 shadow-md hover:cursor-pointer hover:bg-red-400 hover:text-white"
+            onClick={() => {
+              deleteImage.mutate({ imageId: image.id });
+            }}
+          />
+          <Image
+            alt="Product image"
+            className="aspect-square w-full rounded-md object-cover"
+            height="84"
+            src={image.url}
+            width="84"
+          />
+        </div>
+      ))}
     </>
   );
 };

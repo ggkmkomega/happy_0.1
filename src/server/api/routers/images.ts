@@ -32,6 +32,20 @@ export const imagesrouter = createTRPCRouter({
         });
       },
     ),
+  getPostImages: protectedProcedure.query(async ({ ctx }) => {
+    const images = await ctx.db.image.findMany({
+      select: { id: true, url: true },
+    });
+    return images;
+  }),
+  deleteimage: protectedProcedure
+    .input(z.object({ imageId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.image.delete({
+        where: { id: input.imageId },
+      });
+    }),
+
   /*update: protectedProcedure
     .input(
       z.object({
