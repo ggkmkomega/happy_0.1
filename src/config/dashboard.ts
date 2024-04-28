@@ -3,8 +3,8 @@ import { type DashboardConfig } from "types";
 export const dashboardConfig: DashboardConfig = {
   mainNav: [
     {
-      title: "Eula",
-      href: "/eula",
+      title: "Laws & Regulations",
+      href: "/law",
       disabled: true,
     },
     {
