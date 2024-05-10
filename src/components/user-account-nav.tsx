@@ -19,7 +19,6 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
   return (
-
     <DropdownMenu>
       <DropdownMenuTrigger>
         <UserAvatar
@@ -51,11 +50,9 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"
-          onSelect={(event) => {
+          onSelect={async (event) => {
             event.preventDefault();
-            void signOut({
-              callbackUrl: `${window.location.origin}/login`,
-            });
+            await signOut();
           }}
         >
           Sign out

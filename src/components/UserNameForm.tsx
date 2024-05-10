@@ -30,9 +30,12 @@ export const userNameSchema = z.object({
 
 type FormData = z.infer<typeof userNameSchema>;
 
-export default function UserNameForm({ user, className, ...props }: UserNameFormProps) {
-
-  const { toast } = useToast()
+export default function UserNameForm({
+  user,
+  className,
+  ...props
+}: UserNameFormProps) {
+  const { toast } = useToast();
 
   const {
     handleSubmit,
@@ -47,34 +50,26 @@ export default function UserNameForm({ user, className, ...props }: UserNameForm
 
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const { mutate } = api.user.update.useMutation({
-    onError: (error) => {
-      console.error(`${error}`)
-
+    onError: () => {
       setIsSaving(false);
-
       return toast({
         title: "Something went wrong.",
         description: "Your name was not updated. Please try again.",
         variant: "destructive",
       });
     },
-    
+
     onSuccess: () => {
       setIsSaving(false);
       return toast({
         description: "Your name has been updated.",
       });
     },
-  }
-  );
-
-
-
+  });
 
   async function onSubmit(data: FormData) {
-
     setIsSaving(true);
-    mutate({ name: data.name || "" });
+    mutate({ name: data.name ?? "" });
   }
 
   return (
