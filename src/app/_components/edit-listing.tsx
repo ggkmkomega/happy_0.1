@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
-import { AspectRatio } from "~/components/ui/aspect-ratio";
+import { AspectRatio } from "~/_components/ui/aspect-ratio";
 import { api } from "~/trpc/react";
 
 import { listingInput, type ListingEditRequired } from "~/types";

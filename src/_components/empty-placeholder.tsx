@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Icons } from "~/components/icons";
+import { Icons } from "~/_components/icons";
 import { cn } from "~/lib/utils";
 
 //interface EmptyPlaceholderProps extends React.HTMLAttributes<HTMLDivElement> {}

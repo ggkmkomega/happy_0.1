@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 
-import { buttonVariants, type ButtonProps } from "~/components/ui/button";
-import { Icons } from "~/components/icons";
+import { buttonVariants, type ButtonProps } from "~/_components/ui/button";
+import { Icons } from "~/_components/icons";
 import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
 

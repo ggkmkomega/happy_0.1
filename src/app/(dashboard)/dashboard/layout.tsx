@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 
-import { MainNav } from "~/components/main-nav";
-import { DashboardNav } from "~/components/nav";
-//import { SiteFooter } from "~/components/site-footer";
-import { UserAccountNav } from "~/components/user-account-nav";
+import { MainNav } from "~/_components/main-nav";
+import { DashboardNav } from "~/_components/nav";
+//import { SiteFooter } from "~/_components/site-footer";
+import { UserAccountNav } from "~/_components/user-account-nav";
 import { dashboardConfig } from "~/config/dashboard";
 import { getServerAuthSession } from "~/server/auth";
 

@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { useState } from "react";
-import { Icons } from "~/components/icons";
-import { buttonVariants } from "~/components/ui/button";
+import { Icons } from "~/_components/icons";
+import { buttonVariants } from "~/_components/ui/button";
 import {
   Card,
   CardContent,
@@ -14,10 +14,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { useToast } from "~/components/ui/use-toast";
+} from "~/_components/ui/card";
+import { Input } from "~/_components/ui/input";
+import { Label } from "~/_components/ui/label";
+import { useToast } from "~/_components/ui/use-toast";
 import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
@@ -30,9 +30,12 @@ export const userNameSchema = z.object({
 
 type FormData = z.infer<typeof userNameSchema>;
 
-export default function UserNameForm({ user, className, ...props }: UserNameFormProps) {
-
-  const { toast } = useToast()
+export default function UserNameForm({
+  user,
+  className,
+  ...props
+}: UserNameFormProps) {
+  const { toast } = useToast();
 
   const {
     handleSubmit,
@@ -48,7 +51,7 @@ export default function UserNameForm({ user, className, ...props }: UserNameForm
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const { mutate } = api.user.update.useMutation({
     onError: (error) => {
-      console.error(`${error}`)
+      console.error(`${error}`);
 
       setIsSaving(false);
 
@@ -58,21 +61,16 @@ export default function UserNameForm({ user, className, ...props }: UserNameForm
         variant: "destructive",
       });
     },
-    
+
     onSuccess: () => {
       setIsSaving(false);
       return toast({
         description: "Your name has been updated.",
       });
     },
-  }
-  );
-
-
-
+  });
 
   async function onSubmit(data: FormData) {
-
     setIsSaving(true);
     mutate({ name: data.name || "" });
   }

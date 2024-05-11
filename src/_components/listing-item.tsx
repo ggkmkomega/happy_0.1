@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { type Listing } from "@prisma/client";
 
-import { PostOperations } from "~/components/listing-operations";
+import { PostOperations } from "~/_components/listing-operations";
 import { formatDate } from "~/lib/utils";
 import { Skeleton } from "./ui/skeleton";
 

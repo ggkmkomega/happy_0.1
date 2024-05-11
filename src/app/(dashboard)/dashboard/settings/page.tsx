@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 
-import { DashboardHeader } from "~/components/header";
-import { DashboardShell } from "~/components/shell";
-import UserNameForm from "~/components/UserNameForm";
+import { DashboardHeader } from "~/_components/header";
+import { DashboardShell } from "~/_components/shell";
+import UserNameForm from "~/_components/UserNameForm";
 import { authOptions, getServerAuthSession } from "~/server/auth";
 
 export const metadata = {

@@ -2,7 +2,7 @@
 import "~/styles/globals.css";
 import "@uploadthing/react/styles.css";
 import { Inter } from "next/font/google";
-import { Toaster } from "~/components/ui/toaster";
+import { Toaster } from "~/_components/ui/toaster";
 import NextTopLoader from "nextjs-toploader";
 import { TRPCReactProvider } from "~/trpc/react";
 

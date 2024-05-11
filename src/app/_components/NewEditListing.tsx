@@ -2,23 +2,23 @@
 //UI
 import Image from "next/image";
 import { CalendarIcon, ChevronLeft, Upload, XIcon } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/_components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
+} from "~/_components/ui/card";
+import { Input } from "~/_components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/components/ui/select";
-import { Textarea } from "~/components/ui/textarea";
+} from "~/_components/ui/select";
+import { Textarea } from "~/_components/ui/textarea";
 import { useState } from "react";
 import { type DateRange } from "react-day-picker";
 import { addDays, format } from "date-fns";
@@ -27,8 +27,8 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "~/components/ui/popover";
-import { Calendar } from "~/components/ui/calendar";
+} from "~/_components/ui/popover";
+import { Calendar } from "~/_components/ui/calendar";
 //images
 //Map
 //import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
@@ -47,8 +47,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Badge } from "~/components/ui/badge";
+} from "~/_components/ui/form";
+import { Badge } from "~/_components/ui/badge";
 import { UploadButton } from "~/utils/uploadthing";
 
 interface ListingFormProps extends React.HTMLAttributes<HTMLFormElement> {

@@ -1,10 +1,10 @@
 //import { redirect } from "next/navigation";
 
-import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-//import { BillingForm } from "~/components/billing-form";
-import { DashboardHeader } from "~/components/header";
-import { Icons } from "~/components/icons";
-import { DashboardShell } from "~/components/shell";
+import { Alert, AlertDescription, AlertTitle } from "~/_components/ui/alert";
+//import { BillingForm } from "~/_components/billing-form";
+import { DashboardHeader } from "~/_components/header";
+import { Icons } from "~/_components/icons";
+import { DashboardShell } from "~/_components/shell";
 
 export const metadata = {
   title: "Billing",

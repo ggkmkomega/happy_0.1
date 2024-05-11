@@ -1,10 +1,10 @@
 "use client";
 //import { redirect } from "next/navigation";
-import { EmptyPlaceholder } from "~/components/empty-placeholder";
-import { DashboardHeader } from "~/components/header";
-import { Listingcreatebutton } from "~/components/listing-create-button";
-import { ListingItem } from "~/components/listing-item";
-import { DashboardShell } from "~/components/shell";
+import { EmptyPlaceholder } from "~/_components/empty-placeholder";
+import { DashboardHeader } from "~/_components/header";
+import { Listingcreatebutton } from "~/_components/listing-create-button";
+import { ListingItem } from "~/_components/listing-item";
+import { DashboardShell } from "~/_components/shell";
 
 //import { authOptions, getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/react";
@@ -41,7 +41,7 @@ export default function DashboardPage() {
 */
 
   const { data: listings } = api.listing.allUserListings.useQuery();
-  
+
   return (
     <DashboardShell>
       <DashboardHeader heading="Listings" text="Create and manage Listings.">

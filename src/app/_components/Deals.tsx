@@ -1,5 +1,5 @@
 import { MoveRightIcon } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/_components/ui/button";
 import AdCard from "./AdCard";
 import { dealsSection } from "~/config/site";
 

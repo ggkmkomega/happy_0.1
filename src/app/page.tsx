@@ -1,9 +1,9 @@
 import { unstable_noStore as noStore } from "next/cache";
-import Header from "./_components/Header";
-import LocationsDisplay from "./_components/LocationsDisplay";
-import Deals from "./_components/Deals";
-import FoodDisplay from "./_components/FoodDisplay";
-import InfoBoxes from "./_components/InfoBoxes";
+import Header from "./__components/Header";
+import LocationsDisplay from "./__components/LocationsDisplay";
+import Deals from "./__components/Deals";
+import FoodDisplay from "./__components/FoodDisplay";
+import InfoBoxes from "./__components/InfoBoxes";
 
 export default async function Home() {
   noStore();

@@ -2,7 +2,7 @@ import * as React from "react";
 import Link from "next/link";
 
 import { type MainNavItem } from "types";
-import { Icons } from "~/components/icons";
+import { Icons } from "~/_components/icons";
 import { cn } from "~/lib/utils";
 import { siteConfig } from "~/config/site";
 import { useLockBody } from "hooks/use-lock-body";

@@ -13,16 +13,16 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "~/components/ui/alert-dialog";
+} from "~/_components/ui/alert-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
-import { toast } from "~/components/ui/use-toast";
-import { Icons } from "~/components/icons";
+} from "~/_components/ui/dropdown-menu";
+import { toast } from "~/_components/ui/use-toast";
+import { Icons } from "~/_components/icons";
 import { api } from "~/trpc/react";
 
 interface listingOperationsProps {
@@ -62,7 +62,7 @@ export function PostOperations({ Listing }: listingOperationsProps) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this post?
+              Are you sure you want to delete this Listing?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.

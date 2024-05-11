@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { type SidebarNavItem } from "types";
-import { Icons } from "~/components/icons";
+import { Icons } from "~/_components/icons";
 import { cn } from "~/lib/utils";
 
 interface DashboardNavProps {

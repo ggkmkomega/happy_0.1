@@ -6,8 +6,8 @@ import Link from "next/link";
 import { useState } from "react";
 
 // components
-import { Button } from "~/components/ui/button";
-import { UserAccountNav } from "~/components/user-account-nav";
+import { Button } from "~/_components/ui/button";
+import { UserAccountNav } from "~/_components/user-account-nav";
 
 // assets
 import {

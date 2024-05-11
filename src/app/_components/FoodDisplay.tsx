@@ -1,6 +1,6 @@
 import { MoveRightIcon } from "lucide-react";
 import Link from "next/link";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/_components/ui/button";
 import FoodCardGroup from "./FoodCardGroup";
 
 const countries = [

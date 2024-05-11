@@ -1,5 +1,5 @@
 "use client";
-import Picard from "../../components/Picard";
+import Picard from "../../_components/Picard";
 import React, { useRef } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { picardData } from "../../data/suggest";
@@ -28,7 +28,7 @@ const Suggest = () => {
     <section
       id="destinations"
       data-testid="destinations"
-      className="flex flex-col py-8 overflow-x-hidden"
+      className="flex flex-col overflow-x-hidden py-8"
     >
       <div className="min-h-[7.5rem]"></div>
       <div className="relative">
