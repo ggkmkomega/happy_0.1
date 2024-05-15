@@ -23,6 +23,7 @@ import {
   User,
   X,
   Handshake,
+  LayoutDashboard,
   type LucideIcon,
 } from "lucide-react";
 
@@ -31,7 +32,7 @@ export type Icon = LucideIcon;
 export const Icons = {
   logo: Command,
   close: X,
-  spinner: Loader2, 
+  spinner: Loader2,
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   trash: Trash,
@@ -50,6 +51,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  dashboard: LayoutDashboard,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

@@ -15,9 +15,10 @@ import { UserAvatar } from "~/_components/user-avatar";
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">;
+  admin?: boolean;
 }
 
-export function UserAccountNav({ user }: UserAccountNavProps) {
+export function UserAccountNav({ user, admin }: UserAccountNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -45,11 +46,16 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           <Link href="/dashboard/billing">Billing</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/settings">Settings</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
           <Link href="/dashboard/reservations">Reservarions</Link>
         </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/dashboard/settings">Settings</Link>
+        </DropdownMenuItem>
+        {admin && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin">Admin</Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"

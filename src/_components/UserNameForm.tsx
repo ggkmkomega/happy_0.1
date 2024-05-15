@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type User } from "@prisma/client";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import type * as z from "zod";
 
 import { useState } from "react";
 import { Icons } from "~/_components/icons";
@@ -16,48 +16,48 @@ import {
   CardTitle,
 } from "~/_components/ui/card";
 import { Input } from "~/_components/ui/input";
-import { Label } from "~/_components/ui/label";
 import { useToast } from "~/_components/ui/use-toast";
 import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { userInput } from "~/types";
 
 interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  user: Pick<User, "id" | "name">;
+  user: Pick<User, "id" | "name" | "phone" | "email">;
 }
-export const userNameSchema = z.object({
-  name: z.string().min(3).max(32).nullable(),
-});
 
-type FormData = z.infer<typeof userNameSchema>;
-
-export default function UserNameForm({
-  user,
-  className,
-  ...props
-}: UserNameFormProps) {
+export default function UserNameForm({ user, className }: UserNameFormProps) {
   const { toast } = useToast();
-
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(userNameSchema),
+  type TuserInput = z.infer<typeof userInput>;
+  const form = useForm<TuserInput>({
+    resolver: zodResolver(userInput),
     defaultValues: {
-      name: user?.name ?? "",
+      name: user.name ?? "",
+      phone: user.phone ?? "",
+      email: user.email ?? "",
     },
   });
 
+  const onSubmit = async ({ email, phone, name }: TuserInput) => {
+    setIsSaving(true);
+    updateUser.mutate({ email, phone, name });
+  };
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const { mutate } = api.user.update.useMutation({
+
+  const updateUser = api.user.update.useMutation({
     onError: (error) => {
-      console.error(`${error}`);
-
       setIsSaving(false);
-
       return toast({
         title: "Something went wrong.",
-        description: "Your name was not updated. Please try again.",
+        description: error.message,
         variant: "destructive",
       });
     },
@@ -70,54 +70,81 @@ export default function UserNameForm({
     },
   });
 
-  async function onSubmit(data: FormData) {
-    setIsSaving(true);
-    mutate({ name: data.name || "" });
-  }
-
   return (
-    <form
-      className={cn(className)}
-      onSubmit={handleSubmit(onSubmit)}
-      {...props}
-    >
-      <Card>
-        <CardHeader>
-          <CardTitle>Your Name</CardTitle>
-          <CardDescription>
-            Please enter your full name or a display name you are comfortable
-            with.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="name">
-              Name
-            </Label>
-            <Input
-              id="name"
-              className="w-[400px]"
-              size={32}
-              {...register("name")}
+    <Form {...form}>
+      <form className={cn(className)} onSubmit={form.handleSubmit(onSubmit)}>
+        <Card>
+          <CardHeader>
+            <CardTitle>Your Name</CardTitle>
+            <CardDescription>
+              Please enter your full name or a display name you are comfortable
+              with.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="name">Name</FormLabel>
+                  <FormControl>
+                    <Input id="name" className="w-full" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This is your public display name.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors?.name && (
-              <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
-            )}
-          </div>
-        </CardContent>
-        <CardFooter>
-          <button
-            type="submit"
-            className={cn(buttonVariants(), className)}
-            disabled={isSaving}
-          >
-            {isSaving && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            <span>Save</span>
-          </button>
-        </CardFooter>
-      </Card>
-    </form>
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="name">Phone</FormLabel>
+                  <FormControl>
+                    <Input id="name" className="w-full" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Your phone number Won&apos;t be shared with anyone.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="name">Email</FormLabel>
+                  <FormControl>
+                    <Input id="name" className="w-full" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Your Email Won&apos;t be shared with anyone.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+          <CardFooter>
+            <button
+              type="submit"
+              className={cn(buttonVariants(), className)}
+              disabled={isSaving}
+            >
+              {isSaving && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              <span>Save</span>
+            </button>
+          </CardFooter>
+        </Card>
+      </form>
+    </Form>
   );
 }

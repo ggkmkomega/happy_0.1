@@ -1,32 +1,13 @@
-import Image from "next/image";
-import Link from "next/link";
 import {
   ChevronLeft,
   ChevronRight,
   Copy,
   CreditCard,
   File,
-  Home,
-  LineChart,
   ListFilter,
   MoreVertical,
-  Package,
-  Package2,
-  PanelLeft,
-  Search,
-  ShoppingCart,
-  Truck,
-  Users2,
 } from "lucide-react";
 import { Badge } from "~/_components/ui/badge";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "~/_components/ui/breadcrumb";
 import { Button } from "~/_components/ui/button";
 import {
   Card,
@@ -45,7 +26,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/_components/ui/dropdown-menu";
-import { Input } from "~/_components/ui/input";
 import {
   Pagination,
   PaginationContent,
@@ -53,7 +33,6 @@ import {
 } from "~/_components/ui/pagination";
 import { Progress } from "~/_components/ui/progress";
 import { Separator } from "~/_components/ui/separator";
-import { Sheet, SheetContent, SheetTrigger } from "~/_components/ui/sheet";
 import {
   Table,
   TableBody,

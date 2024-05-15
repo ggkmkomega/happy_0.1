@@ -18,11 +18,16 @@ export function MainNav({ items, admin }: MainNavProps) {
   const segment = useSelectedLayoutSegment();
 
   return (
-    <div  className="flex gap-6 md:gap-10">
-      <Link href="/admin" className={cn("hidden items-center space-x-2 md:flex",{"bg-rose-400 text-white p-4":admin})}>
-        <Icons.settings />
+    <div className="flex gap-6 md:gap-10">
+      <Link
+        href={admin ? "/admin" : "/dashboard"}
+        className={cn("hidden items-center space-x-2 md:flex", {
+          "bg-rose-400 p-4 text-white": admin,
+        })}
+      >
+        {admin ? <Icons.settings /> : <Icons.dashboard />}
         <span className="hidden font-bold sm:inline-block">
-          Admin
+          {admin ? "Admin" : "Dashboard"}
         </span>
       </Link>
       {items?.length ? (
@@ -44,7 +49,6 @@ export function MainNav({ items, admin }: MainNavProps) {
           ))}
         </nav>
       ) : null}
-     
     </div>
   );
 }
