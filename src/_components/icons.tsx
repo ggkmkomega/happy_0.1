@@ -22,6 +22,7 @@ import {
   Trash,
   User,
   X,
+  Handshake,
   type LucideIcon,
 } from "lucide-react";
 
@@ -67,4 +68,5 @@ export const Icons = {
     </svg>
   ),
   check: Check,
+  handshake: Handshake,
 };

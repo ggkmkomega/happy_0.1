@@ -25,9 +25,14 @@ export const dashboardConfig: DashboardConfig = {
       icon: "billing",
     },
     {
+      title: "Reservations",
+      href: "/dashboard/reservations",
+      icon: "handshake",
+    },
+    {
       title: "Settings",
       href: "/dashboard/settings",
       icon: "settings",
-    },
+    }
   ],
 };
