@@ -22,7 +22,17 @@ export const userRouter = createTRPCRouter({
         data: { name },
       });
     }),
-
+  allusers: protectedProcedure.query(async ({ ctx }) => {
+    return ctx.db.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        emailVerified: true,
+      },
+    });
+  }),
   display: publicProcedure.query(async ({ ctx }) => {
     if (!ctx.session) return;
 

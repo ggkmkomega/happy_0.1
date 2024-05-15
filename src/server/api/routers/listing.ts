@@ -31,7 +31,38 @@ export const listingrouter = createTRPCRouter({
       });
       return listing;
     }),
+  adminAllUserListings: protectedProcedure.query(async ({ ctx }) => {
+    const userListings = await ctx.db.listing.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            image: true,
+          },
+        },
+      },
+    });
 
+    const NewUserListings = userListings.map((listing) => {
+      return {
+        id: listing.id,
+        name: listing.name,
+        createdAt: listing.createdAt,
+        Author: {
+          id: listing.createdBy.id,
+          email: listing.createdBy.email,
+          name: listing.createdBy.name,
+          image: listing.createdBy.image,
+        },
+      };
+    });
+    return NewUserListings;
+  }),
   allUserListings: protectedProcedure.query(async ({ ctx }) => {
     const userListings = await ctx.db.listing.findMany({
       where: {

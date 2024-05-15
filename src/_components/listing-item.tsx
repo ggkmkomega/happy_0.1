@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { type Listing } from "@prisma/client";
+import { type Listing, type User } from "@prisma/client";
 
 import { PostOperations } from "~/_components/listing-operations";
 import { formatDate } from "~/lib/utils";
@@ -7,14 +7,15 @@ import { Skeleton } from "./ui/skeleton";
 
 interface listingItemProp {
   listing: Pick<Listing, "id" | "name" | "createdAt">;
+  Author?: Pick<User, "id" | "email" | "name" | "image">;
 }
 
-export function ListingItem({ listing }: listingItemProp) {
+export function ListingItem({ listing, Author }: listingItemProp) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/editor/${listing.id}`}
+          href={`/listings/${listing.id}`}
           className="font-semibold hover:underline"
         >
           {listing.name}
@@ -22,6 +23,7 @@ export function ListingItem({ listing }: listingItemProp) {
         <div>
           <p className="text-sm text-muted-foreground">
             {formatDate(listing.createdAt?.toDateString())}
+            {Author ? " by " + Author.name : ""}
           </p>
         </div>
       </div>
