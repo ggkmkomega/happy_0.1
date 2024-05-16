@@ -13,20 +13,13 @@ export function Listingcreatebutton({
   ...props
 }: ButtonProps) {
   const router = useRouter();
-  const { mutate, data, isLoading } = api.listing.create.useMutation();
+  const { mutate, data, isLoading } = api.listing.create.useMutation({
+    onSettled: () => {
+      router.push(`/editor/${data.id}`);
+    },
+  });
 
   async function onClick() {
-    /*
-    const response = await fetch("/api/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: "Untitled Post",
-      }),
-    });
-*/
     mutate({
       name: "Untitled Listing",
       description: "Describe your Property",
@@ -36,33 +29,6 @@ export function Listingcreatebutton({
       type: "House",
       status: "InActive",
     });
-
-    /* TODO : Logic for subscribtion
-    
-if (!response?.ok) {
-      if (response.status === 402) {
-        return toast({
-          title: "Limit of 3 listings reached.",
-          description: "Please upgrade to the PRO plan.",
-          variant: "destructive",
-        });
-      }
-
-      return toast({
-        title: "Something went wrong.",
-        description: "Your post was not created. Please try again.",
-        variant: "destructive",
-      });
-    }
-*/
-
-    const listing = data;
-
-    // This forces a cache invalidation.
-    if (listing) {
-      router.refresh();
-      router.push(`/editor/${listing.id}`);
-    }
   }
 
   return (

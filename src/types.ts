@@ -17,6 +17,7 @@ export const listingInput = z.object({
   street: z.string().min(1, "street adress is required"),
   city: z.string().min(1, "city is required"),
   province: z.string().min(1, "province is required"),
+  price: z.coerce.number().min(1, "price is required"),
 });
 export const userInput = z.object({
   name: z.string().min(8, "name must be at least 8 char"),

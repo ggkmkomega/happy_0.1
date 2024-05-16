@@ -84,7 +84,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
 
   const form = useForm<TlistingInput>({
     resolver: zodResolver(listingInput),
-    defaultValues: existingListing,
+    defaultValues: { ...existingListing, price: Number(existingListing.price) },
   });
 
   const updateListing = api.listing.update.useMutation();
@@ -112,7 +112,13 @@ export function EditListing({ existingListing }: ListingFormProps) {
                   <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                     Edit Listing
                   </h1>
-                  <Badge variant="destructive">Not Visible</Badge>
+                  {existingListing.approve === "Approved" ? (
+                    <Badge variant="default">Approved</Badge>
+                  ) : existingListing.approve === "Pending" ? (
+                    <Badge variant="outline">Pending</Badge>
+                  ) : (
+                    <Badge variant="destructive">Not Approved</Badge>
+                  )}
                   <div className="hidden items-center gap-2 md:ml-auto md:flex">
                     <Button
                       onClick={() => {
@@ -370,9 +376,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                                   <FormControl>
                                     <Input id="City" {...field} />
                                   </FormControl>
-                                  <FormDescription>
-                                    Listing&apos;s City
-                                  </FormDescription>
+                                  <FormDescription>Wilaya</FormDescription>
                                   <FormMessage />
                                 </FormItem>
                               )}
@@ -390,9 +394,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                                   <FormControl>
                                     <Input id="Provinance" {...field} />
                                   </FormControl>
-                                  <FormDescription>
-                                    Listing&apos;s Provinance
-                                  </FormDescription>
+                                  <FormDescription>Baladiya</FormDescription>
                                   <FormMessage />
                                 </FormItem>
                               )}
@@ -408,9 +410,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                                   <FormControl>
                                     <Input id="street" {...field} />
                                   </FormControl>
-                                  <FormDescription>
-                                    Listing&apos;s Street
-                                  </FormDescription>
+                                  <FormDescription>Street</FormDescription>
                                   <FormMessage />
                                 </FormItem>
                               )}
@@ -418,6 +418,34 @@ export function EditListing({ existingListing }: ListingFormProps) {
                           </div>
                         </div>
                       </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Listing&apos;s Price</CardTitle>
+                      </CardHeader>
+                      <div className="grid gap-6">
+                        <div className="grid gap-3">
+                          <CardContent>
+                            <FormField
+                              control={form.control}
+                              name="price"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel htmlFor="price">
+                                    Price (DZD) :
+                                  </FormLabel>
+                                  <Input id="price" type="number" {...field} />
+                                  <FormDescription>
+                                    The average price of a one night in your
+                                    Stay.
+                                  </FormDescription>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </CardContent>
+                        </div>
+                      </div>
                     </Card>
                     <Card>
                       <CardHeader>

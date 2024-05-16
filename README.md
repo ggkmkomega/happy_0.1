@@ -2,13 +2,13 @@
 
 ## admin Page
 
-### btn=> straight to listing
+### [X] btn=> straight to listing
 
 ### add not published badge on listing
 
 ### add Price on listing
 
-### User Data Phone,Email
+### [X]User Data Phone,Email
 
 ### Approve Listings
 

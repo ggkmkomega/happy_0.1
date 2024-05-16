@@ -53,6 +53,7 @@ export const listingrouter = createTRPCRouter({
         id: listing.id,
         name: listing.name,
         createdAt: listing.createdAt,
+        approve: listing.approve,
         Author: {
           id: listing.createdBy.id,
           email: listing.createdBy.email,
@@ -72,6 +73,7 @@ export const listingrouter = createTRPCRouter({
         id: true,
         name: true,
         createdAt: true,
+        approve: true,
       },
       orderBy: {
         updatedAt: "desc",
@@ -85,7 +87,16 @@ export const listingrouter = createTRPCRouter({
     .mutation(
       async ({
         ctx,
-        input: { name, description, city, street, province, type, status },
+        input: {
+          name,
+          description,
+          city,
+          street,
+          province,
+          type,
+          status,
+          price,
+        },
       }) => {
         return ctx.db.listing.create({
           data: {
@@ -95,6 +106,7 @@ export const listingrouter = createTRPCRouter({
             province: province,
             city: city,
             type: type,
+            price,
             status,
             createdBy: {
               connect: {
@@ -128,7 +140,16 @@ export const listingrouter = createTRPCRouter({
         ctx,
         input: {
           id,
-          data: { name, description, city, province, street, type, status },
+          data: {
+            name,
+            description,
+            city,
+            province,
+            street,
+            type,
+            status,
+            price,
+          },
         },
       }) => {
         return ctx.db.listing.update({
@@ -142,6 +163,7 @@ export const listingrouter = createTRPCRouter({
             province: province,
             street: street,
             type: type,
+            price,
             status,
           },
         });

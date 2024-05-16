@@ -72,6 +72,8 @@ model Listing {
     street      String
     city        String
     province    String
+    approve     String  @default("Pending")
+    price       BigInt     @default(0)
     images      Image[]
 
     createdAt DateTime @default(now())
