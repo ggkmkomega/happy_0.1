@@ -1,6 +1,6 @@
 import { type User } from "@prisma/client";
 
-import { type Icons } from "@/components/icons";
+import { type Icons } from "@/_components/icons";
 
 export type NavItem = {
   title: string;

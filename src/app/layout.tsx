@@ -1,16 +1,10 @@
 // UI components / style
 import "~/styles/globals.css";
-import { Inter } from "next/font/google";
-import Navbar from "./components/Navbar";
-import { Toaster } from "~/components/ui/toaster"
-import NextTopLoader from 'nextjs-toploader';
+import "@uploadthing/react/styles.css";
+import { Toaster } from "~/_components/ui/toaster";
+import NextTopLoader from "nextjs-toploader";
 import { TRPCReactProvider } from "~/trpc/react";
-import { getServerAuthSession } from "~/server/auth";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+import { GeistSans } from "geist/font/sans";
 
 export const metadata = {
   title: "Happy Stays",
@@ -19,17 +13,15 @@ export const metadata = {
 };
 
 export default async function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
-
-  const session = await getServerAuthSession();
-
   return (
-    <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+    <html lang="en" className={GeistSans.className}>
+      <body>
         <TRPCReactProvider>
+          {/*          <Navbar session={session} />*/}
           <NextTopLoader />
           {children}
           <Toaster />

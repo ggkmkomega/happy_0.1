@@ -3,8 +3,8 @@ import { type DashboardConfig } from "types";
 export const dashboardConfig: DashboardConfig = {
   mainNav: [
     {
-      title: "Eula",
-      href: "/eula",
+      title: "Laws & Regulations",
+      href: "/law",
       disabled: true,
     },
     {
@@ -25,9 +25,14 @@ export const dashboardConfig: DashboardConfig = {
       icon: "billing",
     },
     {
+      title: "Reservations",
+      href: "/dashboard/reservations",
+      icon: "handshake",
+    },
+    {
       title: "Settings",
       href: "/dashboard/settings",
       icon: "settings",
-    },
+    }
   ],
 };

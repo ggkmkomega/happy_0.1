@@ -31,7 +31,39 @@ export const listingrouter = createTRPCRouter({
       });
       return listing;
     }),
+  adminAllUserListings: protectedProcedure.query(async ({ ctx }) => {
+    const userListings = await ctx.db.listing.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            image: true,
+          },
+        },
+      },
+    });
 
+    const NewUserListings = userListings.map((listing) => {
+      return {
+        id: listing.id,
+        name: listing.name,
+        createdAt: listing.createdAt,
+        approve: listing.approve,
+        Author: {
+          id: listing.createdBy.id,
+          email: listing.createdBy.email,
+          name: listing.createdBy.name,
+          image: listing.createdBy.image,
+        },
+      };
+    });
+    return NewUserListings;
+  }),
   allUserListings: protectedProcedure.query(async ({ ctx }) => {
     const userListings = await ctx.db.listing.findMany({
       where: {
@@ -41,6 +73,7 @@ export const listingrouter = createTRPCRouter({
         id: true,
         name: true,
         createdAt: true,
+        approve: true,
       },
       orderBy: {
         updatedAt: "desc",
@@ -54,7 +87,16 @@ export const listingrouter = createTRPCRouter({
     .mutation(
       async ({
         ctx,
-        input: { name, description, city, street, province, type, status },
+        input: {
+          name,
+          description,
+          city,
+          street,
+          province,
+          type,
+          status,
+          price,
+        },
       }) => {
         return ctx.db.listing.create({
           data: {
@@ -64,6 +106,7 @@ export const listingrouter = createTRPCRouter({
             province: province,
             city: city,
             type: type,
+            price,
             status,
             createdBy: {
               connect: {
@@ -97,7 +140,16 @@ export const listingrouter = createTRPCRouter({
         ctx,
         input: {
           id,
-          data: { name, description, city, province, street, type, status },
+          data: {
+            name,
+            description,
+            city,
+            province,
+            street,
+            type,
+            status,
+            price,
+          },
         },
       }) => {
         return ctx.db.listing.update({
@@ -111,6 +163,7 @@ export const listingrouter = createTRPCRouter({
             province: province,
             street: street,
             type: type,
+            price,
             status,
           },
         });

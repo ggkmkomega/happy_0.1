@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
-
-import { DashboardHeader } from "~/components/header";
-import { DashboardShell } from "~/components/shell";
-import UserNameForm from "~/components/UserNameForm";
-import { authOptions, getServerAuthSession } from "~/server/auth";
+import { DashboardHeader } from "~/_components/header";
+import { DashboardShell } from "~/_components/shell";
+import UserNameForm from "~/_components/UserNameForm";
+import { authOptions } from "~/server/auth";
+import { api } from "~/trpc/server";
 
 export const metadata = {
   title: "Settings",
@@ -11,8 +11,7 @@ export const metadata = {
 };
 
 export default async function SettingsPage() {
-  const session = await getServerAuthSession();
-  const user = session?.user;
+  const user = await api.user.display.query();
 
   if (!user) {
     redirect(authOptions?.pages?.signIn ?? "/login");
@@ -25,7 +24,14 @@ export default async function SettingsPage() {
         text="Manage account and website settings."
       />
       <div className="grid gap-10">
-        <UserNameForm user={{ id: user.id, name: user.name ?? "" }} />
+        <UserNameForm
+          user={{
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+          }}
+        />
       </div>
     </DashboardShell>
   );

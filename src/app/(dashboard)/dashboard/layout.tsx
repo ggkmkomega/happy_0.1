@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import Navbar from "~/app/components/Navbar";
 
-import { MainNav } from "~/components/main-nav";
-import { DashboardNav } from "~/components/nav";
-import { UserAccountNav } from "~/components/user-account-nav";
+import { MainNav } from "~/_components/main-nav";
+import { DashboardNav } from "~/_components/nav";
+//import { SiteFooter } from "~/_components/site-footer";
+import { UserAccountNav } from "~/_components/user-account-nav";
 import { dashboardConfig } from "~/config/dashboard";
 import { getServerAuthSession } from "~/server/auth";
 
@@ -23,8 +23,19 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex min-h-screen flex-col space-y-6">
-      <Navbar session={session} />
-      <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr] py-12">
+      <header className="sticky top-0 z-40 border-b bg-background">
+        <div className="container flex h-16 items-center justify-between py-4">
+          <MainNav items={dashboardConfig.mainNav} />
+          <UserAccountNav
+            user={{
+              name: user.name,
+              image: user.image,
+              email: user.email,
+            }}
+          />
+        </div>
+      </header>
+      <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
         <aside className="hidden w-[200px] flex-col md:flex">
           <DashboardNav items={dashboardConfig.sidebarNav} />
         </aside>
@@ -32,7 +43,7 @@ export default async function DashboardLayout({
           {children}
         </main>
       </div>
-      {/* <SiteFooter className="border-t" />*/}
+      {/* <SiteFooter className="border-t" /> */}
     </div>
   );
 }
