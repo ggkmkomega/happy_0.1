@@ -35,7 +35,7 @@ const LocationsDisplay = () => {
           <div className="hidden gap-2 md:flex">
             {countries.map((item) => {
               return (
-                <Link href={`${item.link}`}>
+                <Link key={item.link} href={`${item.link}`}>
                   <Button className="rounded-[2px] bg-gray-200 text-black hover:bg-gray-300 hover:text-black">
                     {item.name}
                   </Button>
