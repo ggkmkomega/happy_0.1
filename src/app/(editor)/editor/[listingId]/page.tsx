@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { api } from "~/trpc/server";
 import { authOptions, getServerAuthSession } from "~/server/auth";
 
-import EditListing from "~/app/components/NewEditListing";
+import EditListing from "~/app/_components/NewEditListing";
 
 async function getListingForUser(listingId: string) {
   const data = await api.listing.listingByUser.query(listingId);
