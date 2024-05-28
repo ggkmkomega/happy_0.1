@@ -24,6 +24,7 @@ import {
   X,
   Handshake,
   LayoutDashboard,
+  BadgeCheck,
   type LucideIcon,
 } from "lucide-react";
 
@@ -52,6 +53,7 @@ export const Icons = {
   moon: Moon,
   laptop: Laptop,
   dashboard: LayoutDashboard,
+  approve: BadgeCheck,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

@@ -4,15 +4,17 @@
 
 ### [X] btn=> straight to listing
 
-### add not published badge on listing
+### [X] add not published badge on listing
 
-### add Price on listing
+### [X] add Price on listing
 
 ### [X]User Data Phone,Email
 
 ### Approve Listings
 
-### add ability to see user Data
+### [X] add ability to see user Data
+
+### host approve user reservation
 
 ### Loading State in users admin
 

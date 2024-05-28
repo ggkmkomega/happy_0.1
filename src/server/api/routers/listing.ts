@@ -127,6 +127,18 @@ export const listingrouter = createTRPCRouter({
         },
       });
     }),
+  approve: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.listing.update({
+        where: {
+          id: input,
+        },
+        data: {
+          approve: "Approved",
+        },
+      });
+    }),
 
   update: protectedProcedure
     .input(

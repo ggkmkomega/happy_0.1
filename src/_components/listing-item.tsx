@@ -9,6 +9,7 @@ interface listingItemProp {
   listing: Pick<Listing, "id" | "name" | "createdAt">;
   Author?: Pick<User, "id" | "email" | "name" | "image">;
 }
+export const dynamic = "force-dynamic";
 
 export function ListingItem({ listing, Author }: listingItemProp) {
   return (
@@ -27,7 +28,10 @@ export function ListingItem({ listing, Author }: listingItemProp) {
           </p>
         </div>
       </div>
-      <PostOperations Listing={{ id: listing.id, name: listing.name }} />
+      <PostOperations
+        canApprove={Author ? true : false}
+        Listing={{ id: listing.id, name: listing.name }}
+      />
     </div>
   );
 }

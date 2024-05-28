@@ -27,14 +27,24 @@ import { api } from "~/trpc/react";
 
 interface listingOperationsProps {
   Listing: Pick<Listing, "id" | "name">;
+  canApprove?: boolean;
 }
 
-export function PostOperations({ Listing }: listingOperationsProps) {
-  const { mutate, isSuccess } = api.listing.delete.useMutation();
+export function PostOperations({
+  Listing,
+  canApprove,
+}: listingOperationsProps) {
+  const remove = api.listing.delete.useMutation();
+  const approve = api.listing.approve.useMutation();
 
   const router = useRouter();
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false);
+  const [showApproveAlert, setShowApproveAlert] =
+    React.useState<boolean>(false);
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false);
+  const [isApproveLoading, setIsApproveLoading] =
+    React.useState<boolean>(false);
+  const APIServer = api.useUtils();
 
   return (
     <>
@@ -56,6 +66,17 @@ export function PostOperations({ Listing }: listingOperationsProps) {
           >
             Delete
           </DropdownMenuItem>
+          {canApprove && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="flex cursor-pointer items-center  focus:bg-pink-600 focus:text-white"
+                onSelect={() => setShowApproveAlert(true)}
+              >
+                Approve
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
@@ -74,18 +95,18 @@ export function PostOperations({ Listing }: listingOperationsProps) {
               onClick={async (event) => {
                 event.preventDefault();
                 setIsDeleteLoading(true);
-                mutate(Listing.id);
-                if (!isSuccess) {
+                await remove.mutateAsync(Listing.id);
+                if (!remove.isLoading) {
+                  setIsDeleteLoading(false);
+                  setShowDeleteAlert(false);
+                  await APIServer.listing.adminAllUserListings.invalidate();
+                } else {
                   toast({
                     title: "Something went wrong.",
                     description:
                       "Your listing was not deleted. Please try again.",
                     variant: "destructive",
                   });
-                } else {
-                  setIsDeleteLoading(false);
-                  setShowDeleteAlert(false);
-                  router.refresh();
                 }
               }}
               className="bg-red-600 focus:ring-red-600"
@@ -96,6 +117,48 @@ export function PostOperations({ Listing }: listingOperationsProps) {
                 <Icons.trash className="mr-2 h-4 w-4" />
               )}
               <span>Delete</span>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog open={showApproveAlert} onOpenChange={setShowApproveAlert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you sure you want to Approve this Listing?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action can be reversed .
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async (event) => {
+                event.preventDefault();
+                setIsApproveLoading(true);
+                await approve.mutateAsync(Listing.id);
+                if (!approve.isLoading) {
+                  setIsApproveLoading(false);
+                  setShowApproveAlert(false);
+                  await APIServer.listing.adminAllUserListings.invalidate();
+                } else {
+                  toast({
+                    title: "Something went wrong.",
+                    description:
+                      "thelisting was not Approved. Please try again.",
+                    variant: "destructive",
+                  });
+                }
+              }}
+              className="bg-pink-600 focus:ring-pink-600"
+            >
+              {isApproveLoading ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icons.approve className="mr-2 h-4 w-4" />
+              )}
+              <span>Approve</span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
