@@ -10,11 +10,11 @@ async function getListingForUser(id: Listing["id"]) {
     return data;
 }
 
-interface EditorPageProps {
+interface SingleListingPageProps {
     params: { id: string };
 }
 
-export default async function EditorPage({ params }: EditorPageProps) {
+export default async function Page({ params }: SingleListingPageProps) {
     const session = await getServerAuthSession();
     const user = session?.user;
 
@@ -30,3 +30,9 @@ export default async function EditorPage({ params }: EditorPageProps) {
         </div>
     );
 }
+
+// TODO
+// make the scrolling smoother
+// list property button should lead to the dashboard | singin depending on the auth state
+// when creating a new listing it redirects to editor/undefined
+// images from diffrent listings appear on the preview of new listings

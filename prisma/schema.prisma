@@ -6,10 +6,11 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
+
 model Post {
     id        Int      @id @default(autoincrement())
     name      String
@@ -50,38 +51,55 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String        @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?       @unique
     emailVerified DateTime?
     image         String?
     phone         String?
-    role          String?   @default("VIEW")
+    role          String?       @default("VIEW")
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
     Listings      Listing[]
+    reservations  Reservation[]
 }
 
 model Listing {
-    id          String  @id @default(cuid())
-    type        String  
-    status      String  @default("InActive")
-    name        String
-    description String
-    street      String
-    city        String
-    province    String
-    approve     String  @default("Pending")
-    price       BigInt     @default(0)
-    images      Image[]
+    id           String        @id @default(cuid())
+    type         String
+    status       String        @default("InActive")
+    name         String
+    description  String
+    street       String
+    city         String
+    province     String
+    approve      String        @default("Pending")
+    price        BigInt        @default(0)
+    images       Image[]
+    reservations Reservation[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    createdBy   User    @relation(fields: [createdById], references: [id])
+    createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
+}
 
+model Reservation {
+    id        String   @id @default(cuid())
+    startDate DateTime
+    endDate   DateTime
+    userId    String
+    listingId String
+    adults    Int
+    children  Int
+    rooms     Int
+
+    Listing Listing @relation(fields: [listingId], references: [id])
+    User    User    @relation(fields: [userId], references: [id])
+
+    @@unique([userId, listingId, startDate, endDate]) // Ensure unique reservations for the same period
 }
 
 model Image {

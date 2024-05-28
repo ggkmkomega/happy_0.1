@@ -2,11 +2,11 @@
 
 import { Listing } from "@prisma/client";
 import Link from "next/link";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 // shadcn stuff
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import { MapPinIcon, ParkingCircle, PinIcon } from "lucide-react";
+import { Loader2, MapPinIcon, ParkingCircle, PinIcon } from "lucide-react";
 import Image from "next/image";
 import { Button } from "~/_components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/_components/ui/card";
@@ -19,6 +19,8 @@ import { useForm } from "react-hook-form";
 import AttendanceSelector from "./AttendanceSelector";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { api } from "~/trpc/react";
+import { useToast } from "~/_components/ui/use-toast";
 
 
 const FormSchema = z.object({
@@ -42,7 +44,8 @@ const FormSchema = z.object({
 });
 
 
-const ListingHeader = () => {
+
+const ListingHeader = ({ title, location }: { title: string, location: string }) => {
   return (
     <>
       <div className="md:flex hidden cursor-pointer ">
@@ -54,8 +57,8 @@ const ListingHeader = () => {
 
       {/* title & rating */}
       <div className="py-4">
-        <h1 className="uppercase text-2xl font-bold py-2">le palm hotel</h1>
-        <div className="flex gap-x-1"> <MapPinIcon /> 52 Avenue de l'ANP, 31000 Oran, Algeria – Great location - show map</div>
+        <h1 className="uppercase text-2xl font-bold py-2">{title}</h1>
+        <div className="flex gap-x-3 items-center"> <MapPinIcon /> {location}  <Button>show map</Button></div>
       </div>
     </>
   )
@@ -115,7 +118,13 @@ const ListingImages = ({ images }: { images: any }) => {
   )
 }
 
-const ReserveCard = () => {
+const ReserveCard = ({ listingId }: { listingId: string }) => {
+  // dialogue state
+  const [open, setOpen] = useState(false)
+
+  const { toast } = useToast()
+
+  const { mutate: createReservation, isLoading, isSuccess } = api.reservation.createReservation.useMutation()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -123,13 +132,14 @@ const ReserveCard = () => {
       locationSelect: { label: "", value: "" },
       attendanceSelector: { adults: 1, children: 0, rooms: 1 },
       datePicker: {
-        from: undefined,
+        from: new Date(),
         to: undefined,
       },
     },
   });
 
   form.watch();
+
   return (
     <>
       <div className="py-4 px-5 space-y-4 bg-blue-100 rounded-sm">
@@ -138,7 +148,7 @@ const ReserveCard = () => {
         <div className="flex items-center gap-x-1 text-sm"><ParkingCircle className="text-sm" /> Free private parking available at the hotel</div>
         <div className="space-y-3 py-3">
           <div>
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
                 <Button
                   className="w-full bg-pink-500 hover:bg-pink-600" size={"lg"}>Reserve</Button>
@@ -184,10 +194,33 @@ const ReserveCard = () => {
                         )}
                       />
                       <Button onClick={() => {
-                        console.log(form.getValues("attendanceSelector"));
-                        console.log(form.getValues("datePicker"));
+                        const { datePicker, attendanceSelector } = form.getValues();
+
+                        createReservation({
+                          startDate: datePicker.from,
+                          endDate: datePicker.to,
+                          adults: attendanceSelector.adults,
+                          children: attendanceSelector.children,
+                          rooms: attendanceSelector.rooms,
+                          listingId: listingId
+                        }, {
+                          onSuccess: () => {
+                            setOpen(false);
+                            toast({
+                              title: "Sucess",
+                              description: "You have made a new reservation!",
+                            })
+                          }
+                        })
+
                       }}
-                        className="w-full bg-pink-500 hover:bg-pink-600" size={"lg"}>Reserve</Button>
+                        className="w-full bg-pink-500 hover:bg-pink-600" size={"lg"}>
+                        {isLoading ?
+                          <Loader2 className="text-xl animate-spin" />
+                          :
+                          "Reserve"
+                        }
+                      </Button>
                     </Form>
                   </DialogDescription>
                 </DialogHeader>
@@ -210,7 +243,7 @@ const Description = ({ listing }: { listing: Listing }) => {
         </div>
       </div>
       <div className="md:w-[30%]">
-        <ReserveCard />
+        <ReserveCard listingId={listing.id} />
       </div>
     </div>
   )
@@ -322,9 +355,12 @@ const Map = () => {
 }
 function ViewListing({ listing }: { listing: Listing }) {
 
+  const locationString = listing.city + " " + listing.province + " " + listing.street;
+  console.log(locationString);
+
   return (
     <section className="md:px-3">
-      <ListingHeader />
+      <ListingHeader title={listing.name} location={locationString} />
       <ListingImages images={listing.images} />
       <Description listing={listing} />
       <Ratings />

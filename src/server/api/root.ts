@@ -2,6 +2,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
 import { listingrouter } from "./routers/listing";
 import { imagesrouter } from "./routers/images";
 import { userRouter } from "./routers/user";
+import { reservationrouter } from "./routers/reservation";
 //import { userrouter } from "./routers/user";
 
 /**
@@ -13,6 +14,7 @@ export const appRouter = createTRPCRouter({
   listing: listingrouter,
   images: imagesrouter,
   user: userRouter,
+  reservation : reservationrouter
 });
 
 // export type definition of API
