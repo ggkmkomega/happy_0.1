@@ -6,7 +6,7 @@ import { formatDate } from "~/lib/utils";
 import { Skeleton } from "./ui/skeleton";
 
 interface listingItemProp {
-  listing: Pick<Listing, "id" | "name" | "createdAt">;
+  listing: Pick<Listing, "id" | "name" | "createdAt" | "approve">;
   Author?: Pick<User, "id" | "email" | "name" | "image">;
 }
 export const dynamic = "force-dynamic";
@@ -30,7 +30,11 @@ export function ListingItem({ listing, Author }: listingItemProp) {
       </div>
       <PostOperations
         canApprove={Author ? true : false}
-        Listing={{ id: listing.id, name: listing.name }}
+        Listing={{
+          id: listing.id,
+          name: listing.name,
+          approve: listing.approve,
+        }}
       />
     </div>
   );

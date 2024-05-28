@@ -5,7 +5,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { listingInput } from "~/types";
+import { approveInput, listingInput } from "~/types";
 
 export const listingrouter = createTRPCRouter({
   all: publicProcedure.query(async ({ ctx }) => {
@@ -128,18 +128,17 @@ export const listingrouter = createTRPCRouter({
       });
     }),
   approve: protectedProcedure
-    .input(z.string())
+    .input(approveInput)
     .mutation(async ({ ctx, input }) => {
       return ctx.db.listing.update({
         where: {
-          id: input,
+          id: input.id,
         },
         data: {
-          approve: "Approved",
+          approve: input.newapprove,
         },
       });
     }),
-
   update: protectedProcedure
     .input(
       z.object({

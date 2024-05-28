@@ -26,6 +26,11 @@ export const userInput = z.object({
   phone: z.string().length(10, "phone must be 10 digit"),
 });
 
+export const approveInput = z.object({
+  id: z.string(),
+  newapprove: z.string(),
+});
+
 export const imageInput = z.object({
   id: z.string(),
   url: z.string(),

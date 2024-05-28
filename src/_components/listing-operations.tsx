@@ -1,7 +1,6 @@
 "use client";
 import * as React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { type Listing } from "@prisma/client";
 
 import {
@@ -26,7 +25,7 @@ import { Icons } from "~/_components/icons";
 import { api } from "~/trpc/react";
 
 interface listingOperationsProps {
-  Listing: Pick<Listing, "id" | "name">;
+  Listing: Pick<Listing, "id" | "name" | "approve">;
   canApprove?: boolean;
 }
 
@@ -36,8 +35,6 @@ export function PostOperations({
 }: listingOperationsProps) {
   const remove = api.listing.delete.useMutation();
   const approve = api.listing.approve.useMutation();
-
-  const router = useRouter();
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false);
   const [showApproveAlert, setShowApproveAlert] =
     React.useState<boolean>(false);
@@ -73,7 +70,7 @@ export function PostOperations({
                 className="flex cursor-pointer items-center  focus:bg-pink-600 focus:text-white"
                 onSelect={() => setShowApproveAlert(true)}
               >
-                Approve
+                {Listing.approve === "Approved" ? "Unapprove" : "Approve"}
               </DropdownMenuItem>
             </>
           )}
@@ -137,7 +134,13 @@ export function PostOperations({
               onClick={async (event) => {
                 event.preventDefault();
                 setIsApproveLoading(true);
-                await approve.mutateAsync(Listing.id);
+                await approve.mutateAsync({
+                  id: Listing.id,
+                  newapprove:
+                    Listing.approve === "Approved"
+                      ? "Not Approved"
+                      : "Approved",
+                });
                 if (!approve.isLoading) {
                   setIsApproveLoading(false);
                   setShowApproveAlert(false);
@@ -155,10 +158,15 @@ export function PostOperations({
             >
               {isApproveLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : Listing.approve === "Approved" ? (
+                <Icons.unapprove className="mr-2 h-4 w-4" />
               ) : (
                 <Icons.approve className="mr-2 h-4 w-4" />
               )}
-              <span>Approve</span>
+              <span>
+                {" "}
+                {Listing.approve === "Approved" ? "Unapprove" : "Approve"}
+              </span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
