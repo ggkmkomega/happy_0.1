@@ -1,20 +1,20 @@
-import Link from "next/link"
+import Link from "next/link";
 import {
   Activity,
   ArrowUpRight,
   CreditCard,
   DollarSign,
   Users,
-} from "lucide-react"
-import { Badge } from "~/_components/ui/badge"
-import { Button } from "~/_components/ui/button"
+} from "lucide-react";
+import { Badge } from "~/_components/ui/badge";
+import { Button } from "~/_components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "~/_components/ui/card"
+} from "~/_components/ui/card";
 import {
   Table,
   TableBody,
@@ -22,16 +22,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/_components/ui/table"
-import { Avatar, AvatarFallback, AvatarImage } from "~/_components/ui/avatar"
-import { DashboardShell } from "~/_components/shell"
-import { DashboardHeader } from "~/_components/header"
+} from "~/_components/ui/table";
+import { DashboardShell } from "~/_components/shell";
+import { DashboardHeader } from "~/_components/header";
+import AllStays from "~/app/_components/AllStays";
 
-export default function reservations() {
+export default async function Reservations() {
   return (
     <DashboardShell>
-    <DashboardHeader heading="Reservations" text="Manage and accept Reservations  ."/>
-  <div className="flex w-full flex-col">
+      <DashboardHeader
+        heading="Reservations"
+        text="Manage and accept Reservations  ."
+      />
+      <div className="flex w-full flex-col">
         <main className="flex flex-1 flex-col gap-4  md:gap-8 ">
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
             <Card x-chunk="dashboard-01-chunk-0">
@@ -50,9 +53,7 @@ export default function reservations() {
             </Card>
             <Card x-chunk="dashboard-01-chunk-1">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Residents
-                </CardTitle>
+                <CardTitle className="text-sm font-medium">Residents</CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -64,7 +65,9 @@ export default function reservations() {
             </Card>
             <Card x-chunk="dashboard-01-chunk-2">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Stays</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Stays
+                </CardTitle>
                 <CreditCard className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -76,7 +79,9 @@ export default function reservations() {
             </Card>
             <Card x-chunk="dashboard-01-chunk-3">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Active Stays</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Active Stays
+                </CardTitle>
                 <Activity className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -88,9 +93,7 @@ export default function reservations() {
             </Card>
           </div>
           <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-            <Card
-              className="xl:col-span-2" x-chunk="dashboard-01-chunk-4"
-            >
+            <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
               <CardHeader className="flex flex-row items-center">
                 <div className="grid gap-2">
                   <CardTitle>Stays</CardTitle>
@@ -109,9 +112,9 @@ export default function reservations() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Customer</TableHead> 
-                      <TableHead >Date</TableHead>
-                      <TableHead >Status</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Status</TableHead>
                       <TableHead className="text-right">Amount</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -123,10 +126,8 @@ export default function reservations() {
                           liam@example.com
                         </div>
                       </TableCell>
-                      <TableCell >
-                        2023-06-23
-                      </TableCell>
-                      <TableCell >
+                      <TableCell>2023-06-23</TableCell>
+                      <TableCell>
                         <Badge className="text-xs" variant="outline">
                           Approved
                         </Badge>
@@ -140,10 +141,8 @@ export default function reservations() {
                           olivia@example.com
                         </div>
                       </TableCell>
-                      <TableCell >
-                        2023-06-24
-                      </TableCell>
-                      <TableCell >
+                      <TableCell>2023-06-24</TableCell>
+                      <TableCell>
                         <Badge className="text-xs" variant="destructive">
                           Declined
                         </Badge>
@@ -158,14 +157,12 @@ export default function reservations() {
                           noah@example.com
                         </div>
                       </TableCell>
-                      <TableCell >
-                        2023-06-25
-                      </TableCell>
+                      <TableCell>2023-06-25</TableCell>
                       <TableCell>
                         <Badge className="text-xs" variant="outline">
                           Approved
                         </Badge>
-                      </TableCell>        
+                      </TableCell>
                       <TableCell className="text-right">$350.00</TableCell>
                     </TableRow>
                     <TableRow>
@@ -175,10 +172,8 @@ export default function reservations() {
                           emma@example.com
                         </div>
                       </TableCell>
-                      <TableCell >
-                        2023-06-26
-                      </TableCell>
-                      <TableCell >
+                      <TableCell>2023-06-26</TableCell>
+                      <TableCell>
                         <Badge className="text-xs" variant="outline">
                           Approved
                         </Badge>
@@ -192,10 +187,8 @@ export default function reservations() {
                           liam@example.com
                         </div>
                       </TableCell>
-                      <TableCell >
-                        2023-06-27
-                      </TableCell>
-                      <TableCell >
+                      <TableCell>2023-06-27</TableCell>
+                      <TableCell>
                         <Badge className="text-xs" variant="outline">
                           Approved
                         </Badge>
@@ -211,86 +204,18 @@ export default function reservations() {
                 <CardTitle>Active Stays</CardTitle>
               </CardHeader>
               <CardContent className="grid gap-6">
-                <div className="flex items-center gap-4">
-                  <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src="/avatars/01.png" alt="Avatar" />
-                    <AvatarFallback>OM</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      Olivia Martin
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      olivia.martin@email.com
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium">+$1,999.00</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src="/avatars/02.png" alt="Avatar" />
-                    <AvatarFallback>JL</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      Jackson Lee
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      jackson.lee@email.com
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium">+$39.00</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src="/avatars/03.png" alt="Avatar" />
-                    <AvatarFallback>IN</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      Isabella Nguyen
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      isabella.nguyen@email.com
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium">+$299.00</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src="/avatars/04.png" alt="Avatar" />
-                    <AvatarFallback>WK</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      William Kim
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      will@email.com
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium">+$99.00</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src="/avatars/05.png" alt="Avatar" />
-                    <AvatarFallback>SD</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      Sofia Davis
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      sofia.davis@email.com
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium">+$39.00</div>
-                </div>
+                <AllStays />
+                {/* 
+                <SingleStay User={ReservationUser} />
+                <SingleStay User={} />
+                <SingleStay />
+                <SingleStay />
+                <SingleStay /> */}
               </CardContent>
             </Card>
           </div>
         </main>
-  </div>
-      </DashboardShell>
-  )
+      </div>
+    </DashboardShell>
+  );
 }
