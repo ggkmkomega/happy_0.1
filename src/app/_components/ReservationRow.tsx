@@ -1,7 +1,9 @@
 import React from "react";
 import { Badge } from "~/_components/ui/badge";
 import { TableCell, TableRow } from "~/_components/ui/table";
+import { api } from "~/trpc/react";
 interface ReservationRowProps {
+  reservationId: string;
   name: string | null;
   email: string | null;
   date: string;
@@ -14,7 +16,16 @@ export default function ReservationRow({
   email,
   price,
   status,
+  reservationId,
 }: ReservationRowProps) {
+  const utils = api.useUtils();
+  const { mutate: toggleApproval } = api.reservation.toggleApproval.useMutation(
+    {
+      onSuccess: async () => {
+        await utils.reservation.getAllUserReservations.refetch();
+      },
+    },
+  );
   return (
     <TableRow>
       <TableCell>
@@ -25,7 +36,19 @@ export default function ReservationRow({
       </TableCell>
       <TableCell>{date}</TableCell>
       <TableCell>
-        <Badge className="text-xs" variant="outline">
+        <Badge
+          onClick={async () => {
+            toggleApproval(reservationId);
+          }}
+          className={"cursor-pointer text-xs hover:bg-gray-400 "}
+          variant={
+            status === "Approved"
+              ? "default"
+              : status === "Pending"
+                ? "outline"
+                : "destructive"
+          }
+        >
           {status}
         </Badge>
       </TableCell>

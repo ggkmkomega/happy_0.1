@@ -20,8 +20,10 @@ export default function ReservationsTable() {
   return (
     <>
       {rows?.map((row) => {
+        console.log("row", row.status);
         return (
           <ReservationRow
+            reservationId={row.id}
             key={row.id}
             name={row.User.name || "no Name"}
             email={row.User.email || "No email"}
@@ -30,7 +32,7 @@ export default function ReservationsTable() {
               " to " +
               Dayjs(row.endDate).format("DD/MM/YYYY")
             }
-            status="Pending"
+            status={row.status}
             price="1000"
           />
         );

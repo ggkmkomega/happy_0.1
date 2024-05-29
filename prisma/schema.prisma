@@ -90,6 +90,7 @@ model Reservation {
     id        String   @id @default(cuid())
     startDate DateTime
     endDate   DateTime
+    status   String   @default("Pending")
     userId    String
     listingId String
     hostId    String

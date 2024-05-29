@@ -16,6 +16,31 @@ export const reservationrouter = createTRPCRouter({
 
     return reservations;
   }),
+  toggleApproval: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      const oldApproval = await ctx.db.reservation.findUnique({
+        where: {
+          id: input,
+        },
+        select: {
+          status: true,
+        },
+      });
+      const newApproval =
+        oldApproval?.status === "Pending"
+          ? "Approved"
+          : oldApproval?.status === "Approved"
+            ? "UnApproved"
+            : oldApproval?.status === "UnApproved"
+              ? "Approved"
+              : "";
+      const updated = await ctx.db.reservation.update({
+        data: { status: newApproval },
+        where: { id: input },
+      });
+      return updated;
+    }),
   getnumberofReservations: protectedProcedure.query(async ({ ctx }) => {
     const number = await ctx.db.reservation.count({
       where: {
