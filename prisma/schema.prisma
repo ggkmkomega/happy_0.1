@@ -92,6 +92,7 @@ model Reservation {
     endDate   DateTime
     userId    String
     listingId String
+    hostId    String
     adults    Int
     children  Int
     rooms     Int

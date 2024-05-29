@@ -16,7 +16,19 @@ export const listingrouter = createTRPCRouter({
     });
     return listing;
   }),
-
+  getsingleListing: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const listing = await ctx.db.listing.findFirst({
+        where: {
+          id: input,
+        },
+        include: {
+          images: true,
+        },
+      });
+      return listing;
+    }),
   listingByUser: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {

@@ -14,7 +14,7 @@ export default async function SettingsPage() {
   const user = await api.user.display.query();
 
   if (!user) {
-    redirect(authOptions?.pages?.signIn ?? "/login");
+    redirect("/");
   }
 
   return (

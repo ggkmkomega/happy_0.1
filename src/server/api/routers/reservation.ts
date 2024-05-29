@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const reservationrouter = createTRPCRouter({
   getlatestStays: protectedProcedure.query(async ({ ctx }) => {
@@ -20,6 +16,23 @@ export const reservationrouter = createTRPCRouter({
 
     return reservations;
   }),
+  getnumberofReservations: protectedProcedure.query(async ({ ctx }) => {
+    const number = await ctx.db.reservation.count({
+      where: {
+        hostId: ctx.session.user.id,
+      },
+    });
+    return number;
+  }),
+  //no amount on reservation model
+  // getmoneyofReservations: protectedProcedure.query(async ({ ctx }) => {
+  //   const totalAmount = await ctx.db.reservation.aggregate({
+  //     _sum: {
+  //       amount: true,
+  //     },
+  //   });
+  //   return totalAmount._sum.amount;
+  // }),
   createReservation: protectedProcedure
     .input(
       z.object({
@@ -29,6 +42,7 @@ export const reservationrouter = createTRPCRouter({
         children: z.number(),
         rooms: z.number(),
         listingId: z.string(),
+        hostId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -39,6 +53,7 @@ export const reservationrouter = createTRPCRouter({
           adults: input.adults,
           children: input.children,
           rooms: input.rooms,
+          hostId: input.hostId,
           Listing: {
             connect: {
               id: input.listingId,
@@ -53,4 +68,17 @@ export const reservationrouter = createTRPCRouter({
       });
       return newReservation;
     }),
+  getAllUserReservations: protectedProcedure.query(async ({ ctx }) => {
+    const reservations = await ctx.db.reservation.findMany({
+      where: {
+        hostId: ctx.session.user.id,
+      },
+      include: {
+        Listing: true,
+        User: true,
+      },
+    });
+
+    return reservations;
+  }),
 });

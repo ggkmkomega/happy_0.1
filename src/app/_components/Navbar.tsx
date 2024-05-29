@@ -17,7 +17,6 @@ import {
   Bell,
   BookOpenCheck,
   CircleHelp,
-  CircleUser,
   Compass,
   Cookie,
   DraftingCompass,
@@ -119,7 +118,7 @@ const Navbar = ({ session }: { session: Session | null }) => {
             <AlignJustify className="h-8 w-8" />
           </li>
 
-          {session && (
+          {session?.user.id ? (
             <>
               <li className="flex items-center px-3">
                 <UserAccountNav
@@ -131,17 +130,7 @@ const Navbar = ({ session }: { session: Session | null }) => {
                 />
               </li>
             </>
-          )}
-
-          {!session && (
-            <li>
-              <Link href={"/api/auth/signin"}>
-                <CircleUser className="h-8 w-8 md:hidden" />
-              </Link>
-            </li>
-          )}
-
-          {!session && (
+          ) : (
             <>
               <li className="hidden md:block">
                 <Button variant="secondary" className="text-pink-600">

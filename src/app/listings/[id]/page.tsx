@@ -6,29 +6,29 @@ import { getServerAuthSession } from "~/server/auth";
 import ViewListing from "~/app/_components/ViewListing";
 
 async function getListingForUser(id: Listing["id"]) {
-    const data = await api.listing.listingByUser.query(id);
-    return data;
+  const data = await api.listing.getsingleListing.query(id);
+  return data;
 }
 
 interface SingleListingPageProps {
-    params: { id: string };
+  params: { id: string };
 }
 
 export default async function Page({ params }: SingleListingPageProps) {
-    const session = await getServerAuthSession();
-    const user = session?.user;
+  const session = await getServerAuthSession();
+  const user = session?.user;
 
-    const listing = await getListingForUser(params.id);
+  const listing = await getListingForUser(params.id);
 
-    if (!listing) {
-        notFound();
-    }
+  if (!listing) {
+    notFound();
+  }
 
-    return (
-        <div className="p-4">
-            <ViewListing listing={listing as Listing} />
-        </div>
-    );
+  return (
+    <div className="p-4">
+      <ViewListing listing={listing as Listing} />
+    </div>
+  );
 }
 
 // TODO

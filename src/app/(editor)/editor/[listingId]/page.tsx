@@ -20,7 +20,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
   const user = session?.user;
 
   if (!user) {
-    redirect(authOptions?.pages?.signIn ?? "/login");
+    redirect("/");
   }
 
   const listing = await getListingForUser(params.listingId);

@@ -6,7 +6,6 @@ import {
   DollarSign,
   Users,
 } from "lucide-react";
-import { Badge } from "~/_components/ui/badge";
 import { Button } from "~/_components/ui/button";
 import {
   Card,
@@ -18,7 +17,6 @@ import {
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -26,6 +24,8 @@ import {
 import { DashboardShell } from "~/_components/shell";
 import { DashboardHeader } from "~/_components/header";
 import AllStays from "~/app/_components/AllStays";
+import ReservationsTable from "~/app/_components/ReservationsTable";
+import AllReservationNumber from "~/app/_components/Numbers";
 
 export default async function Reservations() {
   return (
@@ -57,7 +57,7 @@ export default async function Reservations() {
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">+2350</div>
+                <AllReservationNumber />
                 <p className="text-xs text-muted-foreground">
                   +180.1% from last month
                 </p>
@@ -71,7 +71,7 @@ export default async function Reservations() {
                 <CreditCard className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">+12,234</div>
+                <AllReservationNumber />
                 <p className="text-xs text-muted-foreground">
                   +19% from last month
                 </p>
@@ -85,7 +85,7 @@ export default async function Reservations() {
                 <Activity className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">+573</div>
+                <AllReservationNumber />
                 <p className="text-xs text-muted-foreground">
                   +201 since last hour
                 </p>
@@ -119,82 +119,7 @@ export default async function Reservations() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    <TableRow>
-                      <TableCell>
-                        <div className="font-medium">Liam Johnson</div>
-                        <div className="hidden text-sm text-muted-foreground md:inline">
-                          liam@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell>2023-06-23</TableCell>
-                      <TableCell>
-                        <Badge className="text-xs" variant="outline">
-                          Approved
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">$250.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className="font-medium">Olivia Smith</div>
-                        <div className="hidden text-sm text-muted-foreground md:inline">
-                          olivia@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell>2023-06-24</TableCell>
-                      <TableCell>
-                        <Badge className="text-xs" variant="destructive">
-                          Declined
-                        </Badge>
-                      </TableCell>
-
-                      <TableCell className="text-right">$150.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className="font-medium">Noah Williams</div>
-                        <div className="hidden text-sm text-muted-foreground md:inline">
-                          noah@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell>2023-06-25</TableCell>
-                      <TableCell>
-                        <Badge className="text-xs" variant="outline">
-                          Approved
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">$350.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className="font-medium">Emma Brown</div>
-                        <div className="hidden text-sm text-muted-foreground md:inline">
-                          emma@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell>2023-06-26</TableCell>
-                      <TableCell>
-                        <Badge className="text-xs" variant="outline">
-                          Approved
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">$450.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className="font-medium">Liam Johnson</div>
-                        <div className="hidden text-sm text-muted-foreground md:inline">
-                          liam@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell>2023-06-27</TableCell>
-                      <TableCell>
-                        <Badge className="text-xs" variant="outline">
-                          Approved
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">$550.00</TableCell>
-                    </TableRow>
+                    <ReservationsTable />
                   </TableBody>
                 </Table>
               </CardContent>
@@ -203,7 +128,7 @@ export default async function Reservations() {
               <CardHeader>
                 <CardTitle>Active Stays</CardTitle>
               </CardHeader>
-              <CardContent className="grid gap-6">
+              <CardContent>
                 <AllStays />
                 {/* 
                 <SingleStay User={ReservationUser} />
