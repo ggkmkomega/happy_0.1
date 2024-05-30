@@ -10,17 +10,17 @@
 
 ### [X]User Data Phone,Email
 
-### Approve Listings
+### [X] Approve Listings
 
 ### [X] add ability to see user Data
 
-### host approve user reservation
+### [X] host approve user reservation
 
 ### Loading State in users admin
 
-### seperate the reservation into components
+### [x] seperate the reservation into components
 
-## Single Listing Page
+## [¬] Single Listing Page
 
 ### Stuff To fix
 

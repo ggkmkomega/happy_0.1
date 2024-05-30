@@ -5,6 +5,8 @@ import { type AppRouter } from "./server/api/root";
 type RouterOutputs = inferRouterOutputs<AppRouter>;
 type allListingOutput = RouterOutputs["listing"]["all"];
 export type listing = allListingOutput[number];
+export type SingleReservation =
+  RouterOutputs["reservation"]["getSingleReservationDetails"];
 
 type listingEdit = RouterOutputs["listing"]["listingByUser"];
 export type ListingEditRequired = Extract<listingEdit, { id: string }>;

@@ -41,14 +41,46 @@ export const reservationrouter = createTRPCRouter({
       });
       return updated;
     }),
-  getnumberofReservations: protectedProcedure.query(async ({ ctx }) => {
-    const number = await ctx.db.reservation.count({
-      where: {
-        hostId: ctx.session.user.id,
-      },
-    });
-    return number;
-  }),
+  getnumberofReservationsActiveStays: protectedProcedure.query(
+    async ({ ctx }) => {
+      const theday = new Date();
+      const number = await ctx.db.reservation.count({
+        where: {
+          hostId: ctx.session.user.id,
+          endDate: {
+            gte: theday,
+          },
+        },
+      });
+      return number;
+    },
+  ),
+  getnumberofReservationsResidentsBaby: protectedProcedure.query(
+    async ({ ctx }) => {
+      const sum = await ctx.db.reservation.aggregate({
+        where: {
+          hostId: ctx.session.user.id,
+        },
+        _sum: {
+          children: true,
+        },
+      });
+      return sum._sum.children;
+    },
+  ),
+  getnumberofReservationsResidentsAdult: protectedProcedure.query(
+    async ({ ctx }) => {
+      const sum = await ctx.db.reservation.aggregate({
+        where: {
+          hostId: ctx.session.user.id,
+        },
+        _sum: {
+          adults: true,
+        },
+      });
+      return sum._sum.adults;
+    },
+  ),
   //no amount on reservation model
   // getmoneyofReservations: protectedProcedure.query(async ({ ctx }) => {
   //   const totalAmount = await ctx.db.reservation.aggregate({
@@ -106,4 +138,18 @@ export const reservationrouter = createTRPCRouter({
 
     return reservations;
   }),
+  getSingleReservationDetails: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const reservation = await ctx.db.reservation.findUnique({
+        where: {
+          id: input,
+        },
+        include: {
+          Listing: true,
+          User: true,
+        },
+      });
+      return reservation;
+    }),
 });

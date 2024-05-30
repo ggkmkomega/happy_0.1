@@ -5,6 +5,8 @@ import {
   CreditCard,
   DollarSign,
   Users,
+  Baby,
+  UserRound,
 } from "lucide-react";
 import { Button } from "~/_components/ui/button";
 import {
@@ -25,7 +27,11 @@ import { DashboardShell } from "~/_components/shell";
 import { DashboardHeader } from "~/_components/header";
 import AllStays from "~/app/_components/AllStays";
 import ReservationsTable from "~/app/_components/ReservationsTable";
-import AllReservationNumber from "~/app/_components/Numbers";
+import AllReservationNumber, {
+  ResidentsAdults,
+  ResidentsBaby,
+} from "~/app/_components/Numbers";
+import ActiveStays from "~/app/_components/Numbers";
 
 export default async function Reservations() {
   return (
@@ -57,7 +63,16 @@ export default async function Reservations() {
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <AllReservationNumber />
+                <div className="flex flex-row justify-around">
+                  <div className="flex flex-row items-center gap-1 ">
+                    <Baby />
+                    <ResidentsBaby />
+                  </div>
+                  <div className="flex flex-row items-center gap-1 ">
+                    <UserRound />
+                    <ResidentsAdults />
+                  </div>
+                </div>
                 <p className="text-xs text-muted-foreground">
                   +180.1% from last month
                 </p>
@@ -85,7 +100,7 @@ export default async function Reservations() {
                 <Activity className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <AllReservationNumber />
+                <ActiveStays />
                 <p className="text-xs text-muted-foreground">
                   +201 since last hour
                 </p>
@@ -130,12 +145,6 @@ export default async function Reservations() {
               </CardHeader>
               <CardContent>
                 <AllStays />
-                {/* 
-                <SingleStay User={ReservationUser} />
-                <SingleStay User={} />
-                <SingleStay />
-                <SingleStay />
-                <SingleStay /> */}
               </CardContent>
             </Card>
           </div>
