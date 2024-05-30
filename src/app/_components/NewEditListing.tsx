@@ -56,7 +56,6 @@ interface ListingFormProps extends React.HTMLAttributes<HTMLFormElement> {
 }
 
 export function EditListing({ existingListing }: ListingFormProps) {
-  
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
@@ -206,7 +205,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                         <div className="grid gap-2">
                           <div>
                             <UploadImage listingsId={existingListing.id} />
-                            <ImagesDisplay />
+                            <ImagesDisplay id={existingListing.id} />
                           </div>
                         </div>
                       </CardContent>
@@ -531,8 +530,8 @@ const UploadImage = ({ listingsId }: { listingsId: string }) => {
   );
 };
 
-const ImagesDisplay = () => {
-  const { data: images } = api.images.getPostImages.useQuery();
+const ImagesDisplay = ({ id }: { id: string }) => {
+  const { data: images } = api.images.getPostImages.useQuery(id);
   const trpc = api.useUtils();
   const deleteImage = api.images.deleteimage.useMutation({
     onSettled: async () => {
