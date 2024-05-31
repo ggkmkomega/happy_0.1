@@ -75,7 +75,7 @@ model Listing {
     city         String
     province     String
     approve      String        @default("Pending")
-    price        BigInt        @default(0)
+    price        Int        @default(0)
     images       Image[]
     reservations Reservation[]
 
@@ -90,13 +90,14 @@ model Reservation {
     id        String   @id @default(cuid())
     startDate DateTime
     endDate   DateTime
-    status   String   @default("Pending")
+    status    String   @default("Pending")
     userId    String
     listingId String
     hostId    String
     adults    Int
     children  Int
     rooms     Int
+    price     Int
 
     Listing Listing @relation(fields: [listingId], references: [id])
     User    User    @relation(fields: [userId], references: [id])
