@@ -2,7 +2,7 @@
 
 import { Listing } from "@prisma/client";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // shadcn stuff
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
@@ -40,6 +40,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { api } from "~/trpc/react";
 import { useToast } from "~/_components/ui/use-toast";
+import dayjs from "dayjs";
+import { ratings } from "~/config/site";
 
 const FormSchema = z.object({
   datePicker: z.object({
@@ -59,6 +61,7 @@ const FormSchema = z.object({
     children: z.number(),
     rooms: z.number(),
   }),
+  price: z.number()
 });
 
 const ListingHeader = ({
@@ -127,25 +130,16 @@ const ListingImages = ({ images }: { images: any }) => {
       </div>
       <div className="hidden w-[25vw] flex-col  items-center justify-start gap-y-4 md:flex">
         <Carousel className="max-w-full px-4">
-          <CarouselContent className="">
-            <CarouselItem className="">
-              <RatingCard />
-            </CarouselItem>
-            <CarouselItem className="">
-              <RatingCard />
-            </CarouselItem>
-            <CarouselItem className="">
-              <RatingCard />
-            </CarouselItem>
-            <CarouselItem className="">
-              <RatingCard />
-            </CarouselItem>
-            <CarouselItem className="">
-              <RatingCard />
-            </CarouselItem>
-            <CarouselItem className="">
-              <RatingCard />
-            </CarouselItem>
+          <CarouselContent>
+          {
+              ratings.map(ratingData => {
+                return (
+                  <CarouselItem>
+                    <RatingCard ratingData={ratingData} />
+                  </CarouselItem>
+                )
+              })
+            }
           </CarouselContent>
 
           <CarouselPrevious className="absolute  -left-2 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full" />
@@ -159,11 +153,9 @@ const ListingImages = ({ images }: { images: any }) => {
 };
 
 const ReserveCard = ({
-  listingId,
-  hostId,
+  listing
 }: {
-  listingId: string;
-  hostId: string;
+  listing: Listing
 }) => {
   // dialogue state
   const [open, setOpen] = useState(false);
@@ -185,10 +177,28 @@ const ReserveCard = ({
         from: new Date(),
         to: undefined,
       },
+      price: 0
     },
   });
 
   form.watch();
+
+  const calculatePrice = (from: Date, to: Date, price: number) => {
+    const fromDayJs = dayjs(from)
+    const toDayJs = dayjs(to)
+
+    const numberOfDays = toDayJs.diff(fromDayJs, 'days')
+
+    return price * numberOfDays;
+  }
+
+  // useEffect(() => {
+  //   const formData = form.getValues()
+
+  //   const newPrice = calculatePrice(formData.datePicker.from, formData.datePicker.to, listing.price)
+  //   form.setValue("price" , newPrice);
+
+  // }, [form])
 
   return (
     <>
@@ -263,8 +273,9 @@ const ReserveCard = ({
                       />
                       <Button
                         onClick={() => {
-                          const { datePicker, attendanceSelector } =
-                            form.getValues();
+                          const { datePicker, attendanceSelector } = form.getValues();
+
+                          const price = calculatePrice(datePicker.from, datePicker.to, listing.price)
 
                           createReservation(
                             {
@@ -273,8 +284,9 @@ const ReserveCard = ({
                               adults: attendanceSelector.adults,
                               children: attendanceSelector.children,
                               rooms: attendanceSelector.rooms,
-                              listingId: listingId,
-                              hostId: hostId,
+                              listingId: listing.id,
+                              hostId: listing.createdById,
+                              price: price
                             },
                             {
                               onSuccess: () => {
@@ -320,34 +332,39 @@ const Description = ({ listing }: { listing: Listing }) => {
       <div className="md:w-[70%]">
         <div className="whitespace-pre-wrap py-4 ">{listing.description}</div>
       </div>
-      <div className="md:w-[30%]">
-        <ReserveCard listingId={listing.id} hostId={listing.createdById} />
+      <div className="md:w-[30%] pr-4">
+        <ReserveCard listing={listing} />
       </div>
     </div>
   );
 };
 
-const RatingCard = () => {
+type Rating = {
+  avatarImage: string,
+  avatarFallback: string,
+  username: string,
+  location: string,
+  content: string,
+}
+
+const RatingCard = ({ ratingData }: { ratingData: Rating }) => {
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader className="p-3">
         <div className="flex items-center gap-x-1">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src={ratingData.avatarImage} />
+            <AvatarFallback>{ratingData.avatarFallback}</AvatarFallback>
           </Avatar>
           <div>
-            <CardTitle>Yamina</CardTitle>
-            <CardDescription>United Kingdom</CardDescription>
+            <CardTitle>{ratingData.username}</CardTitle>
+            <CardDescription>{ratingData.location}</CardDescription>
           </div>
         </div>
       </CardHeader>
       <CardContent className="p-4">
         <p>
-          “The room is clean & modernly built. The breakfast is excellent, with
-          all sorts of freshly made cake & fruits, with lots of choice. The
-          staff is very friendly & although I was a single woman I was very well
-          received, not like other hotels I have...”
+          {ratingData.content}
         </p>
       </CardContent>
     </Card>
@@ -362,25 +379,16 @@ const Ratings = () => {
       </h1>
       <div className="max-w-screen">
         <Carousel className="md:px-4">
-          <CarouselContent className="">
-            <CarouselItem className="md:basis-1/3">
-              <RatingCard />
-            </CarouselItem>
-            <CarouselItem className="md:basis-1/3">
-              <RatingCard />
-            </CarouselItem>
-            <CarouselItem className="md:basis-1/3">
-              <RatingCard />
-            </CarouselItem>
-            <CarouselItem className="md:basis-1/3">
-              <RatingCard />
-            </CarouselItem>
-            <CarouselItem className="md:basis-1/3">
-              <RatingCard />
-            </CarouselItem>
-            <CarouselItem className="md:basis-1/3">
-              <RatingCard />
-            </CarouselItem>
+          <CarouselContent className="items-stretch">
+            {
+              ratings.map(ratingData => {
+                return (
+                  <CarouselItem className="md:basis-1/3 ">
+                    <RatingCard ratingData={ratingData} />
+                  </CarouselItem>
+                )
+              })
+            }
           </CarouselContent>
 
           <CarouselPrevious className="absolute  -left-2 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full" />
@@ -430,6 +438,7 @@ const Map = () => {
     </div>
   );
 };
+
 function ViewListing({ listing }: { listing: Listing }) {
   const locationString =
     listing.city + " " + listing.province + " " + listing.street;
