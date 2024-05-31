@@ -134,12 +134,12 @@ const Navbar = ({ session }: { session: Session | null }) => {
             <>
               <li className="hidden md:block">
                 <Button variant="secondary" className="text-pink-600">
-                  <Link href={"/api/auth/signin"}>Sign In</Link>
+                  <Link href={"/sign-in"}>Sign In</Link>
                 </Button>
               </li>
               <li className="hidden md:block">
                 <Button variant="secondary" className="text-pink-600">
-                  <Link href={"/api/auth/signin"}>Register</Link>
+                  <Link href={"/sign-in"}>Register</Link>
                 </Button>
               </li>
             </>
@@ -147,7 +147,7 @@ const Navbar = ({ session }: { session: Session | null }) => {
 
           <li className="hidden md:block">
             <Button variant="ghost" className="px-6 py-6">
-              <Link href={"/signIn"}>List your property</Link>
+              <Link href={"/dashboard"}>List your property</Link>
             </Button>
           </li>
 
