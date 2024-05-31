@@ -15,7 +15,7 @@ export default function ReservationsTableAdmin({
     data: rows,
     isLoading,
     isError,
-  } = api.reservation.getAllUserReservations.useQuery();
+  } = api.reservation.getAllHostReservations.useQuery();
   console.log("rows", rows);
   if (isLoading) {
     <div>Loading ...</div>;

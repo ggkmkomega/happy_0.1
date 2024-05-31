@@ -33,6 +33,11 @@ export const dashboardConfig: DashboardConfig = {
       title: "Settings",
       href: "/dashboard/settings",
       icon: "settings",
-    }
+    },
+    {
+      title: "My Reservations",
+      href: "/dashboard/myreservations",
+      icon: "myreservation",
+    },
   ],
 };

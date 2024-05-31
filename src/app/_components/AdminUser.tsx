@@ -51,7 +51,7 @@ export const UsersRow = () => {
                   Total Stays
                 </TableHead>
                 <TableHead className="hidden md:table-cell">
-                  Joined at
+                  Total Reservations
                 </TableHead>
                 <TableHead>
                   <span className="sr-only">Actions</span>
@@ -79,6 +79,12 @@ const UserRow = ({
 }: {
   user: Pick<User, "id" | "email" | "name" | "image" | "emailVerified">;
 }) => {
+  const { data: totalStays } = api.listing.getnumberofListings.useQuery(
+    user.id,
+  );
+  const { data: totalReservation } =
+    api.reservation.getnumberofReservationsForUser.useQuery(user.id);
+
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -95,7 +101,8 @@ const UserRow = ({
         <Badge variant="outline">Active</Badge>
       </TableCell>
       <TableCell className="hidden md:table-cell">499.99 DZD</TableCell>
-      <TableCell className="hidden md:table-cell">25</TableCell>
+      <TableCell className="hidden md:table-cell">{totalStays}</TableCell>
+      <TableCell className="hidden md:table-cell">{totalReservation}</TableCell>
       <TableCell className="hidden md:table-cell">
         {user.emailVerified
           ? formatDate(user.emailVerified.toDateString())

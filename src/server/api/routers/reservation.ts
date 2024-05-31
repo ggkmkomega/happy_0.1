@@ -125,10 +125,23 @@ export const reservationrouter = createTRPCRouter({
       });
       return newReservation;
     }),
-  getAllUserReservations: protectedProcedure.query(async ({ ctx }) => {
+  getAllHostReservations: protectedProcedure.query(async ({ ctx }) => {
     const reservations = await ctx.db.reservation.findMany({
       where: {
         hostId: ctx.session.user.id,
+      },
+      include: {
+        Listing: true,
+        User: true,
+      },
+    });
+
+    return reservations;
+  }),
+  getAllUserReservations: protectedProcedure.query(async ({ ctx }) => {
+    const reservations = await ctx.db.reservation.findMany({
+      where: {
+        userId: ctx.session.user.id,
       },
       include: {
         Listing: true,
@@ -151,5 +164,14 @@ export const reservationrouter = createTRPCRouter({
         },
       });
       return reservation;
+    }),
+  getnumberofReservationsForUser: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      return ctx.db.reservation.count({
+        where: {
+          userId: input,
+        },
+      });
     }),
 });

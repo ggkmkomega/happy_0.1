@@ -47,9 +47,13 @@ export function UserAccountNav({ user, admin }: UserAccountNavProps) {
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/dashboard/reservations">Reservarions</Link>
-        </DropdownMenuItem>
+        </DropdownMenuItem>{" "}
+        <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href="/dashboard/settings">Settings</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/dashboard/myreservations">My Reservations</Link>
         </DropdownMenuItem>
         {admin && (
           <DropdownMenuItem asChild>

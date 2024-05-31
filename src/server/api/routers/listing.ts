@@ -129,7 +129,16 @@ export const listingrouter = createTRPCRouter({
         });
       },
     ),
-
+  getnumberofListings: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const number = await ctx.db.listing.count({
+        where: {
+          createdById: input,
+        },
+      });
+      return number;
+    }),
   delete: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {

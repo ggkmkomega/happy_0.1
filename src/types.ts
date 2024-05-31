@@ -7,6 +7,8 @@ type allListingOutput = RouterOutputs["listing"]["all"];
 export type listing = allListingOutput[number];
 export type SingleReservation =
   RouterOutputs["reservation"]["getSingleReservationDetails"];
+type AllReservation = RouterOutputs["reservation"]["getAllUserReservations"];
+export type UserReservation = AllReservation[number];
 
 type listingEdit = RouterOutputs["listing"]["listingByUser"];
 export type ListingEditRequired = Extract<listingEdit, { id: string }>;

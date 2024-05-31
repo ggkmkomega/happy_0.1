@@ -26,6 +26,7 @@ import {
   LayoutDashboard,
   BadgeCheck,
   Badge,
+  BookmarkCheck,
   type LucideIcon,
 } from "lucide-react";
 
@@ -54,6 +55,7 @@ export const Icons = {
   moon: Moon,
   laptop: Laptop,
   dashboard: LayoutDashboard,
+  myreservation: BookmarkCheck,
   approve: BadgeCheck,
   unapprove: Badge,
   gitHub: ({ ...props }: LucideProps) => (

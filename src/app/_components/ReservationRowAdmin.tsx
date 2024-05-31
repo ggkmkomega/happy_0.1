@@ -28,7 +28,7 @@ export default function ReservationRow({
   const { mutate: toggleApproval } = api.reservation.toggleApproval.useMutation(
     {
       onSuccess: async () => {
-        await utils.reservation.getAllUserReservations.refetch();
+        await utils.reservation.getAllHostReservations.refetch();
       },
     },
   );
