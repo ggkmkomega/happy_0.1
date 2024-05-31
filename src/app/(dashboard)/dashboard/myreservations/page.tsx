@@ -24,7 +24,7 @@ export default function Reservations() {
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="My Reservation"
+        heading="My Reservations"
         text="Browse Your reservations."
       />
       <div className="flex w-full flex-col">
@@ -44,10 +44,10 @@ export default function Reservations() {
                       Price
                     </TableHead>
                     <TableHead className="hidden md:table-cell">
-                      Total Stays (Days)
+                      Starts at
                     </TableHead>
                     <TableHead className="hidden md:table-cell">
-                      Starts at
+                      Ends at
                     </TableHead>
                     <TableHead>
                       <span className="sr-only">Actions</span>

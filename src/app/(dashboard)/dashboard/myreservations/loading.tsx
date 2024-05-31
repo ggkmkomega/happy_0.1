@@ -6,7 +6,7 @@ export default function DashboardBillingLoading() {
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="My Reservation"
+        heading="My Reservations"
         text="Browse Your reservations."
       />
       <div className="grid gap-10">

@@ -61,7 +61,7 @@ const FormSchema = z.object({
     children: z.number(),
     rooms: z.number(),
   }),
-  price: z.number()
+  price: z.number(),
 });
 
 const ListingHeader = ({
@@ -131,15 +131,13 @@ const ListingImages = ({ images }: { images: any }) => {
       <div className="hidden w-[25vw] flex-col  items-center justify-start gap-y-4 md:flex">
         <Carousel className="max-w-full px-4">
           <CarouselContent>
-          {
-              ratings.map(ratingData => {
-                return (
-                  <CarouselItem>
-                    <RatingCard ratingData={ratingData} />
-                  </CarouselItem>
-                )
-              })
-            }
+            {ratings.map((ratingData, index) => {
+              return (
+                <CarouselItem key={index}>
+                  <RatingCard ratingData={ratingData} />
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
 
           <CarouselPrevious className="absolute  -left-2 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full" />
@@ -152,11 +150,7 @@ const ListingImages = ({ images }: { images: any }) => {
   );
 };
 
-const ReserveCard = ({
-  listing
-}: {
-  listing: Listing
-}) => {
+const ReserveCard = ({ listing }: { listing: Listing }) => {
   // dialogue state
   const [open, setOpen] = useState(false);
 
@@ -177,20 +171,20 @@ const ReserveCard = ({
         from: new Date(),
         to: undefined,
       },
-      price: 0
+      price: 0,
     },
   });
 
   form.watch();
 
   const calculatePrice = (from: Date, to: Date, price: number) => {
-    const fromDayJs = dayjs(from)
-    const toDayJs = dayjs(to)
+    const fromDayJs = dayjs(from);
+    const toDayJs = dayjs(to);
 
-    const numberOfDays = toDayJs.diff(fromDayJs, 'days')
+    const numberOfDays = toDayJs.diff(fromDayJs, "days");
 
     return price * numberOfDays;
-  }
+  };
 
   // useEffect(() => {
   //   const formData = form.getValues()
@@ -273,9 +267,14 @@ const ReserveCard = ({
                       />
                       <Button
                         onClick={() => {
-                          const { datePicker, attendanceSelector } = form.getValues();
+                          const { datePicker, attendanceSelector } =
+                            form.getValues();
 
-                          const price = calculatePrice(datePicker.from, datePicker.to, listing.price)
+                          const price = calculatePrice(
+                            datePicker.from,
+                            datePicker.to,
+                            listing.price,
+                          );
 
                           createReservation(
                             {
@@ -286,7 +285,7 @@ const ReserveCard = ({
                               rooms: attendanceSelector.rooms,
                               listingId: listing.id,
                               hostId: listing.createdById,
-                              price: price
+                              price: price,
                             },
                             {
                               onSuccess: () => {
@@ -332,7 +331,7 @@ const Description = ({ listing }: { listing: Listing }) => {
       <div className="md:w-[70%]">
         <div className="whitespace-pre-wrap py-4 ">{listing.description}</div>
       </div>
-      <div className="md:w-[30%] pr-4">
+      <div className="pr-4 md:w-[30%]">
         <ReserveCard listing={listing} />
       </div>
     </div>
@@ -340,12 +339,12 @@ const Description = ({ listing }: { listing: Listing }) => {
 };
 
 type Rating = {
-  avatarImage: string,
-  avatarFallback: string,
-  username: string,
-  location: string,
-  content: string,
-}
+  avatarImage: string;
+  avatarFallback: string;
+  username: string;
+  location: string;
+  content: string;
+};
 
 const RatingCard = ({ ratingData }: { ratingData: Rating }) => {
   return (
@@ -363,9 +362,7 @@ const RatingCard = ({ ratingData }: { ratingData: Rating }) => {
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        <p>
-          {ratingData.content}
-        </p>
+        <p>{ratingData.content}</p>
       </CardContent>
     </Card>
   );
@@ -380,15 +377,13 @@ const Ratings = () => {
       <div className="max-w-screen">
         <Carousel className="md:px-4">
           <CarouselContent className="items-stretch">
-            {
-              ratings.map(ratingData => {
-                return (
-                  <CarouselItem className="md:basis-1/3 ">
-                    <RatingCard ratingData={ratingData} />
-                  </CarouselItem>
-                )
-              })
-            }
+            {ratings.map((ratingData) => {
+              return (
+                <CarouselItem className="md:basis-1/3 ">
+                  <RatingCard ratingData={ratingData} />
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
 
           <CarouselPrevious className="absolute  -left-2 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full" />

@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs";
+import Dayjs from "dayjs";
 import { MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -18,12 +18,11 @@ interface MyReservationTableRowProps {
 }
 
 function MyReservationTableRow({ Reservation }: MyReservationTableRowProps) {
-  const days = new Dayjs(Reservation.startDate).diff(
-    Reservation.endDate,
-    "day",
-  );
-  const start = new Dayjs(Reservation.startDate).format("MMM DD, YYYY");
-
+  const start = Dayjs(Reservation.startDate).format("MMM DD, YYYY");
+  const end = Dayjs(Reservation.endDate).format("MMM DD, YYYY");
+  const imageLink = Reservation.Listing.images[0]
+    ? Reservation.Listing.images[0].url
+    : "/placeholder.png";
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -31,17 +30,30 @@ function MyReservationTableRow({ Reservation }: MyReservationTableRowProps) {
           alt="Product image"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src="/placeholder.svg"
+          src={imageLink}
           width="64"
         />
       </TableCell>
       <TableCell className="font-medium">{Reservation.Listing.name}</TableCell>
       <TableCell>
-        <Badge variant="outline">{Reservation.status}</Badge>
+        <Badge
+          className={"cursor-pointer text-xs hover:bg-gray-400 "}
+          variant={
+            Reservation.status === "Approved"
+              ? "default"
+              : Reservation.status === "Pending"
+                ? "outline"
+                : "destructive"
+          }
+        >
+          {Reservation.status}
+        </Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">$ </TableCell>
-      <TableCell className="hidden md:table-cell">{days}</TableCell>
+      <TableCell className="hidden md:table-cell">
+        {Reservation.price}
+      </TableCell>
       <TableCell className="hidden md:table-cell">{start}</TableCell>
+      <TableCell className="hidden md:table-cell">{end}</TableCell>
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

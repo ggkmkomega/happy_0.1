@@ -100,7 +100,7 @@ export const reservationrouter = createTRPCRouter({
         rooms: z.number(),
         listingId: z.string(),
         hostId: z.string(),
-        price: z.number()
+        price: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -146,7 +146,11 @@ export const reservationrouter = createTRPCRouter({
         userId: ctx.session.user.id,
       },
       include: {
-        Listing: true,
+        Listing: {
+          include: {
+            images: true,
+          },
+        },
         User: true,
       },
     });
