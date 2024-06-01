@@ -15,7 +15,7 @@ export default function ReservationsTableAdmin({
     data: rows,
     isLoading,
     isError,
-  } = api.reservation.getAllHostReservations.useQuery();
+  } = api.reservation.getAllAdminReservations.useQuery();
   console.log("rows", rows);
   if (isLoading) {
     <div>Loading ...</div>;
@@ -32,8 +32,8 @@ export default function ReservationsTableAdmin({
             selcted={selectedId === row.id}
             reservationId={row.id}
             key={row.id}
-            name={row.User.name || "no Name"}
-            email={row.User.email || "No email"}
+            name={row.User.name ?? "no Name"}
+            email={row.User.email ?? "No email"}
             date={
               Dayjs(row.startDate).format("DD/MM/YYYY") +
               " to " +

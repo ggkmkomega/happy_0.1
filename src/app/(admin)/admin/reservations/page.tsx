@@ -38,6 +38,7 @@ import { useEffect, useState } from "react";
 import SelectedReservation from "~/app/_components/SelectedReservation";
 import { api } from "~/trpc/react";
 import { type SingleReservation } from "~/types";
+import { AdminMonth, AdminWeek } from "~/app/_components/Numbers";
 
 export default function Reservations() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -53,7 +54,7 @@ export default function Reservations() {
       }
     };
     refetch();
-  }, [selectedId]);
+  }, [selectedId, reservation]);
   return (
     <DashboardShell>
       <DashboardHeader
@@ -74,7 +75,9 @@ export default function Reservations() {
             <Card x-chunk="dashboard-05-chunk-1">
               <CardHeader className="pb-2">
                 <CardDescription>This Week</CardDescription>
-                <CardTitle className="text-4xl">$1,329</CardTitle>
+                <CardTitle className="text-4xl">
+                  DZD <AdminWeek />
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-xs text-muted-foreground">
@@ -88,7 +91,9 @@ export default function Reservations() {
             <Card x-chunk="dashboard-05-chunk-2">
               <CardHeader className="pb-2">
                 <CardDescription>This Month</CardDescription>
-                <CardTitle className="text-4xl">$5,329</CardTitle>
+                <CardTitle className="text-4xl">
+                  DZD <AdminMonth />
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-xs text-muted-foreground">
@@ -152,10 +157,10 @@ export default function Reservations() {
                       <TableRow>
                         <TableHead>Customer</TableHead>
                         <TableHead className="hidden sm:table-cell">
-                          Status
+                          Date
                         </TableHead>
                         <TableHead className="hidden md:table-cell">
-                          Date
+                          Status
                         </TableHead>
                         <TableHead className="text-right">Amount</TableHead>
                       </TableRow>

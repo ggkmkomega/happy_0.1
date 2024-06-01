@@ -98,6 +98,7 @@ model Reservation {
     children  Int
     rooms     Int
     price     Int
+    createdAt DateTime @default(now())
 
     Listing Listing @relation(fields: [listingId], references: [id])
     User    User    @relation(fields: [userId], references: [id])

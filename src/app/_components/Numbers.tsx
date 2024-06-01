@@ -20,3 +20,11 @@ export function TotalRevenue() {
   const numbers = api.reservation.getmoneyofReservations.useQuery();
   return <div className="text-2xl font-bold">{numbers.data}</div>;
 }
+export function AdminWeek() {
+  const numbers = api.reservation.getmoneyAdminWeek.useQuery();
+  return <div className="text-2xl font-bold">{numbers.data}</div>;
+}
+export function AdminMonth() {
+  const numbers = api.reservation.getmoneyAdminMonth.useQuery();
+  return <div className="text-2xl font-bold">{numbers.data}</div>;
+}

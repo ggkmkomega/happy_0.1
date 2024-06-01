@@ -1,3 +1,4 @@
+import { endOfMonth, endOfWeek, startOfMonth, startOfWeek } from "date-fns";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
@@ -92,6 +93,43 @@ export const reservationrouter = createTRPCRouter({
     });
     return totalAmount._sum.price;
   }),
+  getmoneyAdminWeek: protectedProcedure.query(async ({ ctx }) => {
+    const startDate = startOfWeek(new Date(), { weekStartsOn: 1 }); // Start of the current week (Monday)
+    const endDate = endOfWeek(new Date(), { weekStartsOn: 1 }); // End of the current week (Sunday)
+    const totalAmount = await ctx.db.reservation.aggregate({
+      where: {
+        hostId: ctx.session.user.id,
+        createdAt: {
+          gte: startDate,
+          lt: endDate,
+        },
+      },
+      _sum: {
+        price: true,
+      },
+    });
+
+    return totalAmount._sum.price ?? 0; // Return 0 if no reservations
+  }),
+  getmoneyAdminMonth: protectedProcedure.query(async ({ ctx }) => {
+    const startDate = startOfMonth(new Date()); // Start of the current month
+    const endDate = endOfMonth(new Date()); // End of the current month
+
+    const totalAmount = await ctx.db.reservation.aggregate({
+      where: {
+        hostId: ctx.session.user.id,
+        createdAt: {
+          gte: startDate,
+          lt: endDate,
+        },
+      },
+      _sum: {
+        price: true,
+      },
+    });
+
+    return totalAmount._sum.price ?? 0; // Return 0 if no reservations
+  }),
   createReservation: protectedProcedure
     .input(
       z.object({
@@ -134,6 +172,16 @@ export const reservationrouter = createTRPCRouter({
       where: {
         hostId: ctx.session.user.id,
       },
+      include: {
+        Listing: true,
+        User: true,
+      },
+    });
+
+    return reservations;
+  }),
+  getAllAdminReservations: protectedProcedure.query(async ({ ctx }) => {
+    const reservations = await ctx.db.reservation.findMany({
       include: {
         Listing: true,
         User: true,
