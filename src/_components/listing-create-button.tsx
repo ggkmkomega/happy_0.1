@@ -13,8 +13,8 @@ export function Listingcreatebutton({
   ...props
 }: ButtonProps) {
   const router = useRouter();
-  const { mutate, data, isLoading } = api.listing.create.useMutation({
-    onSettled: () => {
+  const { mutate, isLoading } = api.listing.create.useMutation({
+    onSuccess: (data) => {
       router.push(`/editor/${data?.id}`);
     },
   });
@@ -28,7 +28,7 @@ export function Listingcreatebutton({
       street: "No street",
       type: "House",
       status: "InActive",
-      price: 1
+      price: 1,
     });
   }
 

@@ -24,7 +24,7 @@ export default function AllStays() {
               image: stay.User.image,
               name: stay.User.name,
             }}
-            amount={121230}
+            amount={stay.price}
           />
         );
       })}

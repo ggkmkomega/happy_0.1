@@ -96,7 +96,13 @@ export function PostOperations({
                 if (!remove.isLoading) {
                   setIsDeleteLoading(false);
                   setShowDeleteAlert(false);
+                  toast({
+                    title: "Listing Deleted Succesfully.",
+                    description: "Your listing was deleted. ",
+                    variant: "default",
+                  });
                   await APIServer.listing.adminAllUserListings.invalidate();
+                  await APIServer.listing.allUserListings.invalidate();
                 } else {
                   toast({
                     title: "Something went wrong.",

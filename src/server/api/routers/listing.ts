@@ -110,7 +110,7 @@ export const listingrouter = createTRPCRouter({
           price,
         },
       }) => {
-        return ctx.db.listing.create({
+        const listing = ctx.db.listing.create({
           data: {
             name,
             description,
@@ -127,6 +127,7 @@ export const listingrouter = createTRPCRouter({
             },
           },
         });
+        return listing;
       },
     ),
   getnumberofListings: protectedProcedure

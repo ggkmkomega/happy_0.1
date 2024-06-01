@@ -30,6 +30,7 @@ import ReservationsTable from "~/app/_components/ReservationsTable";
 import AllReservationNumber, {
   ResidentsAdults,
   ResidentsBaby,
+  TotalRevenue,
 } from "~/app/_components/Numbers";
 import ActiveStays from "~/app/_components/Numbers";
 
@@ -51,10 +52,10 @@ export default async function Reservations() {
                 <DollarSign className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">$45,231.89</div>
-                <p className="text-xs text-muted-foreground">
-                  +20.1% from last month
-                </p>
+                <div className="text-2xl font-bold">
+                  DZD
+                  <TotalRevenue />
+                </div>
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-01-chunk-1">
@@ -73,9 +74,6 @@ export default async function Reservations() {
                     <ResidentsAdults />
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  +180.1% from last month
-                </p>
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-01-chunk-2">
@@ -87,9 +85,6 @@ export default async function Reservations() {
               </CardHeader>
               <CardContent>
                 <AllReservationNumber />
-                <p className="text-xs text-muted-foreground">
-                  +19% from last month
-                </p>
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-01-chunk-3">
@@ -101,9 +96,6 @@ export default async function Reservations() {
               </CardHeader>
               <CardContent>
                 <ActiveStays />
-                <p className="text-xs text-muted-foreground">
-                  +201 since last hour
-                </p>
               </CardContent>
             </Card>
           </div>

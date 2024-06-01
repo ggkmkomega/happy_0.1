@@ -9,7 +9,7 @@ import { GeistSans } from "geist/font/sans";
 export const metadata = {
   title: "Happy Stays",
   description: "Plan your next Trip",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/bg-logo.png" }],
 };
 
 export default async function RootLayout({

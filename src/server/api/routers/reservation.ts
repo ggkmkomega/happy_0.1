@@ -81,15 +81,17 @@ export const reservationrouter = createTRPCRouter({
       return sum._sum.adults;
     },
   ),
-  //no amount on reservation model
-  // getmoneyofReservations: protectedProcedure.query(async ({ ctx }) => {
-  //   const totalAmount = await ctx.db.reservation.aggregate({
-  //     _sum: {
-  //       amount: true,
-  //     },
-  //   });
-  //   return totalAmount._sum.amount;
-  // }),
+  getmoneyofReservations: protectedProcedure.query(async ({ ctx }) => {
+    const totalAmount = await ctx.db.reservation.aggregate({
+      where: {
+        hostId: ctx.session.user.id,
+      },
+      _sum: {
+        price: true,
+      },
+    });
+    return totalAmount._sum.price;
+  }),
   createReservation: protectedProcedure
     .input(
       z.object({
