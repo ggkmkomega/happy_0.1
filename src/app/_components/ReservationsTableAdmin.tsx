@@ -40,7 +40,7 @@ export default function ReservationsTableAdmin({
               Dayjs(row.endDate).format("DD/MM/YYYY")
             }
             status={row.status}
-            price="1000"
+            price={row.price.toString()}
             onClick={() => setSelectedId(row.id)}
           />
         );

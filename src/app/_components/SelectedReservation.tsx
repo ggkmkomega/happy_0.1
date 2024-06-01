@@ -1,3 +1,4 @@
+import Dayjs from "dayjs";
 import {
   ChevronLeft,
   ChevronRight,
@@ -38,7 +39,10 @@ export default function SelectedReservation({
   currentSelectedReservation,
 }: SelectedReservationProps) {
   if (!currentSelectedReservation) return null;
-
+  const nbrDays = Dayjs(currentSelectedReservation.endDate).diff(
+    Dayjs(currentSelectedReservation.startDate),
+    "day",
+  );
   return (
     <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
       <CardHeader className="flex flex-row items-start bg-muted/50">
@@ -84,31 +88,20 @@ export default function SelectedReservation({
           <ul className="grid gap-3">
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">
-                Adults x <span>{currentSelectedReservation.adults}</span>
+                Number of Days x <span>{nbrDays}</span>
               </span>
-              <span>250.00 DZD</span>
-              {/* {currentSelected  Reservation.amount} */}
-            </li>
-            <li className="flex items-center justify-between">
-              <span className="text-muted-foreground">
-                Children x <span>{currentSelectedReservation.children}</span>
-              </span>
-              <span>49.00 DZD</span>
-              {/* {currentSelectedReservation.amount / 2} */}
             </li>
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">
                 Rooms x <span>{currentSelectedReservation.rooms}</span>
               </span>
-              <span>49.00 DZD</span>
-              {/* {currentSelected  Reservation.amount} */}
             </li>
           </ul>
           <Separator className="my-2" />
           <ul className="grid gap-3">
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">Subtotal</span>
-              <span>299.00 DZD</span>
+              <span>{currentSelectedReservation.price} DZD</span>
               {/* {currentSelected  Reservation.amount} */}
             </li>
 
@@ -118,7 +111,7 @@ export default function SelectedReservation({
             </li>
             <li className="flex items-center justify-between font-semibold">
               <span className="text-muted-foreground">Total</span>
-              <span>329.00 DZD</span>
+              <span>{currentSelectedReservation.price} DZD</span>
               {/* {currentSelected  Reservation.amount} */}
             </li>
           </ul>

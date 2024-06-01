@@ -79,7 +79,7 @@ export default function Reservations() {
           </main>
         ) : (
           <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="post" />
+            <EmptyPlaceholder.Icon name="myreservation" />
             <EmptyPlaceholder.Title>No Reservation </EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
               You don&apos;t have any Reservations yet. Start your journey.

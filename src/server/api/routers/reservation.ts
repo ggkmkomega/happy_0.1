@@ -98,7 +98,6 @@ export const reservationrouter = createTRPCRouter({
     const endDate = endOfWeek(new Date(), { weekStartsOn: 1 }); // End of the current week (Sunday)
     const totalAmount = await ctx.db.reservation.aggregate({
       where: {
-        hostId: ctx.session.user.id,
         createdAt: {
           gte: startDate,
           lt: endDate,
@@ -117,7 +116,6 @@ export const reservationrouter = createTRPCRouter({
 
     const totalAmount = await ctx.db.reservation.aggregate({
       where: {
-        hostId: ctx.session.user.id,
         createdAt: {
           gte: startDate,
           lt: endDate,

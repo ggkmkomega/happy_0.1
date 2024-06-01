@@ -129,7 +129,14 @@ export function EditListing({ existingListing }: ListingFormProps) {
                     >
                       Discard
                     </Button>
-                    <Button size="sm">Save Changes</Button>
+                    <Button
+                      onClick={() => {
+                        router.push("/dashboard");
+                      }}
+                      size="sm"
+                    >
+                      Save Changes
+                    </Button>
                   </div>
                 </div>
                 <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">

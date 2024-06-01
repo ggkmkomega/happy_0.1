@@ -33,7 +33,7 @@ export default function ReservationsTable() {
               Dayjs(row.endDate).format("DD/MM/YYYY")
             }
             status={row.status}
-            price="1000"
+            price={row.price}
           />
         );
       })}

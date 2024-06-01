@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import { api } from "~/trpc/server";
-import { authOptions, getServerAuthSession } from "~/server/auth";
+import { getServerAuthSession } from "~/server/auth";
 
 import EditListing from "~/app/_components/NewEditListing";
 
