@@ -22,6 +22,12 @@
 
 ## [¬] Single Listing Page
 
+### images / phone number on approve
+
+### aminities for each listing
+
+### Research
+
 ### Stuff To fix
 
 -delete images in uploadthing on db delete

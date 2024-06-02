@@ -50,6 +50,7 @@ import {
 } from "~/_components/ui/form";
 import { Badge } from "~/_components/ui/badge";
 import { UploadButton } from "~/utils/uploadthing";
+import amenities, { type Amenity } from "~/data/ameneties";
 
 interface ListingFormProps extends React.HTMLAttributes<HTMLFormElement> {
   existingListing: ListingEditRequired;
@@ -60,25 +61,6 @@ export function EditListing({ existingListing }: ListingFormProps) {
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   });
-  // const { isLoaded } = useJsApiLoader({
-  //   id: "google-map-script",
-  //   googleMapsApiKey: "AIzaSyBl6iwyHZvDVMDunaF6Toa9uA3T6oOIgQg",
-  // });
-  // const [map, setMap] = useState();
-  // const center = {
-  //   lat: -3.745,
-  //   lng: -38.523,
-  // };
-  // const onLoad = useCallback(function callback(map) {
-  //   const bounds = new window.google.maps.LatLngBounds(center);
-  //   map.fitBounds(bounds);
-
-  //   setMap(map);
-  // }, []);
-
-  // const onUnmount = useCallback(function callback() {
-  //   setMap(null);
-  // }, []);
 
   type TlistingInput = z.infer<typeof listingInput>;
 
@@ -95,6 +77,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
     router.push("/dashboard");
   };
 
+  const [selectedAmenties, setSelectedAmenties] = useState([""]);
   const router = useRouter();
 
   return (
@@ -205,8 +188,10 @@ export function EditListing({ existingListing }: ListingFormProps) {
 
                     <Card className="overflow-hidden">
                       <CardHeader>
-                        <CardTitle>Product Images</CardTitle>
-                        <CardDescription>Listing images </CardDescription>
+                        <CardTitle>Listing Images</CardTitle>
+                        <CardDescription>
+                          Add images to better Present your Property{" "}
+                        </CardDescription>
                       </CardHeader>
                       <CardContent>
                         <div className="grid gap-2">
@@ -456,26 +441,40 @@ export function EditListing({ existingListing }: ListingFormProps) {
                     </Card>
                     <Card>
                       <CardHeader>
-                        <CardTitle>Place on Map</CardTitle>
+                        <CardTitle>Amenities</CardTitle>
                         <CardDescription>
-                          Put a marker for your users.
+                          Add amenties to help describe your property.
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        {/* {isLoaded ? (
-                          <GoogleMap
-                            mapContainerStyle={{
-                              width: "400px",
-                              height: "400px",
-                            }}
-                            center={center}
-                            zoom={10}
-                            onLoad={onLoad}
-                            onUnmount={onUnmount}
-                          ></GoogleMap>
-                        ) : (
-                          <p>Map</p>
-                        )} */}
+                        <div className="grid grid-cols-2">
+                          {amenities.map((amenty: Amenity) => {
+                            const Icon = amenty.icon;
+                            return (
+                              <div
+                                className={`m-2 flex flex-col items-center gap-2 rounded-md  py-2 hover:cursor-pointer hover:bg-pink-200 ${selectedAmenties.includes(amenty.name) ? "bg-rose-400 text-white" : "bg-accent "}`}
+                                key={amenty.id}
+                                onClick={() => {
+                                  if (selectedAmenties.includes(amenty.name)) {
+                                    setSelectedAmenties((prev) =>
+                                      prev.filter(
+                                        (item) => item !== amenty.name,
+                                      ),
+                                    );
+                                  } else {
+                                    setSelectedAmenties((prev) => [
+                                      ...prev,
+                                      amenty.name,
+                                    ]);
+                                  }
+                                }}
+                              >
+                                <Icon />
+                                <div>{amenty.name}</div>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </CardContent>
                     </Card>
                   </div>
@@ -513,16 +512,22 @@ const UploadImage = ({ listingsId }: { listingsId: string }) => {
       await trpc.images.invalidate();
     },
   });
-
   return (
     <>
       <label htmlFor="uploadImage">
-        <div className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed hover:cursor-pointer hover:bg-pink-200 ">
+        <div
+          onClick={() => {
+            const uploadButton = document.querySelector('input[type="file"]');
+            if (!uploadButton === null) uploadButton.click();
+          }}
+          className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed hover:cursor-pointer hover:bg-pink-200 "
+        >
           <Upload className="h-4 w-4 text-muted-foreground" />
           <span className="sr-only">Upload</span>
         </div>
       </label>
       <UploadButton
+        className="mt-4"
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
           res.map((image) => {
