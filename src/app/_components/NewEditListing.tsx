@@ -77,9 +77,18 @@ export function EditListing({ existingListing }: ListingFormProps) {
     router.push("/dashboard");
   };
 
-  const [selectedAmenties, setSelectedAmenties] = useState([""]);
+  const [selectedAmenties, setSelectedAmenties] = useState<Amenity[]>([]);
   const router = useRouter();
-
+  const handleAmenityClick = (amenity: Amenity) => {
+    const alreadySelected = !!selectedAmenties.find((a) => a.id === amenity.id);
+    if (alreadySelected) {
+      setSelectedAmenties((prevAmenities) =>
+        prevAmenities.filter((a) => a.id !== amenity.id),
+      );
+    } else {
+      setSelectedAmenties((prevAmenities) => [...prevAmenities, amenity]);
+    }
+  };
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
@@ -450,23 +459,15 @@ export function EditListing({ existingListing }: ListingFormProps) {
                         <div className="grid grid-cols-2">
                           {amenities.map((amenty: Amenity) => {
                             const Icon = amenty.icon;
+                            const alreadySelected = !!selectedAmenties.find(
+                              (a) => a.id === amenty.id,
+                            );
                             return (
                               <div
-                                className={`m-2 flex flex-col items-center gap-2 rounded-md  py-2 hover:cursor-pointer hover:bg-pink-200 ${selectedAmenties.includes(amenty.name) ? "bg-rose-400 text-white" : "bg-accent "}`}
+                                className={`m-2 flex flex-col items-center gap-2 rounded-md  py-2 hover:cursor-pointer hover:bg-pink-200 ${alreadySelected ? "bg-rose-400 text-white" : "bg-accent "}`}
                                 key={amenty.id}
                                 onClick={() => {
-                                  if (selectedAmenties.includes(amenty.name)) {
-                                    setSelectedAmenties((prev) =>
-                                      prev.filter(
-                                        (item) => item !== amenty.name,
-                                      ),
-                                    );
-                                  } else {
-                                    setSelectedAmenties((prev) => [
-                                      ...prev,
-                                      amenty.name,
-                                    ]);
-                                  }
+                                  handleAmenityClick(amenty);
                                 }}
                               >
                                 <Icon />
@@ -517,8 +518,8 @@ const UploadImage = ({ listingsId }: { listingsId: string }) => {
       <label htmlFor="uploadImage">
         <div
           onClick={() => {
-            const uploadButton = document.querySelector('input[type="file"]');
-            if (!uploadButton === null) uploadButton.click();
+            // const uploadButton = document.querySelector('input[type="file"]');
+            // if (!uploadButton === null) uploadButton.click();
           }}
           className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed hover:cursor-pointer hover:bg-pink-200 "
         >
