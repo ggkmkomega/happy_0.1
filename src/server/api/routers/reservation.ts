@@ -238,4 +238,17 @@ export const reservationrouter = createTRPCRouter({
         },
       });
     }),
+  getnumberofCommissionsForUser: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const totalAmount = await ctx.db.reservation.aggregate({
+        where: {
+          hostId: input,
+        },
+        _sum: {
+          price: true,
+        },
+      });
+      return totalAmount._sum.price ?? 0; // Return 0 if no reservations
+    }),
 });

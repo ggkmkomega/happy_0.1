@@ -33,7 +33,8 @@ export default function ReservationsTable() {
               Dayjs(row.endDate).format("DD/MM/YYYY")
             }
             status={row.status}
-            price={row.price}
+            price={row.price.toString()}
+            phone={row.User.phone ?? "No phone Number"}
           />
         );
       })}

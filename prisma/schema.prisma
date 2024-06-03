@@ -74,7 +74,7 @@ model Listing {
     street       String
     city         String
     province     String
-    approve      String        @default("Pending")
+    approve      String     @default("Pending")
     price        Int        @default(0)
     images       Image[]
     reservations Reservation[]

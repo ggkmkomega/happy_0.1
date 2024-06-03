@@ -9,6 +9,7 @@ interface ReservationRowProps {
   date: string;
   status: string;
   price: string;
+  phone: string;
 }
 export default function ReservationRow({
   name,
@@ -17,6 +18,7 @@ export default function ReservationRow({
   price,
   status,
   reservationId,
+  phone,
 }: ReservationRowProps) {
   const utils = api.useUtils();
   const { mutate: toggleApproval } = api.reservation.toggleApproval.useMutation(
@@ -51,6 +53,9 @@ export default function ReservationRow({
         >
           {status}
         </Badge>
+        <div className="mt-2 flex flex-col gap-2 font-semibold  ">
+          {status === "Approved" && phone}
+        </div>
       </TableCell>
       <TableCell className="text-right">DZD {price}</TableCell>
     </TableRow>

@@ -2,7 +2,7 @@ import Navbar from "./Navbar";
 import SearchBar from "./SearchBar";
 import { type Session } from "next-auth";
 
-const Header = ({ session }: { session: Session }) => {
+const Header = ({ session }: { session: Session | null }) => {
   return (
     <header className="p-2 md:p-3">
       <div
