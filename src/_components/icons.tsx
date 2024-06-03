@@ -28,6 +28,19 @@ import {
   Badge,
   BookmarkCheck,
   type LucideIcon,
+  Wifi,
+  Tv,
+  ParkingCircleIcon,
+  CookingPot,
+  AirVent,
+  Heater,
+  Dumbbell,
+  Waves,
+  Fence,
+  Cat,
+  Cigarette,
+  Accessibility,
+  WashingMachine,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -58,6 +71,19 @@ export const Icons = {
   myreservation: BookmarkCheck,
   approve: BadgeCheck,
   unapprove: Badge,
+  wifi: Wifi,
+  tv: Tv,
+  kitchen: CookingPot,
+  ac: AirVent,
+  heating: Heater,
+  parking: ParkingCircleIcon,
+  gym: Dumbbell,
+  pool: Waves,
+  Garden: Fence,
+  petFriendly: Cat,
+  smoking: Cigarette,
+  wheelchair: Accessibility,
+  laundry: WashingMachine,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
