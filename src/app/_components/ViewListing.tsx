@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 
 // shadcn stuff
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import { Loader2, MapPinIcon, ParkingCircle, PinIcon } from "lucide-react";
+import { CigaretteOff, Coffee, Heater, Loader2, MapPinIcon, ParkingCircle, PinIcon, Snowflake, Users, Wifi } from "lucide-react";
 import Image from "next/image";
 import { Button } from "~/_components/ui/button";
 import {
@@ -83,12 +83,6 @@ const ListingHeader = ({
         <Link href={"#info"} className="px-24 py-3 hover:bg-slate-100">
           Info & Prices
         </Link>
-        <Link href={"#ratings"} className="px-24 py-3 hover:bg-slate-100">
-          Guest Reviews
-        </Link>
-        <Link href={"#"} className="px-24 py-3 hover:bg-slate-100">
-          FAQ
-        </Link>
       </div>
 
       {/* title & rating */}
@@ -103,7 +97,9 @@ const ListingHeader = ({
   );
 };
 
-const ListingImages = ({ images }: { images: any }) => {
+const ListingImages = ({ listing }: { listing: Listing }) => {
+  const images = listing.images;
+
   return (
     <div className="justify-around gap-x-4 py-3 md:flex">
       <div className="md:w-[69vw]">
@@ -129,22 +125,17 @@ const ListingImages = ({ images }: { images: any }) => {
         </Carousel>
       </div>
       <div className="hidden w-[25vw] flex-col  items-center justify-start gap-y-4 md:flex">
-        <Carousel className="max-w-full px-4">
-          <CarouselContent>
-            {ratings.map((ratingData, index) => {
-              return (
-                <CarouselItem key={index}>
-                  <RatingCard ratingData={ratingData} />
-                </CarouselItem>
-              );
-            })}
-          </CarouselContent>
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Avatar>
+                <AvatarImage src={listing.createdBy.image} />
+              </Avatar>
+              {listing.createdBy.name}
+            </CardTitle>
+          </CardHeader>
+        </Card>
 
-          <CarouselPrevious className="absolute  -left-2 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full" />
-          <CarouselNext className="absolute -right-2 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full " />
-        </Carousel>
-
-        <Map />
       </div>
     </div>
   );
@@ -186,14 +177,6 @@ const ReserveCard = ({ listing }: { listing: Listing }) => {
     return price * numberOfDays;
   };
 
-  // useEffect(() => {
-  //   const formData = form.getValues()
-
-  //   const newPrice = calculatePrice(formData.datePicker.from, formData.datePicker.to, listing.price)
-  //   form.setValue("price" , newPrice);
-
-  // }, [form])
-
   return (
     <>
       <div className="space-y-4 rounded-sm bg-blue-100 px-5 py-4">
@@ -203,7 +186,7 @@ const ReserveCard = ({ listing }: { listing: Listing }) => {
           guests (8.7)
         </div>
         <div className="flex items-center gap-x-1 text-sm">
-          <ParkingCircle className="text-sm" /> Free private parking available
+          <ParkingCircle className="text-sm" />Free private parking available
           at the hotel
         </div>
         <div className="space-y-3 py-3">
@@ -330,6 +313,33 @@ const Description = ({ listing }: { listing: Listing }) => {
     <div id="info" className="justify-between gap-x-4 md:flex">
       <div className="md:w-[70%]">
         <div className="whitespace-pre-wrap py-4 ">{listing.description}</div>
+        <h3 className="text-lg font-bold pb-3">Most popular facilities</h3>
+        <div className="flex flex-wrap gap-4 w-5/6">
+          <div className="flex gap-1">
+            <CigaretteOff className="text-green-600" />
+            Non-smoking rooms
+          </div>
+          <div className="flex gap-1">
+            <Users className="text-green-600" />
+            Family rooms
+          </div>
+          <div className="flex gap-1">
+            <Wifi className="text-green-600" />
+            Free Wifi
+          </div>
+          <div className="flex gap-1">
+            <Heater className="text-green-600" />
+            Heating
+          </div>
+          <div className="flex gap-1">
+            <Snowflake className="text-green-600" />
+            Air conditioning
+          </div>
+          <div className="flex gap-1">
+            <Coffee className="text-green-600" />
+            Tea/coffee maker in all rooms
+          </div>
+        </div>
       </div>
       <div className="pr-4 md:w-[30%]">
         <ReserveCard listing={listing} />
@@ -437,14 +447,13 @@ const Map = () => {
 function ViewListing({ listing }: { listing: Listing }) {
   const locationString =
     listing.city + " " + listing.province + " " + listing.street;
-  console.log(locationString);
 
   return (
     <section className="md:px-3">
       <ListingHeader title={listing.name} location={locationString} />
-      <ListingImages images={listing.images} />
+      <ListingImages listing={listing} />
       <Description listing={listing} />
-      <Ratings />
+      {/* <Ratings /> */}
     </section>
   );
 }

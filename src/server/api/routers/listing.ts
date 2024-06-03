@@ -25,6 +25,7 @@ export const listingrouter = createTRPCRouter({
         },
         include: {
           images: true,
+          createdBy : true
         },
       });
       return listing;

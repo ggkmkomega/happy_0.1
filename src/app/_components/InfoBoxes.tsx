@@ -9,7 +9,7 @@ const InfoBoxes = () => {
         <div
           style={{
             backgroundImage: darkenedBgImage(
-              "https://images.unsplash.com/photo-1455587734955-081b22074882?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1595168318069-217391d91943?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             ),
           }}
           className="flex h-[46vh] w-full items-center rounded bg-red-100 bg-cover bg-center bg-no-repeat px-3 md:w-[35vw]"
@@ -29,7 +29,7 @@ const InfoBoxes = () => {
         <div
           style={{
             backgroundImage: darkenedBgImage(
-              "https://images.unsplash.com/photo-1712971404210-658cb22c84fe?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1588676449872-3eaa8b242e69?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             ),
           }}
           className="flex min-h-[24vh] w-full items-end rounded bg-cover bg-center bg-no-repeat md:h-[33vh] md:w-[35vw]"
@@ -44,7 +44,7 @@ const InfoBoxes = () => {
       <div
         style={{
           backgroundImage: darkenedBgImage(
-            "https://images.unsplash.com/photo-1519922639192-e73293ca430e?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1535585538107-e457d37fbde5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
           ),
         }}
         className="flex h-[50vh] w-full items-center justify-center rounded bg-cover bg-center bg-no-repeat text-white md:h-[80vh] md:w-[65vw]"

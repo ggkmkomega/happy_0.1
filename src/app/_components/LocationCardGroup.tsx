@@ -32,7 +32,7 @@ const LocationCardGroup = () => {
                 </div>
               </CardContent>
               <CardFooter className="grid w-full px-0">
-                <h1 className="text-xl font-bold">${data.price}</h1>
+                <h1 className="text-xl font-bold">DZD {" "}{data.price},00</h1>
                 <p className="text-xs text-gray-500">includes fees and taxs</p>
               </CardFooter>
             </Card>

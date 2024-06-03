@@ -32,84 +32,60 @@ export const dealsSection =
 
 export const cardData = [
     {
-        title: "Oran beach",
-        img: "https://plus.unsplash.com/premium_photo-1679865372673-8d1655a73b50?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        title: "Oran",
+        img: "https://media-cdn.tripadvisor.com/media/photo-s/12/22/c4/b7/plage-les-andalouses.jpg",
         location: "Oran",
         rating: "4.7 (540 reviews)",
-        price: 180,
+        price: 1800,
     },
     {
-        title: "los angeles",
-        img: "https://plus.unsplash.com/premium_photo-1679527286796-e08f9ff894ff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "USA",
+        title: "Annaba Beach",
+        img: "https://i.ytimg.com/vi/1M7QKHO5-SE/maxresdefault.jpg",
+        location: "Annaba",
         rating: "4.2 (120 reviews)",
         price: 300,
     },
     {
-        title: "Saint Lucia",
-        img: "https://images.unsplash.com/photo-1619120238346-978e07731e77?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "Caribbean",
+        title: "Timgad",
+        img: "https://allthatsinteresting.com/wordpress/wp-content/uploads/2020/10/timgad-ruins-1.jpg",
+        location: "Batna",
         rating: "5.0 (80 reviews)",
         price: 100,
     },
     {
-        title: "Banda Aceh",
-        img: "https://images.unsplash.com/photo-1599185106854-70374cac2cbf?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "Indonesia",
-        rating: "4.5 (5000 reviews)",
+        title: "Souk Ahras",
+        img: "https://www.goodfreephotos.com/albums/algeria/other-algeria/overview-of-souk-ahras.jpg",
+        location: "Souk Ahrase",
+        rating: "4.5 (50 reviews)",
         price: 50,
     },
 ]
 
 export const foodCardData = [
     {
-        title: "Oran beach",
-        img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        title: "Havana Saïd Hamdine",
+        img: "https://i.pinimg.com/originals/e2/c0/36/e2c0362fed6cd569097075e48b89cdbc.jpg",
         location: "Oran",
         rating: "4.7 (540 reviews)",
     },
     {
-        title: "los angeles",
-        img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "USA",
+        title: "le Bosphore",
+        img: "https://i.pinimg.com/originals/e9/13/9a/e9139adeaab1f6b0868db575c2488356.jpg",
+        location: "Batna",
         rating: "4.2 (120 reviews)",
     },
     {
-        title: "Saint Lucia",
-        img: "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "Caribbean",
+        title: "Mesk Elil",
+        img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.KniMmqdvfEewbqVnRgyHQQHaEK%26pid%3DApi&f=1&ipt=6414143ed9c0771a009bda0ee3b45d61193054b8b26675511f1f4d1108b9b5a1&ipo=images",
+        location: "Blida",
         rating: "5.0 (80 reviews)",
     },
     {
-        title: "Banda Aceh",
-        img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "Indonesia",
+        title: "Palestinian",
+        img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.UeDZpkUiBG13BAww3Eqh2QHaEK%26pid%3DApi&f=1&ipt=be7a7870a1747c211c089c15e672a1bcfd4517c18718edc211e5e8777d54e6a5&ipo=images",
+        location: "Algies",
         rating: "4.5 (5000 reviews)",
-    },
-    {
-        title: "Oran beach",
-        img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "Oran",
-        rating: "4.7 (540 reviews)",
-    },
-    {
-        title: "los angeles",
-        img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "USA",
-        rating: "4.2 (120 reviews)",
-    },
-    {
-        title: "Saint Lucia",
-        img: "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "Caribbean",
-        rating: "5.0 (80 reviews)",
-    },
-    {
-        title: "Banda Aceh",
-        img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "Indonesia",
-        rating: "4.5 (5000 reviews)",
-    },
+    }
 ]
 
 
