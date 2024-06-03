@@ -61,10 +61,7 @@ export function UserAccountNav({ user, admin }: UserAccountNavProps) {
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="cursor-pointer"
-          onClick={() => signOut({ callbackUrl: "/" })}
-        >
+        <DropdownMenuItem className="cursor-pointer" onClick={() => signOut()}>
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>

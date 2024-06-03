@@ -22,7 +22,7 @@ export default async function RootLayout({
       <body>
         <TRPCReactProvider>
           {/*          <Navbar session={session} />*/}
-          <NextTopLoader />
+          <NextTopLoader showSpinner={false} />
           {children}
           <Toaster />
         </TRPCReactProvider>

@@ -68,7 +68,7 @@ model User {
 model Listing {
     id           String        @id @default(cuid())
     type         String
-    status       String        @default("InActive")
+    status       String        @default("Active")
     name         String
     description  String
     street       String
