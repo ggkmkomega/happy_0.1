@@ -55,17 +55,34 @@ const SearchBar = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
+  const defaultValues = (searchParams: any) => {
+    if (searchParams.get("start") == "undefined") {
+      return {
+        locationSelect: { label: "", value: "" },
+        attendanceSelector: { adults: 1, children: 0, rooms: 1 },
+        datePicker: {
+          from: undefined,
+          to: undefined,
+        },
+      }
+    }
+    else return {
       locationSelect: { label: searchParams.get("location") || "", value: searchParams.get("location") || "" },
       attendanceSelector: { adults: Number(searchParams.get("adults")) || 1, children: Number(searchParams.get("children")) || 0, rooms: Number(searchParams.get("rooms")) || 1 },
       datePicker: {
-        from:  searchParams.get("start") ? new Date(searchParams.get("start")!) : undefined,
+        from: searchParams.get("start") ? new Date(searchParams.get("start")!) : undefined,
         to: searchParams.get("end") ? new Date(searchParams.get("end")!) : undefined,
       },
-    },
+    }
+  }
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: defaultValues(searchParams),
   });
+
+  console.log("form.getValues()");
+  console.log(typeof searchParams.get("start"));
 
 
   form.watch();
