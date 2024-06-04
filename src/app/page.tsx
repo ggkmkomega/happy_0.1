@@ -5,6 +5,7 @@ import Deals from "./_components/Deals";
 import FoodDisplay from "./_components/FoodDisplay";
 import InfoBoxes from "./_components/InfoBoxes";
 import { getServerAuthSession } from "~/server/auth";
+import TwoColumnFooter from "~/_components/Footer";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -18,9 +19,9 @@ export default async function Home() {
       <Deals />
       <FoodDisplay />
       <InfoBoxes />
-      {/* TODO :
-      - Footer
-      */}
+      <div className="p-8">
+        <TwoColumnFooter />
+      </div>
     </main>
   );
 }
