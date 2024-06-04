@@ -78,7 +78,7 @@ model Listing {
     price        Int        @default(0)
     images       Image[]
     reservations Reservation[]
-    Amenties  Amenty[]
+    Amenties  String[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
@@ -114,12 +114,6 @@ model Image {
     listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
     listingId String
 }
-model Amenty {
-    id        String  @id @default(cuid())
-    name      String  @unique   
-    icon     String
-    listings  Listing[]
-    }
 
 model VerificationToken {
     identifier String

@@ -73,17 +73,22 @@ export function EditListing({ existingListing }: ListingFormProps) {
   //const createImage = api.images.create.useMutation();
 
   const onSubmit = async (data: TlistingInput) => {
-    updateListing.mutate({ id: existingListing.id, data });
+    updateListing.mutate({
+      id: existingListing.id,
+      data: { ...data, ameneties: selectedAmenties },
+    });
     router.push("/dashboard");
   };
 
-  const [selectedAmenties, setSelectedAmenties] = useState<Amenity[]>([]);
+  const [selectedAmenties, setSelectedAmenties] = useState<string[]>(
+    existingListing.Amenties,
+  );
   const router = useRouter();
-  const handleAmenityClick = (amenity: Amenity) => {
-    const alreadySelected = !!selectedAmenties.find((a) => a.id === amenity.id);
+  const handleAmenityClick = (amenity: string) => {
+    const alreadySelected = !!selectedAmenties.find((a) => a === amenity);
     if (alreadySelected) {
       setSelectedAmenties((prevAmenities) =>
-        prevAmenities.filter((a) => a.id !== amenity.id),
+        prevAmenities.filter((a) => a !== amenity),
       );
     } else {
       setSelectedAmenties((prevAmenities) => [...prevAmenities, amenity]);
@@ -461,14 +466,14 @@ export function EditListing({ existingListing }: ListingFormProps) {
                           {amenities.map((amenty: Amenity) => {
                             const Icon = amenty.icon;
                             const alreadySelected = !!selectedAmenties.find(
-                              (a) => a.id === amenty.id,
+                              (a) => a === amenty.name,
                             );
                             return (
                               <div
                                 className={`m-2 flex flex-col items-center gap-2 rounded-md  py-2 hover:cursor-pointer hover:bg-pink-200 ${alreadySelected ? "bg-rose-400 text-white" : "bg-accent "}`}
-                                key={amenty.id}
+                                key={amenty.name}
                                 onClick={() => {
-                                  handleAmenityClick(amenty);
+                                  handleAmenityClick(amenty.name);
                                 }}
                               >
                                 <Icon />
