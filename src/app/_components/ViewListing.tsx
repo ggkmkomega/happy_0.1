@@ -149,7 +149,7 @@ const ListingImages = ({ listing }: { listing: Listing }) => {
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <div>Price : DZD {listing.price}</div>
+              <div>Price : DZD {listing.price}.00</div>
             </CardTitle>
           </CardHeader>
         </Card>

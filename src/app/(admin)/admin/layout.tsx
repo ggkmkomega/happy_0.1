@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import { MainNav } from "~/_components/main-nav";
 import { DashboardNav } from "~/_components/nav";
@@ -18,7 +18,7 @@ export default async function DashboardLayout({
   const user = session?.user;
 
   if (!user) {
-    return notFound();
+    redirect("/sign-in");
   }
 
   return (
