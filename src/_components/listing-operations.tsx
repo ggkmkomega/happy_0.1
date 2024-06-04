@@ -52,9 +52,18 @@ export function PostOperations({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
-            <Link href={`/editor/${Listing.id}`} className="flex w-full">
-              Edit
-            </Link>
+            {canApprove ? (
+              <Link
+                href={`/editor/${Listing.id}?admin=true`}
+                className="flex w-full"
+              >
+                Edit
+              </Link>
+            ) : (
+              <Link href={`/editor/${Listing.id}`} className="flex w-full">
+                Edit
+              </Link>
+            )}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem

@@ -65,7 +65,6 @@ export function EditListing({ existingListing }: ListingFormProps) {
     resolver: zodResolver(listingInput),
     defaultValues: { ...existingListing, price: Number(existingListing.price) },
   });
-
   const { mutate: updateListing, isSuccess } = api.listing.update.useMutation();
   //const createImage = api.images.create.useMutation();
   const revalidate = api.useUtils();
@@ -120,14 +119,16 @@ export function EditListing({ existingListing }: ListingFormProps) {
                   <div className="hidden items-center gap-2 md:ml-auto md:flex">
                     <Button
                       onClick={() => {
-                        router.push("/dashboard");
+                        router.back();
                       }}
                       variant="outline"
                       size="sm"
                     >
                       Discard
                     </Button>
-                    <Button size="sm">Save Changes</Button>
+                    <Button size="sm" type="submit">
+                      Save Changes
+                    </Button>
                   </div>
                 </div>
                 <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">

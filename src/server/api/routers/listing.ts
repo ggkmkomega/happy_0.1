@@ -15,15 +15,19 @@ export const listingrouter = createTRPCRouter({
         include: {
           images: true,
         },
-        take: input.amount
+        take: input.amount,
       });
       return listing;
     }),
 
   filteredListings: publicProcedure
-    .input(z.object({ amount: z.number().optional(), location: z.string().optional() }))
+    .input(
+      z.object({
+        amount: z.number().optional(),
+        location: z.string().optional(),
+      }),
+    )
     .query(async ({ ctx, input }) => {
-
       const { location } = input;
 
       const listing = await ctx.db.listing.findMany({
@@ -31,9 +35,9 @@ export const listingrouter = createTRPCRouter({
           ...(location ? { city: location } : {}),
         },
         include: {
-          images: true
+          images: true,
         },
-        take: input.amount
+        take: input.amount,
       });
       return listing;
     }),
@@ -47,7 +51,7 @@ export const listingrouter = createTRPCRouter({
         },
         include: {
           images: true,
-          createdBy: true
+          createdBy: true,
         },
       });
       return listing;
@@ -59,6 +63,19 @@ export const listingrouter = createTRPCRouter({
         where: {
           id: input,
           createdById: ctx.session.user.id,
+        },
+        include: {
+          images: true,
+        },
+      });
+      return listing;
+    }),
+  listingByAdmin: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const listing = await ctx.db.listing.findFirst({
+        where: {
+          id: input,
         },
         include: {
           images: true,

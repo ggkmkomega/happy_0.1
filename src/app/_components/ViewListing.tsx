@@ -6,7 +6,18 @@ import { useCallback, useEffect, useState } from "react";
 
 // shadcn stuff
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import { CigaretteOff, Coffee, Heater, Loader2, MapPinIcon, ParkingCircle, PinIcon, Snowflake, Users, Wifi } from "lucide-react";
+import {
+  CigaretteOff,
+  Coffee,
+  Heater,
+  Loader2,
+  MapPinIcon,
+  ParkingCircle,
+  PinIcon,
+  Snowflake,
+  Users,
+  Wifi,
+} from "lucide-react";
 import Image from "next/image";
 import { Button } from "~/_components/ui/button";
 import {
@@ -135,7 +146,13 @@ const ListingImages = ({ listing }: { listing: Listing }) => {
             </CardTitle>
           </CardHeader>
         </Card>
-
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <div>Price : DZD {listing.price}</div>
+            </CardTitle>
+          </CardHeader>
+        </Card>
       </div>
     </div>
   );
@@ -186,8 +203,8 @@ const ReserveCard = ({ listing }: { listing: Listing }) => {
           guests (8.7)
         </div>
         <div className="flex items-center gap-x-1 text-sm">
-          <ParkingCircle className="text-sm" />Free private parking available
-          at the hotel
+          <ParkingCircle className="text-sm" />
+          Free private parking available at the hotel
         </div>
         <div className="space-y-3 py-3">
           <div>
@@ -313,8 +330,8 @@ const Description = ({ listing }: { listing: Listing }) => {
     <div id="info" className="justify-between gap-x-4 md:flex">
       <div className="md:w-[70%]">
         <div className="whitespace-pre-wrap py-4 ">{listing.description}</div>
-        <h3 className="text-lg font-bold pb-3">Most popular facilities</h3>
-        <div className="flex flex-wrap gap-4 w-5/6">
+        <h3 className="pb-3 text-lg font-bold">Most popular facilities</h3>
+        <div className="flex w-5/6 flex-wrap gap-4">
           <div className="flex gap-1">
             <CigaretteOff className="text-green-600" />
             Non-smoking rooms
@@ -344,102 +361,6 @@ const Description = ({ listing }: { listing: Listing }) => {
       <div className="pr-4 md:w-[30%]">
         <ReserveCard listing={listing} />
       </div>
-    </div>
-  );
-};
-
-type Rating = {
-  avatarImage: string;
-  avatarFallback: string;
-  username: string;
-  location: string;
-  content: string;
-};
-
-const RatingCard = ({ ratingData }: { ratingData: Rating }) => {
-  return (
-    <Card className="h-full">
-      <CardHeader className="p-3">
-        <div className="flex items-center gap-x-1">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={ratingData.avatarImage} />
-            <AvatarFallback>{ratingData.avatarFallback}</AvatarFallback>
-          </Avatar>
-          <div>
-            <CardTitle>{ratingData.username}</CardTitle>
-            <CardDescription>{ratingData.location}</CardDescription>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent className="p-4">
-        <p>{ratingData.content}</p>
-      </CardContent>
-    </Card>
-  );
-};
-
-const Ratings = () => {
-  return (
-    <section id="ratings" className="py-8 md:py-0">
-      <h1 className="py-2 text-lg font-bold">
-        See what guests loved the most:
-      </h1>
-      <div className="max-w-screen">
-        <Carousel className="md:px-4">
-          <CarouselContent className="items-stretch">
-            {ratings.map((ratingData) => {
-              return (
-                <CarouselItem className="md:basis-1/3 ">
-                  <RatingCard ratingData={ratingData} />
-                </CarouselItem>
-              );
-            })}
-          </CarouselContent>
-
-          <CarouselPrevious className="absolute  -left-2 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full" />
-          <CarouselNext className="absolute -right-2 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full " />
-        </Carousel>
-      </div>
-    </section>
-  );
-};
-
-const Map = () => {
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBl6iwyHZvDVMDunaF6Toa9uA3T6oOIgQg",
-  });
-
-  const center = {
-    lat: -3.745,
-    lng: -38.523,
-  };
-
-  const onLoad = useCallback(function callback(map: any) {
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
-  }, []);
-
-  const onUnmount = useCallback(function callback() {
-    // setMap(null);
-  }, []);
-
-  return (
-    <div className="overflow-clip rounded-lg">
-      {isLoaded ? (
-        <GoogleMap
-          mapContainerStyle={{
-            width: "290px",
-            height: "200px",
-          }}
-          center={center}
-          zoom={10}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
-        ></GoogleMap>
-      ) : (
-        <p>Map</p>
-      )}
     </div>
   );
 };
