@@ -29,6 +29,7 @@ export function Listingcreatebutton({
       type: "House",
       status: "InActive",
       price: 1,
+      ameneties: ["No Amenity"],
     });
   }
 
