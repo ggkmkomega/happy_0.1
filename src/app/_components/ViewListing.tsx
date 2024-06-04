@@ -2,13 +2,19 @@
 
 import { Listing } from "@prisma/client";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 // shadcn stuff
+import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import dayjs from "dayjs";
 import { CigaretteOff, Coffee, Heater, Loader2, MapPinIcon, ParkingCircle, PinIcon, Snowflake, Users, Wifi } from "lucide-react";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Avatar, AvatarFallback, AvatarImage } from "~/_components/ui/avatar";
 import { Button } from "~/_components/ui/button";
+import { Calendar } from "~/_components/ui/calendar";
 import {
   Card,
   CardContent,
@@ -16,7 +22,6 @@ import {
   CardHeader,
   CardTitle,
 } from "~/_components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "~/_components/ui/avatar";
 import {
   Carousel,
   CarouselContent,
@@ -32,16 +37,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/_components/ui/dialog";
-import { Calendar } from "~/_components/ui/calendar";
 import { Form, FormField, FormItem } from "~/_components/ui/form";
-import { useForm } from "react-hook-form";
-import AttendanceSelector from "./AttendanceSelector";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { api } from "~/trpc/react";
 import { useToast } from "~/_components/ui/use-toast";
-import dayjs from "dayjs";
 import { ratings } from "~/config/site";
+import { api } from "~/trpc/react";
+import AttendanceSelector from "./AttendanceSelector";
 
 const FormSchema = z.object({
   datePicker: z.object({

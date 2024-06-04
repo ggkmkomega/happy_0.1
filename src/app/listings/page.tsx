@@ -46,7 +46,6 @@ const ListingDisplay = ({ listing }: { listing: FiltredListing }) => {
                 (item) => item.name === amenity,
               )?.icon;
               if (!Icon) return null;
-              console.log(Icon);
 
               return (
                 <div key={amenity} className="flex gap-x-1">

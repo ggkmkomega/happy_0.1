@@ -61,8 +61,8 @@ const SearchBar = () => {
       locationSelect: { label: searchParams.get("location") || "", value: searchParams.get("location") || "" },
       attendanceSelector: { adults: Number(searchParams.get("adults")) || 1, children: Number(searchParams.get("children")) || 0, rooms: Number(searchParams.get("rooms")) || 1 },
       datePicker: {
-        from: new Date(searchParams.get("start")!) || undefined,
-        to: new Date(searchParams.get("end")!) || undefined,
+        from:  searchParams.get("start") ? new Date(searchParams.get("start")!) : undefined,
+        to: searchParams.get("end") ? new Date(searchParams.get("end")!) : undefined,
       },
     },
   });
