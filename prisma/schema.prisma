@@ -61,24 +61,26 @@ model User {
 }
 
 model Listing {
-  id           String        @id @default(cuid())
-  type         String
-  status       String        @default("Active")
-  name         String
-  description  String
-  street       String
-  city         String
-  province     String
-  approve      String        @default("Pending")
-  price        Int           @default(0)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  createdById  String
-  Amenties     String[]
-  images       Image[]
-  createdBy    User          @relation(fields: [createdById], references: [id])
-  reservations Reservation[]
+    id           String        @id @default(cuid())
+    type         String
+    status       String        @default("Active")
+    name         String
+    description  String
+    street       String
+    city         String
+    province     String
+    approve      String     @default("Pending")
+    price        Int        @default(0)
+    images       Image[]
+    reservations Reservation[]
+    Amenties  String[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    createdBy   User   @relation(fields: [createdById], references: [id])
+    createdById String
 }
+
 
 model Reservation {
   id        String   @id @default(cuid())
@@ -100,10 +102,11 @@ model Reservation {
 }
 
 model Image {
-  id        String  @id
-  url       String  @unique
-  listingId String
-  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    //? This id is the uploadThing fileKey
+    id        String  @id
+    url       String  @unique
+    listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    listingId String
 }
 
 model VerificationToken {

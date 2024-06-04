@@ -22,6 +22,7 @@ export const listingInput = z.object({
   city: z.string().min(1, "city is required"),
   province: z.string().min(1, "province is required"),
   price: z.coerce.number().min(1, "price is required"),
+  ameneties: z.array(z.string()).optional(),
 });
 
 export const userInput = z.object({

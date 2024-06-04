@@ -131,6 +131,7 @@ export const listingrouter = createTRPCRouter({
           type,
           status,
           price,
+          ameneties,
         },
       }) => {
         const listing = ctx.db.listing.create({
@@ -143,6 +144,7 @@ export const listingrouter = createTRPCRouter({
             type: type,
             price,
             status,
+            Amenties: ameneties,
             createdBy: {
               connect: {
                 id: ctx.session.user.id,
@@ -205,6 +207,7 @@ export const listingrouter = createTRPCRouter({
             type,
             status,
             price,
+            ameneties,
           },
         },
       }) => {
@@ -221,6 +224,7 @@ export const listingrouter = createTRPCRouter({
             type: type,
             price,
             status,
+            Amenties: ameneties,
           },
         });
       },
