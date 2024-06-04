@@ -66,15 +66,18 @@ export function EditListing({ existingListing }: ListingFormProps) {
     defaultValues: { ...existingListing, price: Number(existingListing.price) },
   });
 
-  const updateListing = api.listing.update.useMutation();
+  const { mutate: updateListing, isSuccess } = api.listing.update.useMutation();
   //const createImage = api.images.create.useMutation();
-
+  const revalidate = api.useUtils();
   const onSubmit = async (data: TlistingInput) => {
-    updateListing.mutate({
+    updateListing({
       id: existingListing.id,
       data: { ...data, ameneties: selectedAmenties },
     });
-    router.push("/dashboard");
+    if (isSuccess) {
+      await revalidate.listing.allUserListings.invalidate();
+      router.push("/dashboard");
+    }
   };
 
   const [selectedAmenties, setSelectedAmenties] = useState<string[]>(
@@ -124,14 +127,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
                     >
                       Discard
                     </Button>
-                    <Button
-                      onClick={() => {
-                        router.push("/dashboard");
-                      }}
-                      size="sm"
-                    >
-                      Save Changes
-                    </Button>
+                    <Button size="sm">Save Changes</Button>
                   </div>
                 </div>
                 <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
@@ -482,27 +478,6 @@ export function EditListing({ existingListing }: ListingFormProps) {
                       </CardContent>
                     </Card>
                   </div>
-                </div>
-
-                <div className="flex items-center justify-center gap-2 md:hidden">
-                  <Button
-                    onClick={() => {
-                      router.push("/dashboard");
-                    }}
-                    variant="outline"
-                    size="sm"
-                  >
-                    Discard
-                  </Button>
-                  <Button
-                    type="submit"
-                    size="sm"
-                    onClick={() => {
-                      router.push("/dashboard");
-                    }}
-                  >
-                    Save Product
-                  </Button>
                 </div>
               </form>
             </Form>
