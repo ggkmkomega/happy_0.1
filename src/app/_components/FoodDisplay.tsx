@@ -5,20 +5,20 @@ import FoodCardGroup from "./FoodCardGroup";
 
 const countries = [
   {
-    name: "Souk Ahrase",
-    link: "/SoukAhrase",
+    name: "Souk Ahras",
+    link: "/listings?location=Souk+Ahras",
   },
   {
     name: "Batna",
-    link: "/batna",
+    link: "/listings?location=Batna",
   },
   {
     name: "Adrar",
-    link: "/Adrar",
+    link: "/listings?location=Adrar",
   },
   {
     name: "Oran",
-    link: "/Oran",
+    link: "/listings?location=Oran",
   },
 ];
 

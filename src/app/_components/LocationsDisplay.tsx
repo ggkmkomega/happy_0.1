@@ -6,23 +6,22 @@ import { api } from "~/trpc/server";
 
 const countries = [
   {
-    name: "Souk Ahrase",
-    link: "/soukAhrase",
+    name: "Souk Ahras",
+    link: "/listings?location=Souk+Ahras",
   },
   {
     name: "Batna",
-    link: "/Batna",
+    link: "/listings?location=Batna",
   },
   {
     name: "Adrar",
-    link: "/Adrar",
+    link: "/listings?location=Adrar",
   },
   {
     name: "Oran",
-    link: "/Oran",
+    link: "/listings?location=Oran",
   },
 ];
-
 
 const LocationsDisplay = () => {
   return (
@@ -49,8 +48,10 @@ const LocationsDisplay = () => {
           <div className="hidden md:block">
             <Button variant={"outline"} className="text-md">
               <div className="flex items-center px-1">
-                See All
-                <MoveRightIcon className="ps-2" />
+                <Link href={"/listings"}>
+                  See All
+                  <MoveRightIcon className="ps-2" />
+                </Link>
               </div>
             </Button>
           </div>
@@ -62,8 +63,10 @@ const LocationsDisplay = () => {
       <div className="py-5">
         <Button variant={"outline"} className="text-md w-full md:hidden">
           <div className="flex items-center px-1">
-            See All
-            <MoveRightIcon className="ps-2" />
+            <Link href={"/listings"}>
+              See All
+              <MoveRightIcon className="ps-2" />
+            </Link>
           </div>
         </Button>
       </div>

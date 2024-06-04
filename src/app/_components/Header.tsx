@@ -1,7 +1,6 @@
+import { type Session } from "next-auth";
 import Navbar from "./Navbar";
 import SearchBar from "./SearchBar";
-import { type Session } from "next-auth";
-import heroImage from "~/app/assets/hero.png";
 
 const Header = ({ session }: { session: Session | null }) => {
   return (
