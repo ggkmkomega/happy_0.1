@@ -27,7 +27,7 @@ const FoodDisplay = () => {
     <div className="px-2">
       <div className="md:px-5">
         <h1 className="pt-4 text-3xl font-bold capitalize">
-          Top-Rated Places Worldwide
+          Top-Rated Places In Algeria
         </h1>
         <p className="py-2 capitalize text-gray-500">
           Explore Trendsetting villas across the glod for unforgettable escapes

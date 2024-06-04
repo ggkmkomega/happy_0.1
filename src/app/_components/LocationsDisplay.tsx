@@ -2,6 +2,7 @@ import { MoveRightIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "~/_components/ui/button";
 import LocationCardGroup from "./LocationCardGroup";
+import { api } from "~/trpc/server";
 
 const countries = [
   {
@@ -21,6 +22,8 @@ const countries = [
     link: "/Oran",
   },
 ];
+
+
 const LocationsDisplay = () => {
   return (
     <div className="px-2">

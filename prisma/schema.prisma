@@ -75,17 +75,16 @@ model Listing {
     city         String
     province     String
     approve      String        @default("Pending")
-    price        Int        @default(0)
+    price        Int           @default(0)
     images       Image[]
     reservations Reservation[]
-    Amenties  Amenty[]
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    Amenties     Amenty[]
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
 
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
 }
-
 
 model Reservation {
     id        String   @id @default(cuid())
@@ -114,12 +113,13 @@ model Image {
     listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
     listingId String
 }
+
 model Amenty {
-    id        String  @id @default(cuid())
-    name      String  @unique   
+    id       String    @id @default(cuid())
+    name     String    @unique
     icon     String
-    listings  Listing[]
-    }
+    listings Listing[]
+}
 
 model VerificationToken {
     identifier String

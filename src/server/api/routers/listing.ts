@@ -8,14 +8,36 @@ import {
 import { approveInput, listingInput } from "~/types";
 
 export const listingrouter = createTRPCRouter({
-  all: publicProcedure.query(async ({ ctx }) => {
-    const listing = await ctx.db.listing.findMany({
-      include: {
-        images: true,
-      },
-    });
-    return listing;
-  }),
+  all: publicProcedure
+    .input(z.object({ amount: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const listing = await ctx.db.listing.findMany({
+        include: {
+          images: true,
+        },
+        take: input.amount
+      });
+      return listing;
+    }),
+
+  filteredListings: publicProcedure
+    .input(z.object({ amount: z.number().optional(), location: z.string().optional() }))
+    .query(async ({ ctx, input }) => {
+
+      const { location } = input;
+
+      const listing = await ctx.db.listing.findMany({
+        where: {
+          ...(location ? { province: location } : {}),
+        },
+        include: {
+          images: true,
+        },
+        take: input.amount
+      });
+      return listing;
+    }),
+
   getsingleListing: publicProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
@@ -25,7 +47,7 @@ export const listingrouter = createTRPCRouter({
         },
         include: {
           images: true,
-          createdBy : true
+          createdBy: true
         },
       });
       return listing;

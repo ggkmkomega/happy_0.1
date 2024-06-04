@@ -1,15 +1,10 @@
 // locationselect.tsx
-import Select, { components } from "react-select";
 import { MapPin, SearchIcon } from "lucide-react";
-import { UseFormReturn } from "react-hook-form";
-import { FormField } from "~/_components/ui/form";
+import Select, { components } from "react-select";
+import jsonProvincesOptions from "~/data/provinces.json";
 
 // Select options
-const options = [
-  { value: "Annaba", label: "Annaba" },
-  { value: "Oran", label: "Oran" },
-  { value: "Souk Ahras", label: "Souk Ahras" },
-];
+const options = jsonProvincesOptions;
 
 const DropdownIndicator = (props: any) => {
   return (
@@ -40,6 +35,7 @@ const LocationSelect = ({ form }: { form: any }) => {
       onChange={(value) => {
         form.setValue("locationSelect", value ?? { label: "", value: "" });
       }}
+      isClearable={true}
       className="absolute top-0 h-full w-full text-start font-normal text-gray-600"
       styles={{
         input: (styles) => ({ ...styles, height: "40px" }),
@@ -49,11 +45,17 @@ const LocationSelect = ({ form }: { form: any }) => {
           paddingInline: "0",
           width: "32px",
         }),
+
         valueContainer: (styles) => ({ ...styles, paddingInline: "0" }),
         option: (styles) => ({ ...styles, paddingInline: "0" }),
         dropdownIndicator: (styles) => ({
           ...styles,
           paddingInline: "0.25rem",
+        }),
+        clearIndicator: (styles) => ({
+          ...styles,
+          position: "absolute",
+          right : "0"
         }),
         control: (base: any) => ({
           ...base,

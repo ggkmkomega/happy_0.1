@@ -2,16 +2,10 @@
 
 import {
   CalendarDays,
-  MapPin,
-  Minus,
-  MoveRight,
   MoveRightIcon,
-  Plus,
-  SearchIcon,
-  UserRound,
+  UserRound
 } from "lucide-react";
-import { Children, useState } from "react";
-import Select, { ValueContainerProps, components } from "react-select";
+import { useState } from "react";
 import { Button } from "~/_components/ui/button";
 
 // calender
@@ -21,8 +15,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Calendar } from "~/_components/ui/calendar";
-import type { DateRange } from "react-day-picker";
 
+import dayjs from "dayjs";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Form, FormControl, FormField, FormItem } from "~/_components/ui/form";
 import {
   Popover,
@@ -30,8 +25,8 @@ import {
   PopoverTrigger,
 } from "~/_components/ui/popover";
 import { cn } from "~/lib/utils";
-import LocationSelect from "./LocationSelect";
 import AttendanceSelector from "./AttendanceSelector";
+import LocationSelect from "./LocationSelect";
 
 const FormSchema = z.object({
   datePicker: z.object({
@@ -54,6 +49,11 @@ const FormSchema = z.object({
 });
 
 const SearchBar = () => {
+
+  const router = useRouter()
+
+  const searchParams = useSearchParams()
+  
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -155,8 +155,21 @@ const SearchBar = () => {
         <div className="flex items-center">
           <Button
             onClick={() => {
-              console.log(form.watch());
-              // console.log(form.getValues());
+              const formValues = form.getValues();
+ 
+              const searchObject = {
+                rooms: formValues.attendanceSelector.rooms,
+                adults: formValues.attendanceSelector.adults,
+                children: formValues.attendanceSelector.children,
+                location: formValues.locationSelect.label,
+                start: formValues.datePicker.from,
+                end: formValues.datePicker.to,
+              }
+
+              // @ts-ignore
+              const url = new URLSearchParams(searchObject).toString();
+
+              router.push(`/listings?${url}`)
             }}
             variant={"default"}
             className="h-full w-full  bg-pink-500 text-lg font-bold hover:bg-pink-600"
