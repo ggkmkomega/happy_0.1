@@ -29,10 +29,7 @@ import {
   PopoverTrigger,
 } from "~/_components/ui/popover";
 import { Calendar } from "~/_components/ui/calendar";
-//images
-//Map
-//import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-//
+
 import { listingInput, type ListingEditRequired } from "~/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
