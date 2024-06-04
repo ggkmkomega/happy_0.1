@@ -58,8 +58,8 @@ interface ListingFormProps extends React.HTMLAttributes<HTMLFormElement> {
 
 export function EditListing({ existingListing }: ListingFormProps) {
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(),
+    to: addDays(new Date(), 20),
   });
 
   type TlistingInput = z.infer<typeof listingInput>;
@@ -88,6 +88,7 @@ export function EditListing({ existingListing }: ListingFormProps) {
     } else {
       setSelectedAmenties((prevAmenities) => [...prevAmenities, amenity]);
     }
+    console.log("selected Amenites", selectedAmenties);
   };
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -491,7 +492,13 @@ export function EditListing({ existingListing }: ListingFormProps) {
                   >
                     Discard
                   </Button>
-                  <Button type="submit" size="sm">
+                  <Button
+                    type="submit"
+                    size="sm"
+                    onClick={() => {
+                      router.push("/dashboard");
+                    }}
+                  >
                     Save Product
                   </Button>
                 </div>
@@ -565,9 +572,9 @@ const ImagesDisplay = ({ id }: { id: string }) => {
           <Image
             alt="Product image"
             className="aspect-square w-full rounded-md object-cover"
-            height="84"
+            height="750"
             src={image.url}
-            width="84"
+            width="750"
           />
         </div>
       ))}

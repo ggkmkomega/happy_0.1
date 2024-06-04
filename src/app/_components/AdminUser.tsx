@@ -84,6 +84,8 @@ const UserRow = ({
   );
   const { data: totalReservation } =
     api.reservation.getnumberofReservationsForUser.useQuery(user.id);
+  const { data: Commisions } =
+    api.reservation.getnumberofCommissionsForUser.useQuery(user.id);
 
   return (
     <TableRow>
@@ -100,7 +102,7 @@ const UserRow = ({
       <TableCell>
         <Badge variant="outline">Active</Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">499.99 DZD</TableCell>
+      <TableCell className="hidden md:table-cell">{Commisions} DZD</TableCell>
       <TableCell className="hidden md:table-cell">{totalStays}</TableCell>
       <TableCell className="hidden md:table-cell">{totalReservation}</TableCell>
       <TableCell className="hidden md:table-cell">

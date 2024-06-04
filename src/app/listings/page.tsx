@@ -1,57 +1,50 @@
 "use client";
 
 import { Listing } from "@prisma/client";
-import { CigaretteOff, Coffee, DollarSign, Heater, Home, Loader2, MapPin, Snowflake, Users, Wifi } from "lucide-react";
+import { CigaretteOff, Coffee, DollarSign, Heater, Home, MapPin, Snowflake, Users, Wifi } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import { Skeleton } from "~/_components/ui/skeleton";
 import { api } from "~/trpc/react";
 import SearchBar from "../_components/SearchBar";
-import { Skeleton } from "~/_components/ui/skeleton";
+import Link from "next/link";
+import amenities, { Amenity } from "~/data/ameneties";
 
 
 const ListingDisplay = ({ listing }: { listing: Listing }) => {
     return (
         <div className="md:flex p-2 rounded border border-gray-400 bg-gray-100">
-            <div className="md:w-[35%]">
+            <div className="md:w-[30%]">
                 {listing.images.length > 0 ?
-                    <Image className="rounded h-full w-full md:w-auto" alt="city image" width={300} height={300} src={listing.images[0].url} />
+                    <Image className="rounded h-[40vh] w-full" alt="city image" width={300} height={300} src={listing.images[0].url} />
                     :
                     <></>
                 }
             </div>
 
-            <div className="p-2">
-                <h1 className="text-2xl font-bold capitalize py-3">{listing.name}</h1>
-                <h2 className="text-md flex gap-x-1 py-1"><MapPin className="text-md" /> {listing.province} {" "} {listing.city} {" "} {listing.street}</h2>
-                <h2 className="text-md flex gap-x-1 py-1"><Home className="text-md" /> {listing.type}</h2>
-                <h2 className="text-md flex gap-x-1 py-1"><DollarSign className="text-md" /> {listing.price}.00 DZD</h2>
-                <div className="flex flex-wrap gap-x-4 gap-y-1 py-3">
-                    <div className="flex gap-x-1">
-                        <CigaretteOff className="text-green-600" />
-                        Non-smoking rooms
-                    </div>
-                    <div className="flex gap-x-1">
-                        <Users className="text-green-600" />
-                        Family rooms
-                    </div>
-                    <div className="flex gap-x-1">
-                        <Wifi className="text-green-600" />
-                        Free Wifi
-                    </div>
-                    <div className="flex gap-x-1">
-                        <Heater className="text-green-600" />
-                        Heating
-                    </div>
-                    <div className="flex gap-x-1">
-                        <Snowflake className="text-green-600" />
-                        Air conditioning
-                    </div>
-                    <div className="flex gap-x-1">
-                        <Coffee className="text-green-600" />
-                        Tea/coffee maker in all rooms
+            <Link href={`/listings/${listing.id}`}>
+                <div className="p-2">
+                    <h1 className="text-2xl font-bold capitalize py-3">{listing.name}</h1>
+                    <h2 className="text-md flex gap-x-1 py-1"><MapPin className="text-md" /> {listing.city} {" "} {listing.province} {" "} {listing.street}</h2>
+                    <h2 className="text-md flex gap-x-1 py-1"><Home className="text-md" /> {listing.type}</h2>
+                    <h2 className="text-md flex gap-x-1 py-1"><DollarSign className="text-md" /> {listing.price}.00 DZD</h2>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 py-3">
+                        {listing.Amenties.map((amenity: string) => {
+                            // const Icon = amenities.find(item => item.name === amenity)?.icon;
+                            const Icon = amenities[0]?.icon;
+                            console.log(Icon);
+
+                            return (
+                                <div key={amenity}
+                                    className="flex gap-x-1">
+                                    <Icon className="text-green-600" />
+                                    {amenity}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
-            </div>
+            </Link >
         </div>
     )
 }

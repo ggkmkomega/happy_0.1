@@ -4,6 +4,7 @@ import { type Listing, type User } from "@prisma/client";
 import { PostOperations } from "~/_components/listing-operations";
 import { formatDate } from "~/lib/utils";
 import { Skeleton } from "./ui/skeleton";
+import { Badge } from "./ui/badge";
 
 interface listingItemProp {
   listing: Pick<Listing, "id" | "name" | "createdAt" | "approve">;
@@ -25,9 +26,23 @@ export function ListingItem({ listing, Author }: listingItemProp) {
           <p className="text-sm text-muted-foreground">
             {formatDate(listing.createdAt?.toDateString())}
             {Author ? " by " + Author.name : ""}
+            {listing.approve === "Approved" ? (
+              <Badge className="m-2" variant="default">
+                Approved
+              </Badge>
+            ) : listing.approve === "Pending" ? (
+              <Badge className="m-2" variant="outline">
+                Pending
+              </Badge>
+            ) : (
+              <Badge className="m-2" variant="destructive">
+                Not Approved
+              </Badge>
+            )}
           </p>
         </div>
       </div>
+
       <PostOperations
         canApprove={Author ? true : false}
         Listing={{

@@ -5,13 +5,13 @@ import {
   MoveRightIcon,
   UserRound
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Button } from "~/_components/ui/button";
 
 // calender
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { useForm } from "react-hook-form";
+import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Calendar } from "~/_components/ui/calendar";
@@ -48,23 +48,25 @@ const FormSchema = z.object({
   }),
 });
 
+export type formType = UseFormReturn<z.infer<typeof FormSchema>>;
+
 const SearchBar = () => {
 
+  const searchParams = useSearchParams()
   const router = useRouter()
 
-  const searchParams = useSearchParams()
-  
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      locationSelect: { label: "", value: "" },
-      attendanceSelector: { adults: 1, children: 0, rooms: 1 },
+      locationSelect: { label: searchParams.get("location") || "", value: searchParams.get("location") || "" },
+      attendanceSelector: { adults: Number(searchParams.get("adults")) || 1, children: Number(searchParams.get("children")) || 0, rooms: Number(searchParams.get("rooms")) || 1 },
       datePicker: {
-        from: undefined,
-        to: undefined,
+        from: new Date(searchParams.get("start")!) || undefined,
+        to: new Date(searchParams.get("end")!) || undefined,
       },
     },
   });
+
 
   form.watch();
 
@@ -156,7 +158,7 @@ const SearchBar = () => {
           <Button
             onClick={() => {
               const formValues = form.getValues();
- 
+
               const searchObject = {
                 rooms: formValues.attendanceSelector.rooms,
                 adults: formValues.attendanceSelector.adults,

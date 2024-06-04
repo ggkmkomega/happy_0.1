@@ -88,7 +88,7 @@ export default function SelectedReservation({
           <ul className="grid gap-3">
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">
-                Number of Days x <span>{nbrDays}</span>
+                Number of Nights x <span>{nbrDays}</span>
               </span>
             </li>
             <li className="flex items-center justify-between">

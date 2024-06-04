@@ -1,11 +1,9 @@
-import { getServerAuthSession } from "~/server/auth";
 import Navbar from "./Navbar";
 import SearchBar from "./SearchBar";
+import { type Session } from "next-auth";
 import heroImage from "~/app/assets/hero.png";
 
-const session = await getServerAuthSession();
-
-const Header = () => {
+const Header = ({ session }: { session: Session | null }) => {
   return (
     <header className="p-2 md:p-3">
       <div
