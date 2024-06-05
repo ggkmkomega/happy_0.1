@@ -9,8 +9,8 @@ import Image from "next/image";
 
 export const metadata = {
   title: "Happy Stays",
-  description: "Plan your next Trip",
-  icons: [{ rel: "icon", url: "/bg-logo.png" }],
+  description: "Making Every Stay a Happy Stay",
+  icons: [{ rel: "icon", url: "/bglogo.png" }],
 };
 
 export default async function RootLayout({

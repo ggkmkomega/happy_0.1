@@ -41,7 +41,7 @@ export const TwoColumnFooter = () => {
               className="h-7 w-auto"
             />
             <p className="text-md max-w-xs leading-6 text-gray-700 dark:text-gray-300">
-              Happy Stays. Travel Algeria With ease
+              Happy Stays. Making Every Stay a Happy Stay
             </p>
             <div className="flex space-x-6 text-sm text-gray-700  dark:text-gray-300">
               <div>

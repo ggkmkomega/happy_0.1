@@ -101,25 +101,36 @@ export function PostOperations({
               onClick={async (event) => {
                 event.preventDefault();
                 setIsDeleteLoading(true);
-                await remove.mutateAsync(Listing.id);
-                if (!remove.isLoading) {
-                  setIsDeleteLoading(false);
-                  setShowDeleteAlert(false);
+                try {
+                  await remove.mutateAsync(Listing.id);
+                  if (!remove.isLoading) {
+                    setIsDeleteLoading(false);
+                    setShowDeleteAlert(false);
+                    toast({
+                      title: "Listing Deleted Succesfully.",
+                      description: "Your listing was deleted. ",
+                      variant: "default",
+                    });
+                    await APIServer.listing.adminAllUserListings.invalidate();
+                    await APIServer.listing.allUserListings.invalidate();
+                  } else {
+                    toast({
+                      title: "Something went wrong.",
+                      description:
+                        "Your listing was not deleted. Please try again.",
+                      variant: "destructive",
+                    });
+                  }
+                } catch (e) {
                   toast({
-                    title: "Listing Deleted Succesfully.",
-                    description: "Your listing was deleted. ",
-                    variant: "default",
-                  });
-                  await APIServer.listing.adminAllUserListings.invalidate();
-                  await APIServer.listing.allUserListings.invalidate();
-                } else {
-                  toast({
-                    title: "Something went wrong.",
+                    title: "Cant't Delete Listing.",
                     description:
-                      "Your listing was not deleted. Please try again.",
+                      "Your listing Has Reservations, First You must Delete The Reservations",
                     variant: "destructive",
                   });
                 }
+                setIsDeleteLoading(false);
+                setShowDeleteAlert(false);
               }}
               className="bg-red-600 focus:ring-red-600"
             >
