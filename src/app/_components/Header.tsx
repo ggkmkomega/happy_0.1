@@ -8,8 +8,7 @@ const Header = ({ session }: { session: Session | null }) => {
       <div
         className="min-h-[95vh] items-start rounded-lg bg-gray-300 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage:
-            `linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0) ), url('https://images.unsplash.com/photo-1535585538107-e457d37fbde5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0) ), url('https://images.unsplash.com/photo-1535585538107-e457d37fbde5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
         }}
       >
         <div className="w-full overflow-hidden rounded-t-lg">
