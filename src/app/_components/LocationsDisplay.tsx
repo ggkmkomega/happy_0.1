@@ -47,12 +47,12 @@ const LocationsDisplay = () => {
           </div>
           <div className="hidden md:block">
             <Button variant={"outline"} className="text-md">
-              <div className="flex items-center px-1">
-                <Link href={"/listings"}>
+              <Link href={"/listings"}>
+                <div className="flex items-center px-1">
                   See All
                   <MoveRightIcon className="ps-2" />
-                </Link>
-              </div>
+                </div>
+              </Link>
             </Button>
           </div>
         </div>
