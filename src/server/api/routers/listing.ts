@@ -32,7 +32,9 @@ export const listingrouter = createTRPCRouter({
 
       const listing = await ctx.db.listing.findMany({
         where: {
-          ...(location ? { city: location } : {}),
+          ...(location ? { city: location, approve: "Approved", status: "Active" } : {
+            approve: "Approved", status: "Active"
+          }),
         },
         include: {
           images: true,

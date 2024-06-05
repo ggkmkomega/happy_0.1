@@ -30,27 +30,33 @@ const MobileMenuConf = {
   list: [
     {
       icon: BookOpenCheck,
-      text: "Change currency",
+      text: "Sign in",
+      link: "/sign-in",
     },
     {
       icon: Activity,
-      text: "Change currency",
+      text: "Dashboard",
+      link: "/dashboard",
     },
     {
       icon: Armchair,
-      text: "Locations",
+      text: "Listings",
+      link: "/listings",
     },
     {
       icon: Cookie,
       text: "Manage Cookies",
+      link: "/Cookies",
     },
     {
       icon: Compass,
       text: "Navigate",
+      link: "/",
     },
     {
       icon: DraftingCompass,
       text: "Explore",
+      link: "/",
     },
   ],
 };
@@ -91,7 +97,9 @@ const Navbar = ({ session }: { session: Session | null }) => {
           {MobileMenuConf.list.map((item) => {
             return (
               <div key={item.text} onClick={toggleMenu}>
-                <MenuItem Icon={item.icon} text={item.text} />
+                <Link href={item.link}>
+                  <MenuItem Icon={item.icon} text={item.text} />
+                </Link>
               </div>
             );
           })}
@@ -115,7 +123,7 @@ const Navbar = ({ session }: { session: Session | null }) => {
         {/* list items */}
         <ul className="flex flex-row-reverse items-center justify-end md:gap-3">
           <li onClick={toggleMenu} className="ps-3 md:hidden">
-            <AlignJustify className="h-8 w-8" />
+            {!session?.user && <AlignJustify className="h-8 w-8" />}
           </li>
 
           {session?.user.id ? (
