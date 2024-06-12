@@ -12,7 +12,7 @@ import { type FiltredListing } from "~/types";
 
 const ListingDisplay = ({ listing }: { listing: FiltredListing }) => {
   return (
-    <div className="rounded border border-gray-400 bg-gray-100 p-2 md:flex">
+    <div className="rounded bg-gray-100 shadow-lg md:flex">
       <div className="md:w-[30%]">
         {listing.images.length > 0 ? (
           <Image
@@ -28,7 +28,7 @@ const ListingDisplay = ({ listing }: { listing: FiltredListing }) => {
       </div>
 
       <Link href={`/listings/${listing.id}`}>
-        <div className="p-2">
+        <div className="p-2 ">
           <h1 className="py-3 text-2xl font-bold capitalize">{listing.name}</h1>
           <h2 className="text-md flex gap-x-1 py-1">
             <MapPin className="text-md" /> {listing.city} {listing.province}{" "}
