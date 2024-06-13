@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     title: "Happy Stays",
     description: "Making Every Stay a Happy Stay",
     type: "website",
+    images: "opengraph-image.png",
     locale: "en_US",
     url: "https://happy-0-1.vercel.app/",
     siteName: "Happy Stays",
