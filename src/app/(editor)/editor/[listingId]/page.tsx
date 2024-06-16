@@ -9,6 +9,7 @@ async function getListingForUser(listingId: string) {
   const data = await api.listing.listingByUser.query(listingId);
   return data;
 }
+
 async function getListingForAdmin(listingId: string) {
   const data = await api.listing.listingByAdmin.query(listingId);
   return data;
@@ -44,7 +45,6 @@ export default async function EditorPage({
     );
   } else {
     const listing = await getListingForAdmin(params.listingId);
-
     if (!listing) {
       notFound();
     }

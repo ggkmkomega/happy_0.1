@@ -251,4 +251,18 @@ export const reservationrouter = createTRPCRouter({
       });
       return totalAmount._sum.price ?? 0; // Return 0 if no reservations
     }),
+  getReservedDatesForAlisting: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const Dates = await ctx.db.reservation.findMany({
+        where: {
+          listingId: input,
+        },
+        select: {
+          startDate: true,
+          endDate: true,
+        },
+      });
+      return Dates;
+    }),
 });

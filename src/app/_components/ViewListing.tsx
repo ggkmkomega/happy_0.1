@@ -1,12 +1,11 @@
 "use client";
 
-import { Listing } from "@prisma/client";
+import { type Image as ImageDbType } from "@prisma/client";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 // shadcn stuff
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import dayjs from "dayjs";
 import {
   CigaretteOff,
@@ -23,16 +22,10 @@ import {
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Avatar, AvatarFallback, AvatarImage } from "~/_components/ui/avatar";
+import { Avatar, AvatarImage } from "~/_components/ui/avatar";
 import { Button } from "~/_components/ui/button";
 import { Calendar } from "~/_components/ui/calendar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/_components/ui/card";
+import { Card, CardHeader, CardTitle } from "~/_components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -50,9 +43,13 @@ import {
 } from "~/_components/ui/dialog";
 import { Form, FormField, FormItem } from "~/_components/ui/form";
 import { useToast } from "~/_components/ui/use-toast";
-import { ratings } from "~/config/site";
 import { api } from "~/trpc/react";
 import AttendanceSelector from "./AttendanceSelector";
+import { type SingleListing } from "~/types";
+type datesDB = {
+  startDate: Date;
+  endDate: Date;
+};
 
 const FormSchema = z.object({
   datePicker: z.object({
@@ -108,7 +105,10 @@ const ListingHeader = ({
   );
 };
 
-const ListingImages = ({ listing }: { listing: Listing }) => {
+const ListingImages = ({ listing }: { listing: SingleListing }) => {
+  if (!listing) {
+    return null;
+  }
   const images = listing.images;
 
   return (
@@ -116,7 +116,7 @@ const ListingImages = ({ listing }: { listing: Listing }) => {
       <div className="md:w-[69vw]">
         <Carousel className="">
           <CarouselContent>
-            {images.map((image: any) => {
+            {images.map((image: ImageDbType) => {
               return (
                 <CarouselItem key={image.id} className="h-[80vh] w-[60vw]">
                   <Image
@@ -140,7 +140,7 @@ const ListingImages = ({ listing }: { listing: Listing }) => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Avatar>
-                <AvatarImage src={listing.createdBy.image} />
+                <AvatarImage src={listing.createdBy.image ?? ""} />
               </Avatar>
               {listing.createdBy.name}
             </CardTitle>
@@ -158,17 +158,25 @@ const ListingImages = ({ listing }: { listing: Listing }) => {
   );
 };
 
-const ReserveCard = ({ listing }: { listing: Listing }) => {
+const ReserveCard = ({
+  listing,
+  dates,
+}: {
+  listing: SingleListing;
+  dates: datesDB[];
+}) => {
   // dialogue state
   const [open, setOpen] = useState(false);
 
+  const newdates = dates.map((onedate) => ({
+    from: new Date(onedate.startDate),
+    to: new Date(onedate.endDate),
+  }));
+
   const { toast } = useToast();
 
-  const {
-    mutate: createReservation,
-    isLoading,
-    isSuccess,
-  } = api.reservation.createReservation.useMutation();
+  const { mutate: createReservation, isLoading } =
+    api.reservation.createReservation.useMutation();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -182,6 +190,7 @@ const ReserveCard = ({ listing }: { listing: Listing }) => {
       price: 0,
     },
   });
+  if (!listing) return null;
 
   form.watch();
 
@@ -234,10 +243,8 @@ const ReserveCard = ({ listing }: { listing: Listing }) => {
                                   mode="range"
                                   selected={field.value}
                                   onSelect={field.onChange}
-                                  disabled={(date) =>
-                                    date < new Date() ||
-                                    date < new Date("1900-01-01")
-                                  }
+                                  fromDate={new Date()}
+                                  disabled={newdates}
                                   initialFocus
                                   className="w-fit"
                                 />
@@ -325,7 +332,14 @@ const ReserveCard = ({ listing }: { listing: Listing }) => {
   );
 };
 
-const Description = ({ listing }: { listing: Listing }) => {
+const Description = ({
+  listing,
+  dates,
+}: {
+  listing: SingleListing;
+  dates: datesDB[];
+}) => {
+  if (!listing) return null;
   return (
     <div id="info" className="justify-between gap-x-4 md:flex">
       <div className="md:w-[70%]">
@@ -359,21 +373,27 @@ const Description = ({ listing }: { listing: Listing }) => {
         </div>
       </div>
       <div className="pr-4 md:w-[30%]">
-        <ReserveCard listing={listing} />
+        <ReserveCard listing={listing} dates={dates} />
       </div>
     </div>
   );
 };
 
-function ViewListing({ listing }: { listing: Listing }) {
+function ViewListing({
+  listing,
+  dates,
+}: {
+  listing: SingleListing;
+  dates: datesDB[];
+}) {
+  if (!listing) return null;
   const locationString =
     listing.city + " " + listing.province + " " + listing.street;
-
   return (
     <section className="md:px-3">
       <ListingHeader title={listing.name} location={locationString} />
       <ListingImages listing={listing} />
-      <Description listing={listing} />
+      <Description listing={listing} dates={dates} />
       {/* <Ratings /> */}
     </section>
   );

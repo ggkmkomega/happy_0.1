@@ -9,7 +9,11 @@ async function getListingForUser(id: Listing["id"]) {
   const data = await api.listing.getsingleListing.query(id);
   return data;
 }
-
+async function getDates(listingId: string) {
+  const data =
+    await api.reservation.getReservedDatesForAlisting.query(listingId);
+  return data;
+}
 interface SingleListingPageProps {
   params: { id: string };
 }
@@ -23,10 +27,11 @@ export default async function Page({ params }: SingleListingPageProps) {
   if (!listing) {
     notFound();
   }
+  const dbDates = await getDates(params.id);
 
   return (
     <div className="p-4">
-      <ViewListing listing={listing as Listing} />
+      <ViewListing dates={dbDates} listing={listing} />
     </div>
   );
 }
