@@ -184,7 +184,7 @@ const ReserveCard = ({
       locationSelect: { label: "", value: "" },
       attendanceSelector: { adults: 1, children: 0, rooms: 1 },
       datePicker: {
-        from: new Date(),
+        from: undefined,
         to: undefined,
       },
       price: 0,
